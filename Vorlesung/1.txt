@@ -26,11 +26,14 @@ Aufbau der Vorlesung
 1 Einleitung
 1.1 Herausforderungen
 1.2 Kategorien der Computergestuetzten Physik
-    * Numerische Analyse
-    * Symbolische Manipulation (CAS) (nicht in diesem Kurs)
-    * Visualisierung (stark im Vordergrund der Vorlesung)
-      -> Auge und Hirn sind super bei der Mustererkennung
-    * Datensammlung und Analyse (eher in Exphysik)
-    * Simulation (Kerngebiet)
-      (Bsp: Pareto-Gesetz)
+  * Numerische Analyse
+  * Symbolische Manipulation (CAS) (nicht in diesem Kurs)
+  * Visualisierung (stark im Vordergrund der Vorlesung)
+    -> Auge und Hirn sind super bei der Mustererkennung
+  * Datensammlung und Analyse (eher in Exphysik)
+  * Simulation (Kerngebiet)
+    (Bsp: Pareto-Gesetz)
+1.3 Programme
+  * Open Source Physics Library (OSP, Java)
+  * JFrame GUI (erweiterte Version, siehe Buch)
 
