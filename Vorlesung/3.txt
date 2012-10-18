@@ -1,0 +1,141 @@
+Do 18. Okt 09:13:01 CEST 2012
+
+3.2. Hamiltonsche Bewegungsgleichungen
+--------------------------------------
+
+verallgemeinerte Koordinaten q_i,
+verallgemeinerte Impulse p_i
+
+Hamilton-Funktion
+``
+H(q_i, p_i) = E_{kin} + E_{pot}
+          ( = \sum_i{p_i^2/2m} + \sum_{i<j}{k/2 (q_i - q_j)^2} )
+
+\dot p_i = \d H/{\d q_i}
+\dot q_i = \d H/{\d p_i}
+``
+
+Phasenraum: Darstellung in q_i, p_i
+-> immer von Dimension 2n mit n=Freiheitsgrade
+
+Im Phasenraum bleibt das Volumen, das durch die Anfangsbedingungen beschrieben
+wurde, erhalten.
+Damit ergibt sich ein guter Test fuer die Stabilitaet des Systemes.
+
+Symplektische Algorithmen:
+> Summe der Flaechen der Projektion dieses Volumens auf die Ebenen (p_i, q_i)
+> bleibt erhalten.
+
+Somit sind symplektische Algorithmen einfachere Methoden als die tatsaechliche
+Berechnung des Volumens.
+
+zum Beispiel:
+``
+p_i^{k+1} = k_i^k + a_k F_i^k \delta
+q_i^{k+1} = q_i^k + b_k p_i^{k+1} \delta
+F_i^k     = \d {E_{pot}(q_i^k)} \ {\d q_i^k}
+
+\Delta_t = M \delta   k=0 ... M-1
+              ^ Zeitschritt fuer Zwischenrechnungen
+``
+
+Beispiele fuer symplektische Algorithmen:
+``
+M=1   a_0 = b_0 = 1                       Euler-Cromer
+M=2   a_0 = a_1 = 1   b_0 = 2   b_1 = 0   Verlet-Algorithmus
+``
+
+symplektische Algorithmen sind somit stabiler, da die gesamte Hamiltonfunktion
+simuliert wird.
+Fuer gerade M ist eine Zeitumkehrinvarianz gegeben.
+
+3.3 Orts- und geschwindigkeitsabhaengige Kraefte
+------------------------------------------------
+
+### 3.3.1 Teilchen im Schwerkraftfeld
+
+``
+F(y) = {m M G} / {R+y}^2
+
+G - Gravitationskonstante
+M - Erdmasse
+R - Erdradius
+y - Abstand von NN
+m - Koerpermasse
+``
+
+Eine analytische Behandlung ist schwieriger, so dass sich numerische 
+
+Interessante Fragestellungen:
+* Ermitteln sie mit numerischen Methoden relevante Abweichungen zwischen
+  F=const und F(y)
+
+### 3.3.2 Reibung und Luftwiderstand
+
+``
+F = -mg
+
+Annahme:
+F_{d1} = c_1 v
+F_{d2} = c_2 v^2
+``
+
+c - Koeffizienten; abhaengig von umgebendem Medium und 
+
+interessante Groesse:
+Terminalgeschwindigkeit (Grenzgeschwindigkeit)
+
+``
+v_{1max} = mg/c_2
+v_{2max} = sqrt{mg/c_2}
+``
+
+Beschleunigung
+``
+F_1/m = -g (1 - v/v_{1max})
+F_2/m = -g (1 - v^2/v_{2max}^2)
+``
+
+Beispiel: Kiesel 1 cm, 10 g
+c_2 =~ 0.01 kg/m => v_{2max} =~ 30 m/s
+
+Kleiner Trick bei Berechnung:
+Vorsicht bei der Richtung der Kraft. Dafuer ist F_g ~ -v * \abs{v}
+
+### 3.3.3 2D-Bewegung mit Reibung
+
+<Grafik ballistische Kurve>
+
+``
+m a_x = -F_d cos \Theta
+m a_y = -m g - F_d sin\Theta
+F_d = c_2 v^2
+
+m a_x = -c_2 v v_x
+m a_y = -mg - c_2 v v_y
+
+v^2 = v_x^2 + v_y^2
+=> Beide DGL sind ueber das V gekoppelt
+=> kompliziert und aufwendig
+``
+
+v_x = 
+v_y =
+
+z.B. Stahlkugel 7kg =~ 0.01 m^2 Querschnitt -> c_2 =~ 0.1
+Aufgabenstellung: c_2 = 0.7, da sich deutlichere Aenderungen ergeben
+
+### 3.3.4 ODE-Interface
+Im Programmpaket:
+
+state array s[], bestehend aus den Koordinaten und der Zeit ([y,v,t])
+
+rate array r[]    `r_i(s_0, ... s_{n-1}, t) = d s_i/d_t
+
+z.B. freier Fall 1D
+
+r_0 = s_1
+r_1 = -g
+r_2 = q
+
+Thu Oct 18 10:00:29 CEST 2012
