@@ -31,4 +31,9 @@ public class C1Particle extends Particle {
     return g;
   }
 
+  @Override
+  public void setTimestep(double dt) {
+    this.dt = dt;
+  }
+
 }

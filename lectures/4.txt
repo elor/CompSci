@@ -1,0 +1,117 @@
+Tue Oct 23 10:49:39 CEST 2012
+
+3.4. Zerfallsprozesse
+---------------------
+
+``
+\dot N = -\lambda N
+
+N(t) = N_0 e^(-\lambda t)
+
+Halbwertszeit:
+t_{1/2} = ln(2) / \lambda
+
+Zerfall von einem e-tel der Kerne in \tau:
+\tau = 1 / \lambda
+``
+
+Beispiele:
+Radioaktivitaet
+Myonzerfall
+Bakterienwachstum
+Aufladen eines Kondensators
+Abkuehlen einer Kaffeetasse
+
+Verschiedene Groessenordnungen bei Zerfallsprozessen
+-> Zerfallskaskaden
+Beispiel: Zerfall von Mn28:
+
+Mn28 -> Al28 -> Si28
+
+Mn->Al: 21 h
+
+Al->Si: 2.3 min
+
+=> Aluminium ist vollkommen uninteressant, da es beinahe unmittelbar zerfaellt (verglichen mit den anderen Zeitskalen). Somit ist Al in der Simulation vernachlaessigbar.
+
+Ebenso sind grosse Halbwertszeiten (Jahre und Jahrhunderte) vernachlaessigbar.
+
+Abkuehlen:
+``
+\dot T = -r(T-T_s)
+T_s - Umgebungstemperatur
+``
+
+3.5 Rotierender Ball
+--------------------
+
+### Magnus-Effekt
+Idee: Die Oberflaechengeschwindigkeit eines rotierenden Balles ist unterschiedlich. Somit ist die Geschwindigkeit der Luft an der Oberflaeche des rotierenden Balles unterschiedlich genug, um eine Bahnabweichung in Richtung* der schnelleren Relativbewegung zu verursachen.
+
+* eigentlich normal dazu
+
+``
+F_d ~ v^2
+F_M ~ v \delta v ~ v r \omega
+    - Magnuskraft
+
+\vec F_M / m = C_M (\vec \omega x \vec v)
+``
+
+topspin:
+Bei einer Rechtsbewegung und einer Rotation des Balles im Uhrzeigersinn zeigt die resultierende Kraft nach UNTEN.
+
+![Schematische Zeichnung eines sich drehenden, bewegenden Balles]()
+
+``
+\vec F / m = \vec g - C_d \vec v |v| + C_M(\vec \omega x \vec v)
+
+a_x = -C_{d2} v v_x + C_M(\omega_y v_z - \omega_y v_y)
+a_y = -C_{d2} v v_y + C_M(\omega_z v_x - \omega_x v_z)
+a_z = -C_{d2} v v_z + C_M(\omega_x v_y - \omega_y v_x) - g
+``
+
+=> Die Kopplung der Gleichungssysteme ist hier ueber den C_M-Term ersichtlicher als im C2-Reibungsfall.
+
+4. Schwingungen
+===============
+
+4.1. Feder rueckstellende Kraft
+-------------------------------
+
+``
+F = -k x
+\ddot x = -\omega_0^2 x
+\omega_0 - Eigenfrequenz
+\omega_0^2 = k/m
+
+x(t) = A cos(\omega_0 t + \delta)
+``
+
+Vorteil der Sinus-freien Schreibweise: Amplitude A und Phase \delta sind direkt ersichtlich.
+
+### Harmonischer Oszillator:
+
+``
+Periode T = 2 Pi / \omega_0 = 2 Pi / \sqrt(k/m)
+=> Periode ist unabhaengig von Amplitude und Phase
+
+Energieerhaltung:
+E = 1/2 m v^2 + 1/2 k x^ = 1/2 k A^2
+``
+
+4.2. Pendel
+-----------
+
+\theta, mg, L
+
+``
+v = L \dot \theta
+a = L \ddot \theta = -g sin(\theta) ~~ -g \theta
+    ~~~~~~~~~~~~~~                     ~~~~~~~~~
+    -> harmonische DGL (nur Annaeherung)
+
+E = 1/2 m L^2 (\dot \theta)^2 + 1/2 m * g * L * (1-cos(\theta))
+``
+
+Tue Oct 23 11:30:23 CEST 2012

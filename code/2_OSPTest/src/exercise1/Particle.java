@@ -34,4 +34,6 @@ abstract public class Particle {
   public void print() {
     System.out.println(this);
   }
+
+  public abstract void setTimestep(double dt);
 }
