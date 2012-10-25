@@ -2,12 +2,17 @@ package exercise1;
 
 import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.*;
+import org.opensourcephysics.numerics.*;
 
 public class ParticleSimulationApp extends AbstractSimulation {
 
-  private Particle frictionparticle;
-  private Particle spaceparticle;
+  private ParticleODE frictionparticle;
+  private ParticleODE spaceparticle;
+  private AbstractODESolver frictionsolver;
+  private AbstractODESolver spacesolver;
   private PlotFrame plot;
+  private PlotFrame traj;
+  private DisplayFrame draw;
 
   public ParticleSimulationApp() {
   }
@@ -22,17 +27,19 @@ public class ParticleSimulationApp extends AbstractSimulation {
   @Override
   public void reset() {
     control.setValue("Starthoehe", 10.0);
-    control.setValue("Startgeschwindigkeit", 0.0);
+    control.setValue("Startgeschwindigkeit", 30.0);
     control.setValue("Startwinkel", 0.0);
     control.setAdjustableValue("Zeitschrittweite", 0.01);
-    control.setValue("C", 0.7);
+    control.setValue("C1", 0.0);
+    control.setValue("C2", 0.7);
     control.setValue("Masse", 7.0);
     enableStepsPerDisplay(true);
     setStepsPerDisplay(10);
   }
 
   public void print() {
-    control.println(spaceparticle.toString() + "\t" + frictionparticle.toString());
+    control.println(spaceparticle.toString() + "\t"
+        + frictionparticle.toString());
   }
 
   // control.println("Simulation stopped");
@@ -40,19 +47,27 @@ public class ParticleSimulationApp extends AbstractSimulation {
   @Override
   protected void doStep() {
     double dt = control.getDouble("Zeitschrittweite");
-    spaceparticle.setTimestep(dt);
-    frictionparticle.setTimestep(dt);
-    spaceparticle.step();
-    frictionparticle.step();
+
+    if (spaceparticle.getState()[2] >= 0.0) {
+      spacesolver.setStepSize(dt);
+      spacesolver.step();
+      plot.append(0, spaceparticle.getState()[4], spaceparticle.getState()[2]);
+      traj.append(0, spaceparticle.getState()[0], spaceparticle.getState()[2]);
+    }
+
+    if (frictionparticle.getState()[2] >= 0.0) {
+      frictionsolver.setStepSize(dt);
+      frictionsolver.step();
+      plot.append(1, frictionparticle.getState()[4],
+          frictionparticle.getState()[2]);
+      traj.append(1, frictionparticle.getState()[0],
+          frictionparticle.getState()[2]);
+    }
     print();
-    plot.append(0, frictionparticle.getT(), frictionparticle.getY());
-    plot.append(1, spaceparticle.getT(), spaceparticle.getY());
-    
-    if (frictionparticle.getY() < 0.0) {
+
+    if (frictionparticle.getState()[2] < 0.0) {
       control.calculationDone("Balls hit ground");
     }
-    
-    plot.setMessage("v=" + frictionparticle.getV() + "|" + spaceparticle.getV());
   }
 
   @Override
@@ -63,15 +78,24 @@ public class ParticleSimulationApp extends AbstractSimulation {
     double angle = Math.toRadians(control.getDouble("Startwinkel"));
     double vx = Math.cos(angle) * v;
     double vy = Math.sin(angle) * v;
-    double dt = control.getDouble("Zeitschrittweite");
-    double c = control.getDouble("C");
+    double c1 = control.getDouble("C1");
+    double c2 = control.getDouble("C2");
     double mass = control.getDouble("Masse");
-    spaceparticle = new C1Particle(x0, y0, vx, vy, mass, 0.0, dt, 9.81);
-    frictionparticle = new C1Particle(x0, y0, vx, vy, mass, c, dt, 9.81);
+    spaceparticle = new ParticleODE(x0, 0.0, y0, vy, c1, c2, mass, 9.81);
+    frictionparticle = new ParticleODE(x0, vx, y0, vy, c1, c2, mass, 9.81);
+    spacesolver = new Verlet(spaceparticle);
+    frictionsolver = new Verlet(frictionparticle);
     control.println("Simulation started");
+    
     plot = new PlotFrame("t (s)", "y (m)", "Hoehenzeitverlauf");
     plot.setConnected(true);
-    plot.append(0, spaceparticle.getT(), spaceparticle.getY());
-    plot.append(1, frictionparticle.getT(), frictionparticle.getY());
+    
+    traj = new PlotFrame("x (m)", "y (m)", "Trajektorie");
+    traj.setConnected(true);
+    
+    draw = new DisplayFrame("x", "y", "Pos");
+    draw.setPreferredMinMax(0.0, 50.0, 0.0, 20.0);
+    draw.addDrawable(spaceparticle);
+    draw.addDrawable(frictionparticle);
   }
 }

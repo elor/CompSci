@@ -1,4 +1,4 @@
-package ode;
+package exercise1;
 
 import org.opensourcephysics.numerics.*;
 

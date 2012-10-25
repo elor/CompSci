@@ -1,8 +1,13 @@
-package ode;
+package exercise1;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
+import org.opensourcephysics.display.Drawable;
+import org.opensourcephysics.display.DrawingPanel;
 import org.opensourcephysics.numerics.ODE;
 
-public class ParticleODE implements ODE {
+public class ParticleODE implements Drawable, ODE {
   double[] state;
   double g, c1, c2, m;
 
@@ -39,6 +44,15 @@ public class ParticleODE implements ODE {
   public String toString() {
     return "[" + state[0] + ", " + state[1] + ", " + state[2] + ", " + state[3]
         + ", " + state[4] + "]";
+  }
+
+  @Override
+  public void draw(DrawingPanel panel, Graphics g) {
+    int x = panel.xToPix(state[0]);
+    int y = panel.yToPix(state[2]);
+    
+    g.setColor(Color.blue);
+    g.fillArc(x, y, 5, 5, 0, 360);
   }
 
 }
