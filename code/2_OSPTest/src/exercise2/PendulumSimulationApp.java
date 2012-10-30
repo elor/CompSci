@@ -11,6 +11,7 @@ public class PendulumSimulationApp extends AbstractSimulation {
   private PendulumODE pendulae[];
   private AbstractODESolver solvers[];
   private PlotFrame plot;
+  private PlotFrame areaplot;
 
   public PendulumSimulationApp() {
   }
@@ -22,16 +23,31 @@ public class PendulumSimulationApp extends AbstractSimulation {
     SimulationControl.createApp(new PendulumSimulationApp());
   }
 
+  public double calcArea() {
+    double A = 0.0;
+    int max = pendulae.length - 1;
+
+    for (int i = 0; i < max; ++i) {
+      A += pendulae[i].getState()[1] * pendulae[i + 1].getState()[0]
+          - pendulae[i + 1].getState()[1] * pendulae[i].getState()[0];
+    }
+
+    A += pendulae[0].getState()[1] * pendulae[max].getState()[0]
+        - pendulae[max].getState()[1] * pendulae[0].getState()[0];
+
+    return A / 2;
+  }
+
   @Override
   public void reset() {
-    control.setValue("Maximalwinkel (rad)", 0.1*Math.PI);
+    control.setValue("Maximalwinkel (rad)", 0.1 * Math.PI);
     control.setValue("Maximalgeschwindigkeit (rad/s)", 2.0);
     control.setValue("Pendellaenge (m)", 0.1);
     control.setValue("Anzahl", 1000);
     control.setValue("Zufaellig", false);
     control.setAdjustableValue("Zeitschrittweite", 0.01);
-    // enableStepsPerDisplay(true);
-    // setStepsPerDisplay(10);
+    enableStepsPerDisplay(true);
+    setStepsPerDisplay(10);
   }
 
   // control.println("Simulation stopped");
@@ -43,8 +59,9 @@ public class PendulumSimulationApp extends AbstractSimulation {
     for (int i = 0; i < solvers.length; ++i) {
       solvers[i].setStepSize(dt);
       solvers[i].step();
-      // phase.append(i, pendulae[i].getState()[0], pendulae[i].getState()[1]);
     }
+
+    areaplot.append(0, pendulae[0].getState()[2], calcArea());
   }
 
   @Override
@@ -55,12 +72,17 @@ public class PendulumSimulationApp extends AbstractSimulation {
     int num = control.getInt("Anzahl");
     Boolean random = control.getBoolean("Zufaellig");
 
-    if (plot != null) {
-      plot.setVisible(false);
-      plot = null;
+    if (areaplot == null) {
+      areaplot = new PlotFrame("t", "A", "area over time");
+      areaplot.setConnected(true);
     }
-    plot = new PlotFrame("theta", "omega", "phase space");
-    plot.setPreferredMinMax(-0.15*Math.PI, 0.15*Math.PI, -3, 3);
+    areaplot.clearData();
+
+    if (plot == null) {
+      plot = new PlotFrame("theta", "omega", "phase space");
+    }
+    plot.clearDrawables();
+    plot.setPreferredMinMax(-0.15 * Math.PI, 0.15 * Math.PI, -3, 3);
 
     pendulae = new PendulumODE[num];
     solvers = new Verlet[num];
@@ -74,10 +96,9 @@ public class PendulumSimulationApp extends AbstractSimulation {
       } else {
         int quadrant = (4 * i) / num;
         double pos = new Double((4 * i) - quadrant * num) / num;
-        System.out.println(quadrant + " / " + pos);
         switch (quadrant) {
         case 0:
-          theta = thetamax*0.5;
+          theta = thetamax * 0.5;
           omega = (pos * omegamax + omegamax) * 0.5;
           break;
         case 1:

@@ -30,6 +30,7 @@ public class PendulumODE implements Drawable, ODE {
   public void getRate(double[] state, double[] rate) {
     rate[0] = state[1];
     rate[1] = -g*Math.sin(state[0])/l;
+//    rate[1] = -g*state[0]/l;
     rate[2] = 1.0;
   }
 

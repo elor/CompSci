@@ -1,0 +1,151 @@
+Tue Oct 30 09:15:23 CET 2012
+
+3.6. Bewegung im Elektromagnetischen Feld
+-----------------------------------------
+
+``
+\vec F = q \vec E + q \vec v \times \vec B
+
+% E=0, B=const => Spirale (einfache Variante, oft analytisch loesbar)
+\omega_c = q B / m % Zyklotronfrequenz
+
+% Dipolfeld
+\vec B = {\my_0 m} \over {4 \pi r^3} (3(\hat\vec p \cdot \hat\vec r) \hat\vec r - \hat\vec p)
+
+% \hat -> Einheitsvektor (nur Richtung relevant)
+``
+
+Teilchenbewegung im Dipolfeld ist aehnlich einer Spirale, jedoch ist sie analytisch nicht berechenbar. Das ist durch die Abhaengigkeit der Kraft von `\vec r` bedingt.
+Beispiel: siehe Buch (van-Allan-Guertel, Magnetfeld der Erde in der oberen Atmosphaere, welches geladene Teilchen auf eine Bewegung zwingt, die sich zwischen Nord- und Suedpol befindet und in einer engen Spirale verlaeuft.
+
+Magnetfeld am Aequator: 3.5e-5 T (oder so)
+
+3.7. Bewegung eines Regentropfens
+---------------------------------
+
+Radius R, Luftreibung
+
+``
+R \approx 0.01 mm
+Stokes F_d = 6 \pi \eta R v
+% \eta - Viskositaet der Luft
+
+v_{1max} \approx 1 cm/s = 36 m/h % Grenzgeschwindigkeit
+m \sim R^3, F_d \sim R => v_{1max} \sim R^2
+funktioniert bis \approx R \approx 0.1 mm
+=> v_{1max} \approx 1 m/s = 3.6 km/h
+
+R \approx 1 mm => turbulente Stroemung (zwischen 0.1 und 3 mm)
+F = C_d \pi R^2 1/2 \rho v^2
+
+C_d \approx 0.5
+\pi R - Querschnitt
+\rho - Dichte der Luft
+=> 
+v_{2max} \approx 4.5 m/s \approx 16 km/h
+
+v_{2max} \sim \sqrt{2R} % gilt bis r \approx 3 mm => 28 km/h
+
+R >= \approx 3 mm % Verformung zum Pfannkuchen
+% R waechst bis R \approx 5 mm => 
+v_{2max} \approx 29km/h % bis ca. 5.5 mm
+
+R \approx 5.5 mm => Aufspaltung auf mehrere Tropfen
+``
+
+Grenzbereiche sind mit Vorsicht zu geniessen, da meist beide Formulierungen Einfluss haben.
+
+Schluss der Nachholung. Zurueck zum Stoff
+=========================================
+
+### Konservative Systeme
+
+``
+E_{tot} = E_{kin} + E{pot} = const.
+``
+
+Konsequenzen im Phasenraum:
+* Bahnen schneiden sich nicht (gilt fuer alle deterministischen Systeme)
+  => Ensemblesimulationen sind moeglich, da Bahnen unabhaengig sind
+* "Vierecke" im Phasenraum aendern zwar ihre Form, jedoch ist die Flaeche konstant
+
+4.3. gedaempfter harmonischer Oszillator
+----------------------------------------
+
+``
+F_d = - \gamma v
+\gamma - Reibungskoeffizient
+``
+
+=> dissipatives System: Energieerhaltung gilt, jedoch wird Teil der Reibung in Waerme umgesetzt.
+
+Periode in Abhaengigkeit von \gamma
+
+Relaxationszeit \tau: Abnahme der Amplitude auf 1/e \approx 0.37
+
+kritische Daempfung: Keine Schwingung, nur monotoner Abfall
+\gamma_c - kleinstes Gamma, bei dem nichts mehr schwingt.
+
+ueberkritischer/ueberdaempfter Fall: Monotoner Abfall der Auslenkung (Kriechfall)
+
+Phasenraum: `(x_0, p_0)` Anfangsbedingung --> `(0, 0)` in jedem Fall
+
+==>
+Attraktor: Jede Bahn wird von `(0, 0)` angezogen.
+Die Bahnen bilden dabei Spiralen.
+
+``
+F_d = -\gamma \dot\Theta % fuer Pendel am Faden
+``
+
+Wirklich interessant wird es, wenn wir eine aeussere Kraft hinzu fuegen. Lustig werden periodische Anregungen:
+
+4.4 aeussere Kraefte
+--------------------
+
+Gesucht: Antwort (response) des Systemes auf den Einfluss einer periodischen aeusseren Kraft
+
+### 4.4.1 `F(t) = m A_0 \cos{\omega t}`
+
+Ergebnis: Periodische Schwingung, allerdings unterscheiden wir zwischen dem transienten Verhalten und dem Steady State.
+
+transientes Verhalten
+* Uebergangsfall, Einschwingvorgang, Relaxation
+* abhaengig von Anfangsbedingungen
+
+steady state
+* dynamisches Gleichgewicht
+* dominiert von \omega fuer t >> 0
+``
+x(t) = A(\omega)\cos{\omega t + \delta}
+\delta - Phasendifferenz zur aeusseren Kraft
+``
+
+Eigenschaften des Systemes:
+* Maximale Amplitude bei `\omega_{max} \sim \omega_0`
+* Lineare Antwort (linear response) (liegt an linearer Bewegungsgleichung
+* `A(\omega = 0) < A(\omega)` fuer kleine \omega
+* `A(\omega) -> 0 fuer \omega >> \omega_0
+  (Keine ausreichend schnelle Systemantwort moeglich, so dass sich der Einfluss ausmittelt)
+
+### 4.4.2 Kraftstoss (oftmals periodisch)
+
+``
+Dauer \Delta_t
+T = {2 \pi} \over {\omega}
+``
+
+Halbwelle ebenso denkbar:
+``
+F(t) = m * A_0 \cos{\omega t} * \Theta(\cos{\omega t})
+                                ^^^^^^ Heavyside-Funktion
+``
+
+Beispiel:
+``
+F(t)/m = 1/\pi + 1/2 \cos{t} + 2/(3\pi) \cos{2t} - 2/15 \cos{4t}
+``
+Superpositionsprinzip: Auf lineare Differentialgleichungen anwendbar im Steady State.
+
+% Herumspielen mit Pendelapplet von Robert Doerner
+Tue Oct 30 10:19:43 CET 2012
