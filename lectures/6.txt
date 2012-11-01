@@ -1,0 +1,224 @@
+Thu Nov  1 09:17:34 CET 2012
+
+4.5 Elektrische Schwingkreise
+-----------------------------
+
+### Kirchhoff'sche Gesetze
+
+Widerstand beeinflusst Spannung:  `V_R = I R`
+Kondensator `V_C = Q/C`
+Spule `V_L = L \dot I`
+Strom `I = \dot Q`
+
+(Einheiten in Volt, Ampere, Ohm, Farad und Henry)
+
+Stromquelle (Source) `V_S`
+= Potential
+= Energie f"ur die Ladung, die sich durch den Stromkreis bewegt
+
+``
+V_S = V_R + V_C + V_L
+V_S(t) = L \ddot Q + R \dot Q + Q/C
+^^^^^^   ^^^^^^^^^   ^^^^^^^^   ^^^
+Kraft    Beschl.     Reibung    ruecktreibende Kraft
+``
+
+### Korrespondenz
+Q - x
+I - v
+V - F
+L - m
+C - 1/k
+R - \gamma
+
+==> Entspricht numerisch einem harmonischen Oszillator
+
+% Grafische Darstellung eines Schwingkreises per Schaltplan
+
+Beispiel:
+``
+V_S(t) = V_0 \cos{\omega t}
+``
+
+Gleiche Beobachtungen wie bei mech. Pendel: Einschwingvorgang und Steady State
+
+Stichwort Hoch-/Tiefpassfilter
+
+Apps:
+* RCApp
+
+Cutofffrequenz: Amplitude der Spannung am Ausgang ist auf `1/\sqrt{2}` der Spannung am Eingang gefallen 
+
+Phasenverschiebung zwischen Eingang und Ausgang
+
+LCR-Kreis
+
+Antwort (Response): Strom (nicht Ladung)
+`I_{max}(\omega)` - Resonanz
+
+Resonanzfrequenz: \omega bei I_{max}
+
+Schaerfe der Resonanz: Q-Faktor (Qualitaetsfaktor, NICHT Ladungsfaktor!)
+``
+Q = \omega_0 / \Delta \omega
+\Delta \omega: I auf 1/\sqrt{2} I_{max} abgefallen
+``
+
+Impedanz:
+``
+Z = v_{max} / I_{max}
+Z^2(\omega) = R^2 + (\omega L - {1}\over{\omega c})^2
+``
+=> Bei Resonanz ist Impedanz minimal
+
+% In Pruefung nicht auswendig, allerdings wichtig, dass Schwingkreise wie mech. Schwingungen behandelbar sind (Resonanz und so) und dass eine Korrespondenz existiert.
+%Allein von der Anschauung m"usste man das meiste schon verstehen.
+
+4.6. Chemische Oszillationen
+----------------------------
+
+Beispiel: Chemische Reaktion A + 2 B -> 3 B + C mit A, B, C als Konzentrationen von 3 Molek"ulen.
+
+Ratengleichungen (Rate Equations)
+`\dot A = -kAB^2`
+
+Vorgehensweise:
+* proportional zu A
+* doppelt proportional zu B (wegen Vorfaktor)
+* negatives Vorzeichen
+* k als genereller Vorfaktor
+
+`\dot B = +k AB^2`
+`\dot B = +k AB^2`
+
+Beispiel:
+A     ->  x
+B+x   ->  y+D
+2x+y  ->  3x
+x     ->  C
+
+4.7 Nerven einer Krabbe
+-----------------------
+
+1952 von Hodgkin & Huxley modelliert
+
+Potential einer Nervenmembran als Kondensator beschrieben
+Strom `I = \dot Q` modelliert (Kalium-Natrium-System
+"Au"sere treibende Kraft: Stimulanz von au"sen
+
+% Formeln siehe Buchkapitel 4.8
+
+Aus konstantem Strom werden Nervenimpulse, deren Frequenz von der Amplitude des Stromes abhaengen.
+Es gibt eine Totzeit, in der kein zweiter Impuls abgefeuert werden kann.
+
+5 Mehrk"orperprobleme
+=====================
+
+5.1 Planetenbewegungen
+----------------------
+
+Tycho Brahe hat vor einigen Jahrhunderten Daten gesammelt, die Kepler zu drei Gesetzen zusammen gefasst hat. (Aus einer gigantischen Tabelle! Per Hand!)
+
+1. Planeten bewegen sich auf Ellipsenbahnen mit Sonne in einem Brennpunkt
+2. Planetenbewegung: Fl"ache, die in gleicher Zeit "uberstrichen wird, ist konstant (Fl"achensatz)
+3. `T^2 / a^3 = const.` T - Umlaufzeit, a - gro"se Halbachse
+
+5.2 Bewegungsgleichungen
+------------------------
+
+Zweik"orperproblem mit M >> m
+(auch als Eink"orperproblem mit \my darstellbar)
+
+Newton:
+``
+\vec F = - {GMm} \over {r^3} \vec r
+G = 6.67e-11 {m^3}\over{kg s^2}
+``
+
+Es kommt wirklich nur auf die Schwerpunkte der K"orper an, wobei die Ausdehnung der K"orper egal ist (im idealen Fall der homogenen Masseverteilung innerhalb beliebiger konzentrischer Kugelschalen innerhalb der K"orper).
+
+Newton hat 20 Jahre mit der Ver"offentlichung gewartet, bis er diesen Sachverhalt bewiesen hat.
+
+`\vec F_G`: Zentralkraft  => Bewegung in einer Ebene
+                          => Drehimpulserhaltung `L=const` gilt
+                             `\vec L` zeigt senkrecht zur Ebene
+                             => Vektoreigenschaften von L sind egal ^^
+
+E = 1/2 mv^2 - GMm/r
+
+E < 0: gebundener Zustand
+
+``
+m \ddot \vec r = -{GMm}\over{r^3} \vec r
+=>
+\ddot x = -{GM}\over{r^3} x
+\ddot y = -{GM}\over{r^3} y
+r^2 = x^2 + y^2
+``
+
+5.3. Kreisbahnen
+----------------
+
+``
+b = a = r;
+a = v^2 / r = {GM}\over{r^2}
+
+v = \sqrt{{GM}\over{r}
+T =  {2 \pi r}\over{v}
+T^2 = {4 \pi^2}\over{GM} r^3 % drittes Keplersches Gesetz
+``
+
+5.4. Astronomische Einheiten
+----------------------------
+
+Vermeidung numerischer Ungenauigkeiten
+L"angeneinheit AU = a_{Erde} = 1.496e11 m
+Zeit 1 y => T_{Erde} = 1
+
+=> ` GM = 4 \pi^2 \left({AU^3}\over{y^2}\right) `
+
+5.5. Kepler's 3. Gesetz
+-----------------------
+
+T^2 = C a^3
+
+### Linearer Fit
+``
+2\ln{T} = 3\ln{a}+\ln{C} % ==> Lineare Gleichung YAY
+``
+
+5.6. Simulation der Erdbahn
+---------------------------
+
+* PlanetApp
+* PlanetKeplerApp
+
+Kraftst"o"se ver"andern v, nicht r
+
+5.7. v-Darstellung
+------------------
+
+% Diagramm: v_y(v_x) ergibt Kreis mit \vec w als Zentrum und \vec u als Radialvektor.
+% u = GMm / L (m, weil L von m abhaengt)
+% => u ist unabh"angig von m!
+
+\vec r \orthogonal \vec u (in Ebene, nicht nur im Phasendiagramm)
+
+5.8. Dreik"orperproblem
+-----------------------
+
+Kleine Wechselwirkung zwischen zwei Planeten wird ber"ucksichtigt.
+Kraft setzt sich aus Zentralkraft und interplanetarer Gravitationskraft zusammen. Eigentlich muss man hier schon in 3 Dimensionen rechnen.
+Beispiel in 2D: Sonne und 2 Planeten. m1, m2 << M
+
+``
+\ddot \vec r_1 = -{GM}\over{r_1^3}\vec r_1 + {Gm_2}\over{r_{21}^3}\vec r_{21}
+\vec r_{21} = \vec r_2 - \vec r_1
+``
+
+\ddot \vec r_2 "aquivalent
+
+Planet2App
+
+Thu Nov  1 11:03:33 CET 2012
+
