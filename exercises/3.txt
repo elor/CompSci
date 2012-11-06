@@ -1,0 +1,21 @@
+a)
+  What would be orbits without interaction?
+    -> elliptic
+    T_i = 2 \pi \sqrt{a^3/GM_i}
+      a - Radius (hier Kreisbahnen, sonst elliptischer Parameter a)
+
+  qualitative effect:
+    orbital distortions
+    possibly mutual synchronization
+
+  shapes:
+    near-elliptic
+    outer planet moves on a stable orbit
+    inner planet moves on unstable orbit, possibly synchronizing with the outer planet
+
+  inner planet is affected due to lower mass
+
+  angular momentum:
+    no conservation. Stronly depends on lighter planet
+  total energy:
+    

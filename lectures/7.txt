@@ -1,0 +1,179 @@
+Tue Nov  6 09:31:51 CET 2012
+
+### andere Kr"afte:
+``
+F = {C m} \over {r^{2+\delta}} << 1
+``
+
+zB allgemeine Relativit"atstheorie
+``
+\ddot \vec r = - {GM \vec r} \over {r^3 } \left( 1+\alpha\left({GM}\over{c^2}\right){1}\over{r^2}\right)
+``
+
+### analytische L"osungen des 3-K"orper-Problemes
+
+3 K"orper mit gleicher Masse in 2D
+
+* Euler 1765:    3 Massen auf 1 Linie
+                 Rotation um mittlere MAsse
+* Lagrange 1772: 3 Massen auf Ecken eines gleichseitigen Dreiecks
+* Moore 1993:    numerisch
+*       2000:    Beweis von Chenciner & Montgomery
+
+-> ThreeBodyConditionsApp
+
+Resonanzen in Asteroideng"urtel
+Sonne, Jupiter, Asteroideng"urtel -> Planet2App
+Abst"ande des Asteroiden von Sonne:
+  Kirkwood-L"ucken
+  Resonanzen, wenn `T_{Ast.}` einfacher Bruch von `T_{Jup.} (1/3, 3/7, ...}
+
+Idee: Histogramm erstellen und stabile Bahnen aus beliebigen Startbedingungen ermitteln
+
+### Beschreibung des Heliumatomes auf klassische Weise
+
+Behandlung entsprechend des Gravitationsprozesses, jedoch mit Absto"sungskraft anstatt Anziehung (an einigen Stellen).
+
+Problem: instabile Numerik in Kernn"ahe
+
+``
+Q_{Kern} = 2
+q_{el} = -1
+``
+
+% Bild von berechneter Elektronenbahn: Ein Elektron in Kernn"ahe und ein Anderes in gewissem Kernabstand, jedoch weder kreisf"ormig noch elliptisch, sondern beinahe chaotisch.
+
+5.10 Zwei-K"orper-Streuung
+--------------------------
+
+Nutzen f"ur Materialwissenschaftler
+
+Idee: Von links trifft ein Teilchenstrahl auf ein Objekt. Wir betrachten einen Ring des Teilchenstromes mit Abstand b vom Zentrum. Umfang: 2 \pi b. Infinitesimale Fl"ache des Ringes: 2\pi b db.
+Streuer (Betrachtung: ein schweres Teilchen) liegt rechts auf Achse. Es wird als unbeweglich angenommen (schwer).
+Durch eine Wechselwirkung (iA absto"send) wird der Teilchenstrom nach au"sen abgelenkt.
+Diese Ablenkung wird durch einen Winkel \theta beschrieben.
+In einem bestimmten Abstand betrachten wir den Teilchenstrom erneut.
+Als Fl"ache ergibt sich: A = \alpha 2\pi \sin{\theta} \abs{d\theta} mit \alpha als Abstand vom schweren Teilchen.
+
+Vorher: \vec v, nachher: \vec v'
+
+Annahme: Elastische Streuung (Impulserhaltung) => \abs{\vec v} = \abs{\vec v'}
+Interessieren uns f"ur Streuwinkel \theta bzw. differentiellen Streuquerschnitt:
+
+### differentieller Streuquerschnitt
+``
+dN/N = n \sigma(\theta) d\Omega
+N - Teilchenzahl im Strahl
+dN - Zahl der Teilchen, die in Raumwinkel d\Omega gestreut werden
+d\Omega = \sin{\theta}\abs{d\theta}d\phi
+n - Dichte der Streuer (Anzahl pro Fl"ache/Querschnitt)
+\sigma - Anteil der in den Raumwinkel d\Omega gestreuten Teilchen
+\theta - Streuwinkel
+``
+
+alternative Vorstellung:
+``
+\sigma({\theta}) = d\sigma/d\Omega = {b db d\phi} \over {d\Omega}
+b - Streuparameter
+% Verh"altnis Fl"ache zu Winkel bzw. infinitesimaler Querschnitt zu Winkel.
+
+= {b db}\over{\sin{\theta}d\theta} % Ausnutzung der Symmetrie
+``
+
+### Beispiel:
+
+1 Streuer:
+``
+n = {1}\over{\pi R^2}
+R - Radius des Streuers
+
+% Gesamtstreuquerschnitt (T f"ur Total):
+\sigma_T = \int{\sigma(\theta) d\Omega}
+``
+
+* ScatterApp
+* ScatterAnalysis
+
+Anmerkung: \theta l"auft von 0 bis \pi. Der Rest wird von \Omega abgedeckt.
+
+### Anwendung:
+
+zB Wasserstoffatom als Streuer f"ur Positronen
+
+``
+Kraft (klein f): f(r) = 1/r^2       - r/a^3  f"ur r << a
+                        ^^^^^         ^^^^^
+                        Absto"sung    eff. Ladung
+                 f(r) = 0 f"ur r > a
+
+f \sim F (Vernachl"assigung der Konstanten)
+``
+
+eff. Ladung: Homogen in Kugel mit Radius a verteilt.
+-> innerhalb von a wirkt nur Teil der Ladung ("Ladung wird abgeschirmt")
+
+% Cain pr"asentiert numerische Teilchenstreuungssimulation
+
+
+### Rutherfordstreuung
+
+1911: Geiger & Marsden
+Streuung von \alpha-Teilchen an Goldfolie
+
+Schlussfolgerung von Rutherford: Kern << Atom
+
+### abgeschirmtes Coulomb-Potential
+
+``
+V(r) = {e^2}\over{4\pi \epsilon_0 r} \exp{-r/a}
+\vec F(r) = -\nabla V
+
+Symmetrie: f = -dV/dr
+``
+
+Verschiedene Bezeichnungen:
+* Thomas-Fermi-Potential
+  zB Elektronen im Metall
+  a : Thomas-Fermi-Abschirml"ange
+* Yukawa-Potential
+  zB f"ur Wechselwirkung von Kernteilchen unter einander
+* Debye-Potential
+  zB klassisches Plasma
+
+
+van-der-Waals-Potential zwischen Molek"ulen:
+``
+\vec f(r) = 2/r^{13} - 1/r^7
+``
+Ableitung: 1/r^12 - 1/r^6
+
+6. Chaotische Bewegung
+======================
+
+Erstes Gebiet, bei dem der Computer von Beginn empirisch eingesetzt wurde.
+Chaos (griech): Das Gro"se G"ahnen (Leere)
+
+6.1. Logistische Abbildung
+--------------------------
+
+Beispiel: Populationsdynamik (diskrete Zeitschritte -> diskrete Gleichung)
+``
+P_{n+1} = a P_n - b P_n^2
+``
+
+M"ogliche Einfl"usse f"ur zweiten Term
+* "Uberbev"olkerung
+* Krankheiten
+* Ressourcenknappheit
+
+``
+r = a/4         r \elem [0,1]
+x_n = b/a P_n   x_n \elem (0, 1]
+
+x_{n+1}(x_n) = f(x_n) = 4 r x_n (1 - x_n)
+``
+
+% grafische Iteration mit Darstellung der Konvergenz im Schnittpunkt zwischen x und f(x)
+
+
+Tue Nov  6 10:35:18 CET 2012
