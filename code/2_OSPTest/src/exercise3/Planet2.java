@@ -177,8 +177,8 @@ public class Planet2 implements Drawable, ODE {
   }
 
   public double getPotentialEnergy(int i) {
-    double V1 = -1.0;
-    double V2 = -1.0;
+//    double V1 = -1.0;
+//    double V2 = -1.0;
     double V = -1.0;
     
     switch (i)

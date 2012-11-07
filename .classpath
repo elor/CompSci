@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="code/1_Helloworld"/>
+	<classpathentry kind="src" path="code/2_OSPTest/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/elor/docs/uni/1/Computational_Science/OSP.zip"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
