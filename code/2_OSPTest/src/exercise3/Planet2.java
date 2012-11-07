@@ -21,8 +21,8 @@ import org.opensourcephysics.numerics.*;
 public class Planet2 implements Drawable, ODE {
   // GM in units of (AU)^3/(yr)^2
   final static double GM = 4 * Math.PI * Math.PI;
-  final static double GM1 = 0.04 * GM;
-  final static double GM2 = 0.001 * GM;
+  final static double GM1 = 0.001 * GM; // inner planet
+  final static double GM2 = 0.04 * GM;  // outer planet
   double[] state = new double[9];
   ODESolver odeSolver = new RK45MultiStep(this);
   Mass mass1 = new Mass(), mass2 = new Mass();
@@ -86,10 +86,10 @@ public class Planet2 implements Drawable, ODE {
     rate[2] = state[3]; // y1 rate
     rate[4] = state[5]; // x2 rate
     rate[6] = state[7]; // y2 rate
-    rate[1] = ((-GM * state[0]) / r1Cubed) + ((GM1 * dx) / dr3); // vx1 rate
-    rate[3] = ((-GM * state[2]) / r1Cubed) + ((GM1 * dy) / dr3); // vy1 rate
-    rate[5] = ((-GM * state[4]) / r2Cubed) - ((GM2 * dx) / dr3); // vx2 rate
-    rate[7] = ((-GM * state[6]) / r2Cubed) - ((GM2 * dy) / dr3); // vy2 rate
+    rate[1] = ((-GM * state[0]) / r1Cubed) + ((GM2 * dx) / dr3); // vx1 rate
+    rate[3] = ((-GM * state[2]) / r1Cubed) + ((GM2 * dy) / dr3); // vy1 rate
+    rate[5] = ((-GM * state[4]) / r2Cubed) - ((GM1 * dx) / dr3); // vx2 rate
+    rate[7] = ((-GM * state[6]) / r2Cubed) - ((GM1 * dy) / dr3); // vy2 rate
     rate[8] = 1; // time rate
   }
 
@@ -161,35 +161,40 @@ public class Planet2 implements Drawable, ODE {
     double T = -1.0;
     double v2;
 
-    switch (i)
-    {
+    switch (i) {
     case 0:
-      v2 = state[1]*state[1] + state[3]*state[3];
+      v2 = state[1] * state[1] + state[3] * state[3];
       T = GM1 * v2 / 2;
       break;
     case 1:
-      v2 = state[5]*state[5] + state[7]*state[7];
+      v2 = state[5] * state[5] + state[7] * state[7];
       T = GM2 * v2 / 2;
       break;
     }
-    
+
     return T;
   }
 
   public double getPotentialEnergy(int i) {
-//    double V1 = -1.0;
-//    double V2 = -1.0;
-    double V = -1.0;
-    
-    switch (i)
-    {
+    double VSun = -1.0; // potential energy relative to sun
+    double VPlanet = -1.0; // potential energy relative to the other planet
+    double r = Math.sqrt(Math.pow(state[0] - state[4], 2)
+        + Math.pow(state[2] - state[4], 2));
+
+    VPlanet = -GM1 * GM2 / r;
+
+    switch (i) {
     case 0:
+      r = Math.sqrt(state[0] * state[0] + state[2] * state[2]);
+      VSun = -GM * GM1 / r;
       break;
     case 1:
+      r = Math.sqrt(state[4] * state[4] + state[6] * state[6]);
+      VSun = -GM * GM2 / r;
       break;
     }
-    
-    return V;
+
+    return VSun + VPlanet;
   }
 }
 

@@ -72,9 +72,10 @@ public class Planet2App extends AbstractSimulation {
     double T = T1 + T2;
     double V = V1 + V2;
     double E = T + V;
+    E = E1 + E2;  // eclipse warning workaround
 
-    nrg.append(0, time, E1);
-    nrg.append(1, time, E2);
+    nrg.append(0, time, T);
+    nrg.append(1, time, V);
     nrg.append(2, time, E);
 
   }

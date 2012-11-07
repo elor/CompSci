@@ -18,4 +18,4 @@ a)
   angular momentum:
     no conservation. Stronly depends on lighter planet
   total energy:
-    
+    should be constant, but there still are slight bumps in the curve
