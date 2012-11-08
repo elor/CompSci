@@ -1,0 +1,95 @@
+Thu Nov  8 09:19:17 CET 2012
+
+-> IterateMapApp (Populationsentwicklung und so)
+
+Trajektorien betrachtet
+
+r < 1/4 : stabiler Fixpunkt:    x* = 0
+r < 3/4 : instabiler Fixpunkt:  x* = 0
+          stabiler Fixpunkt:    x* = 1 - 1/(4r)
+
+``
+x* = f(x*)
+=>
+x* = 1 - 1/(4r)
+
+f'(0) = df/dx|_0 = 4r
+f'(1-1/(4r)) = 2 - 4r
+f(x) = 4rx(1-x)
+``
+
+Stabilit"atsaussagen:
+``
+x_n = x* + \epsilon_n f"ur \abs{\epsilon} << 1
+
+Taylor-Entwicklung:
+x_{n+1} \approx f(x*) + \epsilon_n f'(x*)
+
+x* + \epsilon_{n+1} = x* + \epsilon_n f'(x*)
+\epsilon_{n+1} / \epsilon_n = f'(x*)
+``
+
+Links steht die Abweichung vom Fixpunkt.
+Wenn f'(x*) < 1: Abweichung wird immer geringer => stabiler FP
+     f'(x*) = 1: marginal stabil
+     f'(x*) > 1: instabil
+     f'(x*) = 0: superstabil
+      (nur in erster Ordnung der Taylorentwicklung)
+      zB r = 1/2, x* = 1/2
+f'(x*) <=>: BETRAG!
+
+r = 3/4: Bifurkation ("Zweigabelung"): Aufteilung in zwei Str"ange
+r < {1+\sqrt{6}} \over {4}: Zwei Fixpunkte
+    Oszillationen zwischen FP mit Periode 2
+    "Stabiler Attraktor" -> nur noch in dichter Nachbarschaft der beiden Trajektorien
+    entspricht 2 FP von f^{(2)}(x) = f(f(x)) (Periode 2)
+      hier: pr"azier Ausdruck "Fixpunkt", sonst "nur" Oszillation
+r = 0.862372: Periodenverdopplung
+r < 0.886023: Periode 4
+              FP von f^{(4)}
+Bifurkationen f"ur r = b_k
+ b1 = 0.75
+ b2 = 0.862..
+      0.886..
+      0.891102..
+      0.892190..
+ b_\inf = 0.8924864..
+Danach: Chaos (keine Fixpunkte mehr auffindbar)
+
+=> BifurcateApp
+
+vom Chaos zur Ordnung:
+  r  < 0.9126.. zwei B"ander  in f^{(2)} 1 Band
+  r < 0.899.. 4 B"ander   inf f^{(4)} 1 Band
+
+f^{(3)}(x*) = x* f"ur r >= {1+\sqrt{8}} \over {4} = 0.957107
+                      r <  0.960375
+
+nachfolgende Bereiche mit kleiner Periode sind bedeutend kleiner
+
+f^{(3)} ist Polynom 8. Ordnung
+8 FP, davon 3 stabile FP
+durch 3 stabile FP wird Bereich des Chaos' verlassen
+
+Danach Bifurkationen mit 6, 12, 24 usw. Perioden bis zum Chaos.
+
+Wenn wir knapp unter kritischem r sind (zB 0.9571):
+  Trajektorie, die sich durch sogenannte Intermittenz auszeichnet:
+  nahezu periodisches Verhalten (Vermutung der Periode 3 ist richtig) wechselt sich ab mit chaotischem Verhalten.
+  
+=> GraphicalSolutionsApp
+Fixpunkte betrachtbar. Einfach mal ansehen
+
+Analyse eines chaotischen Verhaltens
+------------------------------------
+
+Kriterium: Hohe Empfindlichkeit hinsichtlich der Anfangsbedingungen.
+
+-> Test hinsichtlich des x_0
+Beispiel: Differenz zweier Trajektorien
+
+Quantitative Analyse:
+  Lyapunov-Exponent (-> wiki)
+
+
+Thu Nov  8 10:56:43 CET 2012

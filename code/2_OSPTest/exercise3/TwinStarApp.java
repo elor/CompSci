@@ -26,20 +26,18 @@ import org.opensourcephysics.frames.*;
  * @author Wolfgang Christian, Jan Tobochnik, Harvey Gould
  * @version 1.0
  */
-public class Planet2App extends AbstractSimulation {
+public class TwinStarApp extends AbstractSimulation {
   PlotFrame frame = new PlotFrame("x (AU)", "y (AU)", "Planet Program");
-  Planet2 planet2 = new Planet2();
-  PlotFrame amom = new PlotFrame("angular momentum (arb.u)", "time (arb.u)",
-      "time evolution of angular momentum");
-  PlotFrame nrg = new PlotFrame("total energies (arb.u)", "time (arb.u)",
-      "energies");
+  PlotFrame energy = new PlotFrame("time", "energy",
+      "Energy (r=kin, g=pot, b=tot");
+  Planet3 planet3 = new Planet3();
 
   /**
    * Constructs the PlanetApp.
    */
-  public Planet2App() {
-    frame.addDrawable(planet2);
-    frame.setPreferredMinMax(-10, 10, -10, 10);
+  public TwinStarApp() {
+    frame.addDrawable(planet3);
+    frame.setPreferredMinMax(-2, 2, -2, 2);
     frame.setSquareAspect(true);
     frame.setConnected(true);
   }
@@ -48,34 +46,29 @@ public class Planet2App extends AbstractSimulation {
    * Steps the time.
    */
   public void doStep() {
-    for (int i = 0; i < 5; i++) { // do 5 steps between screen draws
-      planet2.doStep(); // advances time
+    int steps = control.getInt("calculations per step");
+    for (int i = 0; i < steps; i++) { // do 5 steps between screen draws
+      planet3.doStep(); // advances time
     }
 
+    double time = planet3.getTime();
+
     // Angular Momentum
-    double time = planet2.getTime();
-    double amom1 = planet2.getAMom(0);
-    double amom2 = planet2.getAMom(1);
-    double amomt = amom1 + amom2;
-    amom.append(0, time, amom1);
-    amom.append(1, time, amom2);
-    amom.append(2, time, amomt);
+    // double amom1 = planet2.getAMom(0);
+    // double amom2 = planet2.getAMom(1);
+    // double amomt = amom1 + amom2;
+    // amom.append(0, time, amom1);
+    // amom.append(1, time, amom2);
+    // amom.append(2, time, amomt);
 
     // Energy
-    double T1 = planet2.getKineticEnergy(0);
-    double V1 = planet2.getPotentialEnergy(0);
-    double T2 = planet2.getKineticEnergy(1);
-    double V2 = planet2.getPotentialEnergy(1);
-    double E1 = T1 + V1;
-    double E2 = T2 + V2;
-    double T = T1 + T2;
-    double V = V1 + V2;
+    double T = planet3.getKineticEnergy();
+    double V = planet3.getPotentialEnergy();
     double E = T + V;
-    E = E1 + E2;  // eclipse warning workaround
 
-    nrg.append(0, time, T);
-    nrg.append(1, time, V);
-    nrg.append(2, time, E);
+    energy.append(0, time, T);
+    energy.append(1, time, V);
+    energy.append(2, time, E);
 
   }
 
@@ -83,27 +76,27 @@ public class Planet2App extends AbstractSimulation {
    * Initializes the animation using the values in the control.
    */
   public void initialize() {
-    planet2.odeSolver.setStepSize(control.getDouble("dt"));
-    double x1 = control.getDouble("x1");
-    double vy1 = control.getDouble("vy1");
-    double x2 = control.getDouble("x2");
-    double vy2 = control.getDouble("vy2");
-    // planet2.state= {x1, vx1, y1, vy1, x2, vx2, y2, vy2, t}
-    planet2.initialize(new double[] { x1, 0, 0, vy1, x2, 0, 0, vy2, 0 });
+    planet3.odeSolver.setStepSize(control.getDouble("dt"));
+    double x = control.getDouble("x");
+    double y = control.getDouble("y");
+    double vx = control.getDouble("vx");
+    double vy = control.getDouble("vy");
+    planet3.initialize(new double[] { x, vx, y, vy, 0 });
     frame.setMessage("t=0");
-    amom.clearData();
-    nrg.clearData();
+    // amom.clearData();
+    energy.clearData();
   }
 
   /**
    * Resets animation to a predefined state.
    */
   public void reset() {
-    control.setValue("x1", 2.52);
-    control.setValue("vy1", Math.sqrt(Planet.GM / 2.52));
-    control.setValue("x2", 5.24);
-    control.setValue("vy2", Math.sqrt(Planet.GM / 5.24));
+    control.setValue("x", 0.1);
+    control.setValue("y", 1);
+    control.setValue("vx", 0);
+    control.setValue("vy", 0);
     control.setValue("dt", 0.01); // initial step size
+    control.setAdjustableValue("calculations per step", 5);
     initialize();
   }
 
@@ -114,7 +107,7 @@ public class Planet2App extends AbstractSimulation {
    *          command line parameters
    */
   public static void main(String[] args) {
-    SimulationControl.createApp(new Planet2App());
+    SimulationControl.createApp(new TwinStarApp());
   }
 }
 
