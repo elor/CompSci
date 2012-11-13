@@ -1,0 +1,48 @@
+a
+=
+
+Unity is exceeded above r=0.25
+Below 0.75: singular fixed point
+Above 0.75 (even slightly): two fixed points (until b2)
+
+b
+=
+
+x* -> fixed point
+ (derivative of second iterate has a maximum in x*)
+
+x_0 != x* -> period 2
+
+0.54...
+0.78...
+
+c
+=
+
+Minimum in 0.5
+Maxima in 0.2 and 0.8
+
+it's symmetrical about 1/2
+
+x1 = 0.5380072209511192
+x2 = 0.7804641166215508
+  both stable
+
+slopes = 0.4
+
+d
+=
+
+true (distance increases with r)
+
+r= 0.809017 -> x1 = 1/2
+
+x2 = 0.8090169999999998
+
+slopes: 0.0 and 0.0 (x1 and x2 resp.)
+
+e
+=
+
+TODO
+

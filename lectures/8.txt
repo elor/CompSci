@@ -16,6 +16,7 @@ x* = 1 - 1/(4r)
 f'(0) = df/dx|_0 = 4r
 f'(1-1/(4r)) = 2 - 4r
 f(x) = 4rx(1-x)
+f'(x) = 4r-8rx
 ``
 
 Stabilit"atsaussagen:
