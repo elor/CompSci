@@ -33,7 +33,7 @@ public class GraphicalSolutionApp extends AbstractSimulation {
   }
 
   public void reset() {
-    control.setValue("r", 0.89);
+    control.setAdjustableValue("r", 0.89);
     control.setValue("x", 0.2);
     control.setAdjustableValue("iterate", 1);
   }
@@ -62,6 +62,7 @@ public class GraphicalSolutionApp extends AbstractSimulation {
     plotFrame.append(1, y, y);
     x = x0 = y0 = y;
     control.setValue("x", x);
+    control.println("point: " + x);
   }
 
   void drawFunction() {
@@ -113,8 +114,8 @@ public class GraphicalSolutionApp extends AbstractSimulation {
   public static void main(String[] args) {
     SimulationControl control = SimulationControl
         .createApp(new GraphicalSolutionApp());
-    control.addButton("clear", "Clear", "Clears the trajectory.");
-  }
+		control.addButton("clear", "Clear", "Clears the trajectory.");
+	}
 }
 
 /*

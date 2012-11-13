@@ -44,5 +44,22 @@ slopes: 0.0 and 0.0 (x1 and x2 resp.)
 e
 =
 
-TODO
+"show that" -> show diagram
 
+s3
+--
+
+r = 0.8746...
+
+x1 = 0.49989979156548087 (\approx 1/2)
+x2 = 0.3836865523317427
+x3 = 0.8745999648700107
+x4 = 0.8272707827293061
+
+s3 \approx 0.8855
+
+left: 4 fixpoints
+right: 8 fixpoints
+  (further bifurcation)
+
+  beyond 0.893: most likely Chaos
