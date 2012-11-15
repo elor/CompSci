@@ -58,8 +58,23 @@ x4 = 0.8272707827293061
 
 s3 \approx 0.8855
 
+f
+=
+
 left: 4 fixpoints
 right: 8 fixpoints
   (further bifurcation)
 
   beyond 0.893: most likely Chaos
+
+g
+=
+
+steps: (i=4)
+* 181
+* 163
+* 150
+
+right: impossible (unstable / 8 fixpoints)
+left: fewer
+

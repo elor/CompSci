@@ -1,0 +1,168 @@
+Thu Nov 15 09:19:07 CET 2012
+
+6.5. Nullstellen von g(x) = f(x) - x
+------------------------------------
+
+### 6.5.1. Bisektion
+
+x_l, x_r so gew"ahlt, dass g(x_l) g(x_r) < 0
+
+bestimmen x_m = {x_l + x_r} \over {2}
+
+g(x_l) g(x_m) < 0 : x_r = x_m
+                    x_l = x_m sonst
+
+bei x_m == 0: x_m ist Nullstelle
+
+bisection method
+RecursiveFixPointApp
+FixedPointApp
+
+Verfahren funktioniert immer, ist aber sehr langsam:
+``
+\epsilon_{n+1} = \epsilon_n / 2
+
+\epsilon - initiale Intervallbreite x_r - x_l
+
+\log_2{{x_r - x_l} \over {\epsilon}}
+``
+
+Probleme:
+* absolute Genauigkeit problematisch f"ur x_0 >>
+* relative Genauigkeit f"ur x_0 \approx 0
+
+### 6.5.2 Tangentenverfahren von Newton / Newton-Raphson
+
+Taylorentwicklung:
+``
+g(x) \approx g(x_1) + (x-x_1) g'(x_1)
+x_1 - Anfangsvermutung
+
+g(x) =! 0
+x = ... \equiv x_2
+
+x_{n+1} = x_n - {g(x_n)} \over {g'(x_n)}
+``
+
+Iteration konvergiert schnell, wenn sie "uberhaupt konvergiert.
+
+``
+\epsilon_{n+1} = -\epsilon_n^2 {f''(x)} \over {2 f'(x)}
+``
+
+Kann schief gehen, wenn die Ableitung klein ist, da wir durch eine kleine Zahl dividieren.
+
+% grafische Veranschaulichung. Hatten wir auch unter anderem in chemischer Kinetik.
+
+L"osung: Wird das Intervall nicht kleiner, 
+
+Herausforderung:
+Nullstellen der Funktion `g(x) = 3/x^2 + 1/{\pi^4} + \ln{(\pi-x)^2} + 1`
+
+### 6.5.3. Sekantenverfahren
+
+``
+x_1 = x_l
+x_2 = x_r
+x_{m+1} aus linearer Interpolation zwischen x_m und x_{m-1}
+
+Wenn zweite Ableitung nicht zu b"ose, sollte das Vorzeichen wechseln.
+
+``
+\abs{\epsilon_{m+1}} \approx const * \abs{\epsilon_m}^\tau
+
+\tau - goldener Schnitt (1.618...)
+``
+
+
+### 6.5.4. Regula falsa
+
+Funktioniert wie Sekantenverfahren, nutzt gegebenenfalls jedoch nicht x_m und x_{m-1}, sondern x_{m+1} und x_{m-1}, entsprechend dem Vorzeichen.
+
+Man w"ahlt die Sekante also so, dass die Nullstelle im entsprechenden Bereich liegt
+
+Somit verbessert sich das Konvergenzverhalten gegen"uber des Sekantenverfahrens.
+
+Leider ist die Regula falsa kein perfektes Verfahren.
+Gegenbeispiel: Funktion mit steilem Anstieg: `g(x) = (x-4)**-20`
+
+### 6.5.5. Quadratische Interpolation
+
+3 Punkte -> Parabel durch (x_i, g(x_i) = y_i)
+``
+x_i = g^{-1}(y_i)
+x_i als quadratische Funktion von y_i
+
+y = 0 => Nullstelle x_0
+``
+
+### 6.5.6. mehrdimensionale Probleme:
+
+#### Newton-Raphson
+``
+\vec g(\vec x) = \vec 0 % Taylor
+
+g_i(\vec x_{n+1} = g_i(\vec x_n) + \sum_{j=1}^d {{\partial g_i}\over{\d x_j}(\vec x_{n+1} - \vec x_n)}
+= g_i + G_{ij}\xi_j =! 0
+
+\vec x_{n+1} = \vec x_n + \vec\xi
+
+=\vec x_n - \mat G^{-1} \vec g(\vec x_n)
+``
+
+also wie newton-raphson.
+
+Ist etwas unhandlich, da die gesamte Matrix ben"otigt wird.
+In den Bibliotheken transparent implementiert.
+
+6.6. Billiards
+--------------
+
+Beschreiben auf sehr einfache Weise chaotisches Verhalten
+
+Bild:
+* Eine Billardkugel bewegt sich geradlinig
+* v = const.
+* Nur elastische St"o"se am Rand.
+* Rotation wird vernachl"assigt
+* Jeder Randsto"s ist der n"achste Schritt
+
+einfache Systeme mit chaotischem Ausgang
+* Stadion-Billard (Halbkreis-Rechteck-Halbkreis)
+* Sinai-Billard (Quadrat nehmen und Kreis ausschneiden)
+
+Begr"undung des chaotischen Verhaltens jeweils "uber Lyapunov-Exponenten
+
+6.7 Mehrdimensionale Modelle
+----------------------------
+
+Henon-Abbildung:
+``
+x_{n+1} = y_n + 1 - a x_n^2
+y_{n+1} = b x_n
+``
+
+Attraktor
+
+Einzugsgebiet ("basin") des Attraktors ist die Menge der Anfangspunkte, von denen aus die Trajektorien nicht loskommen.
+
+Beschreibung des Quaos:
+* qualitativ: Selbst"ahnlichkeit
+* quantitativ: Lyapunovexponenten
+
+
+Lustige Modelle:
+``
+x_{n+1} = 1 - y_n + \abs{x_n}
+y_{n+1} = x_n
+``
+
+(erzwungene mehrdimensionale Abbildung)
+
+
+Lorenz-Modell (Chaos in Atmosph"are) (siehe Wikipedia)
+
+Pendel mit D"ampfung
+
+Thu Nov 15 10:55:16 CET 2012
+
