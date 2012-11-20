@@ -293,7 +293,7 @@ Euler-Richardson ist somit RK 2. Ordnung.
 Standard: RK 4. Ordnung (siehe Buch)
 
 Besonders: Der Halbschritt taucht doppelt auf, jedoch mit unterschiedlicher
-Gewichtung ("ueberraschend")
+Gewichtung (_ueberraschend_)
 
 Nicht selbstverstaendlich: *Fehlerkontrolle*
 Man rechnet mir Zeitschrittweite t und mit halber Zeitschrittweite und

@@ -144,7 +144,7 @@ y_{n+1} = b x_n
 
 Attraktor
 
-Einzugsgebiet ("basin") des Attraktors ist die Menge der Anfangspunkte, von denen aus die Trajektorien nicht loskommen.
+Einzugsgebiet (_basin_) des Attraktors ist die Menge der Anfangspunkte, von denen aus die Trajektorien nicht loskommen.
 
 Beschreibung des Quaos:
 * qualitativ: Selbst"ahnlichkeit

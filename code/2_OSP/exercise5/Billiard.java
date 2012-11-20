@@ -104,16 +104,15 @@ public class Billiard implements Drawable {
   public void draw(DrawingPanel panel, Graphics g) {
     // TODO Auto-generated method stub
 
-    int y1 = panel.yToPix(0);
-    int x1 = panel.xToPix(-l / 2);
-    int rx = panel.xToPix(-l / 2 + r) - x1;
-    int ry = panel.yToPix(r) - y1;
+    int y1 = panel.yToPix(r);
+    int x1 = panel.xToPix(-l / 2 - r);
+    int rx = Math.abs(panel.xToPix(2*r) - panel.xToPix(0));
+    int ry = Math.abs(panel.yToPix(2*r) - panel.yToPix(0));
 
     int x2, y2;
 
     // first sector
-    System.out.println(x1 + ", " + y1 + ", " + rx + ", " + ry);
-    g.drawArc(x1, y1, rx, ry, 90, 270);
+    g.drawArc(x1, y1, rx, ry, 90, 180);
 
     // second sector
     x1 = panel.xToPix(-l / 2);
@@ -125,17 +124,17 @@ public class Billiard implements Drawable {
     g.drawLine(x1, y2, x2, y2);
 
     // third sector
-    x1 = panel.xToPix(l / 2);
-    y1 = panel.yToPix(0);
-    rx = panel.xToPix(l / 2 + r) - x1;
-    ry = panel.yToPix(r) - y1;
+    x1 = panel.xToPix(l / 2 - r);
+    y1 = panel.yToPix(r);
+    rx = Math.abs(panel.xToPix(2*r) - panel.xToPix(0));
+    ry = Math.abs(panel.yToPix(2*r) - panel.yToPix(0));
 
-    g.drawArc(x1, y1, rx, ry, 270, 90);
+    g.drawArc(x1, y1, rx, ry, 270, 180);
   }
 
   public void doStep() {
     // TODO Auto-generated method stub
-    
+
   }
 
   public double getTime() {

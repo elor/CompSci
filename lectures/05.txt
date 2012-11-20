@@ -67,7 +67,7 @@ E_{tot} = E_{kin} + E{pot} = const.
 Konsequenzen im Phasenraum:
 * Bahnen schneiden sich nicht (gilt fuer alle deterministischen Systeme)
   => Ensemblesimulationen sind moeglich, da Bahnen unabhaengig sind
-* "Vierecke" im Phasenraum aendern zwar ihre Form, jedoch ist die Flaeche konstant
+* _Vierecke_ im Phasenraum aendern zwar ihre Form, jedoch ist die Flaeche konstant
 
 4.3. gedaempfter harmonischer Oszillator
 ----------------------------------------

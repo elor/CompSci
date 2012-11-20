@@ -39,12 +39,12 @@ Wenn f'(x*) < 1: Abweichung wird immer geringer => stabiler FP
       zB r = 1/2, x* = 1/2
 f'(x*) <=>: BETRAG!
 
-r = 3/4: Bifurkation ("Zweigabelung"): Aufteilung in zwei Str"ange
+r = 3/4: Bifurkation (_Zweigabelung_): Aufteilung in zwei Str"ange
 r < {1+\sqrt{6}} \over {4}: Zwei Fixpunkte
     Oszillationen zwischen FP mit Periode 2
     "Stabiler Attraktor" -> nur noch in dichter Nachbarschaft der beiden Trajektorien
     entspricht 2 FP von f^{(2)}(x) = f(f(x)) (Periode 2)
-      hier: pr"azier Ausdruck "Fixpunkt", sonst "nur" Oszillation
+      hier: pr"azier Ausdruck _Fixpunkt_, sonst _nur_ Oszillation
 r = 0.862372: Periodenverdopplung
 r < 0.886023: Periode 4
               FP von f^{(4)}

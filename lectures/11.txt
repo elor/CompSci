@@ -1,0 +1,167 @@
+Tue Nov 20 09:55:02 CET 2012
+
+Zur Henon-Abbildung und zum Lebkuchenmann.
+Zur Vollst"andigkeit wird das Lorenz-Modell angegeben:
+
+Benutzt zur Modellierung des Chaos' in der Atmosph"are.
+Allgemein beschreibt es die Schicht einer Fl"ussigkeit, die von unten geheizt wird. 
+
+% --------------------------------------------- T_<
+
+% Fl"ussigkeit
+% innerhalb der Fl"ussigkeit ergeben sich 
+% Zirkulationen
+
+% --------------------------------------------- T_>
+
+Name: Rayleigh-Benard-Zelle
+
+Gleichungen:
+``
+\dot x = -\sigma x + \sigma y
+\dot y = -x z + r x - y
+\dot z = x y - bx
+
+x - Flussgeschwindigkeit auf dem Kreis
+y - Temperaturdifferenz zwischen Aufw"arts- und Abw"artsbewegung
+z - Temperaturabweichung vom Gleichgewicht
+  Internet: \"proportional zur Abweichung des vertikalen Temperaturprofiles von seinem Gleichgewichtswert\"
+r - Radius der Zirkulation
+``
+
+6.8. Pendel mit D"ampfung und oszillierender Kraft
+--------------------------------------------------
+
+Modellbeschreibung (eigentlich ein Bild)
+* Pendel mit \theta
+* Gravitationskraft
+* treibende Kraft: Aufh"angung bewegt sich mit 2A\cos{\omega t}
+
+=> 
+``
+\ddot \theta = \gamma \dot \theta - (\omega_0^2 + 2A\cos{\omega t})\sin{\theta}
+``
+Entspricht nicht exakt dem Vorgehen in Kapitel 6, da wir bisher diskrete Systeme untersucht haben.
+
+* A=0: stabiler Attraktor x=0, v=0
+* A <= A_c: stabiler Attraktor
+* A > A_c: instabil
+
+Es ist sinnvoll, jeweils nach der Periode T den momentanen Punkt im Phasenraum zu betrachten.
+=> Poincare-Darstellung
+\dot \theta vs. \theta f"ur t_n = n * T mit n \in N
+
+PoincareApp:
+* Damped Driven Pendulum
+* Einschwingvorgang ber"ucksichtigen
+
+Periode
+* \pi f"ur A <= A_c
+* 2\pi f"ur A \in [ A_c, 0.71 ]
+* pi f"ur A \in [ 0.72, 0.79 ]
+* 2\pi f"ur A > 0.8 (pendel rotiert)
+
+Weitere Periodenverdopplungen und Feigenbaumkonstante sind auffindbar.
+
+Offensichtlich: Zwei Attraktoren (rechts und links herum)
+Fragestellungen:
+* Wie sieht das Einzugsgebiet aus?
+* Gibt es zusammenh"angende Gebiete?
+* Ist der Rand glatt?
+* Es gibt den instabilen Attraktor, bei dem das Pendel rotiert ("sehr spezielle Eigenheit")
+
+
+### Kreis-Abbildung
+Simuliert das getriebene, ged"ampfte Pendel durch eine diskrete Abbildung (siehe oben)
+
+``
+\theta_{n+1} = (\theta_n + \Omega - {K}\over{2\pi} \sin{2\pi\theta_n}) \mod 1
+\Omega = {\omega_0} \over {\omega}
+{K}\over{2\pi} \sim A (Kontrollparameter)
+``
+
+mod 1, um das "Uberschwingen darstellen zu k"onnen
+
+\Omega beinhaltet Anregungsfrequenz
+K - Kopplung (beinhaltet St"arke der Anregung)
+
+
+#### Winding Number/Windungszahl:
+``
+W = \lim_{m->\infty}{1/m \sum_{n=1}^m{\Delta\theta_n}}
+``
+
+W z"ahlt das "Uberschlagen des Pendels ab
+W konvergiert immer. Es ist unter Anderem ein Ma"s f"ur die Frequenz.
+
+* K=0, \Omega rational: W = \Omega, Periodische Trajektorie
+* K=0, \Omega irrational: W = \Omega,  Quasiperiodische Trajektorie
+* 0 < K < 1: W \inequal \Omega
+  Variiert man das K, so tauchen f"ur einen Bereich von rationalen \Omega-Werten Plateaus von W-Werten auf. Bezeichnung: _Mode-Locking_.
+  In einem W-K-\Omega-Plot ergeben sich ebenfalls Plateaus in der K-\Omega-Zone. Name: Arnold-Zungen.
+* K = 1: nur periodische Trajektorien, W(\Omega): Teufelstreppe
+* 
+
+6.9. Hamilton'sches Chaos
+-------------------------
+
+Hamilton-Funktion H = \sum_i{{p_i^2}\over{2m_i} + V(\left{q_i\right})
+
+Dadurch lassen sich komplexe (-> Radons) und regul"are (-> langweilige) Systeme beschreiben.
+
+Regul"are Dynamik:
+F"ur jeden Freiheitsgrad lassen sich unter Umst"anden Erhaltungsgr"o"sen finden ("uber Erhaltungss"atze).
+Somit ist das System _integrabel_.
+
+viele Freiheitsgrade: System _kann_ chaotisch werden.
+
+gemischte Systeme: Verhalten h"angt von Anfangsbedingungen ab.
+
+Beispiel: Rotator, periodisch angesto"sen
+* Stange, ausgelenkt um Winkel \theta
+* Schwerkraft
+* periodischer Kraftsto"s k/L (realisiert "uber \delta-Funktion
+
+``
+H = {p_\theta^2}\over{2I} + k \cos{\theta \sum_n{\delta(t-n\tau)}}
+
+\dot p_\theta = k \sin{\theta} \sum_n{\delta(t-n\tau)}
+\dot \theta = p_\theta / I
+``
+
+Von Interesse: Punkte im Phasenraum f"ur periodische Zeiten T = n * \tau + 0^+
+% 0^+: abweichende kleine Ver"anderung
+
+### Standardabbildung
+``
+\theta_{n+1} = {\theta_n + p_n} \mod {2\pi}
+p_{n+1} = p_n + k \sin{\theta_{n+1}}
+
+\tau/T = 1
+``
+
+Doppelpendel:
+* \theta_1, \theta_2, m_1 = m_2 = m, l_1 = l_2 = L
+* Darstellung in x-y-Ebene
+* reibungsfrei
+
+``
+x_1 = L\sin{\theta_1}
+x_2 = x_1 + L\sin{\theta_2}
+y_1 = 2L-L\cos{\theta_1}  % y_2 = 0, y_1 = L: Pendel h"angt durch
+y_2 = y_1 - L\cos{\theta_2}
+E_{kin} = 1/2 m L^2 \left[ 2 \dot\theta_1^2 + \dot\theta_2^2 + 2\dot\theta_1\dot\theta_2\cos{\theta_1 - \theta_2}\right]
+E_{pot} = mgL\left[3 - 2\cos{\theta_1} - \cos{\theta_2}\right]
+
+q_1 = \theta_1
+q_2 = \theta_2
+
+p_1 = mL^2 \left[2\dot\theta_1 + \dot\theta_2\cos{\theta_1-\theta_2}\right]
+p_2 = mL^2 \left[\dot\theta_2 + \dot\theta_1\cos{\theta_1 - \theta_2}\right]
+``
+
+% Betrachtung einer Phasenraumfolie
+% Man sieht ein gemischtes System: ein Punkt f"uhrt zum Chaos, ein Anderer zu
+% periodischem Verhalten, obwohl identische Parameter genutzt werden.
+
+Tue Nov 20 11:34:20 CET 2012

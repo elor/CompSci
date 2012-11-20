@@ -72,7 +72,7 @@ Auch hier taucht auf:
 * Bifurkationen
 * \alpha
 * \delta
-wie bei logistischer Abbildung (deshalb "universell")
+wie bei logistischer Abbildung (deshalb _universell_)
 
 
 "Der Weg ins Chaos is universell" mit den Bifurkationen.
@@ -150,7 +150,7 @@ Suche eine x_0, so dass Trajektorie periodisch wird.
 Suche gezielt nach St"orung der chaotischen Trajektorie, so dass das System auf periodischer Trajektorie bleibt.
 Kontrolle "uber diese St"orung.
 
-"akademischer" Algorithmus:
+_akademischer_ Algorithmus:
 * instabile periodische Trajektorie
   `f^{(p)}(x^*) = x^*`
   Trajektorie ist beispielsweise x(1), x(2), ... x(n), ... x(p)
@@ -159,7 +159,7 @@ Kontrolle "uber diese St"orung.
   x_0, ... x_n, ...
 * warten, bis irgend ein x_n \approx x(i)
   im chaotischen Bereich geschieht dies immer irgendwann
-* "Kontrolle": passen r so an, dass aktuelles x_{n+1} n"aher an Zielwert x_{i+1} landet
+* _Kontrolle_: passen r so an, dass aktuelles x_{n+1} n"aher an Zielwert x_{i+1} landet
   Somit wird das periodische Verhalten erzwungen.
 
 Methode: Taylorentwicklung von f(x_n) und x(i) um r_0
