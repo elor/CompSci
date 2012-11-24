@@ -12,14 +12,13 @@ import org.opensourcephysics.frames.*;
 
 public class BilliardApp extends AbstractSimulation {
   PlotFrame frame = new PlotFrame("x (AU)", "y (AU)", "Billiard Table");
-  Billiard billiard = new Billiard();
+  Billiard billiard;
   double state[];
 
   /**
    * Constructor 
    */
   public BilliardApp() {
-    frame.addDrawable(billiard);
     frame.setPreferredMinMax(-2, 2, -2, 2);
     frame.setSquareAspect(true);
     frame.setConnected(true);
@@ -44,7 +43,13 @@ public class BilliardApp extends AbstractSimulation {
     double r = control.getDouble("r");
     double l = control.getDouble("l");
     int balls = control.getInt("balls");
-    billiard.setProperties(r, l, balls);
+    double holesize = control.getDouble("hole size");
+    
+    frame.clearDrawables();
+    
+    billiard = new Billiard(control);
+    frame.addDrawable(billiard);
+    billiard.setProperties(r, l, holesize, balls);
     billiard.randomize();
     // frame.setMessage("t=0");
   }
@@ -56,7 +61,8 @@ public class BilliardApp extends AbstractSimulation {
     control.setValue("r", 1);
     control.setValue("l", 2);
     control.setValue("balls", 1);
-    control.setAdjustableValue("calculations per step", 5);
+    control.setValue("hole size", -1);
+    control.setAdjustableValue("calculations per step", 1);
     initialize();
   }
 

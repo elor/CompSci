@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
+import org.opensourcephysics.controls.SimControl;
 import org.opensourcephysics.display.Drawable;
 import org.opensourcephysics.display.DrawingPanel;
 
@@ -13,11 +14,15 @@ public class Billiard implements Drawable {
   double t;
   private double l2;
   Random rand;
+  private double r2;
+  SimControl control;
+  private double h2;
 
   /**
    * empty default constructor. Values are set using specific setters
    */
-  public Billiard() {
+  public Billiard(SimControl control) {
+    this.control = control;
     rand = new Random();
   }
 
@@ -32,10 +37,12 @@ public class Billiard implements Drawable {
    * @param balls
    *          number of balls
    */
-  public void setProperties(double r, double l, int balls) {
+  public void setProperties(double r, double l, double holesize, int balls) {
     this.r = r;
+    this.r2 = r * r;
     this.l = l;
     this.l2 = l / 2;
+    this.h2 = holesize / 2;
 
     state = new double[balls * 4 + 1];
   }
@@ -45,13 +52,16 @@ public class Billiard implements Drawable {
    */
   public void randomize() {
     int numballs = (state.length - 1) / 4;
-    double x, y;
+    double x, y, vx, vy;
 
     for (int ball = 0; ball < numballs; ++ball) {
       do {
         x = rand.nextDouble() * (l + 2 * r) - (l2 + r);
         y = rand.nextDouble() * 2 * r - r;
-        setBall(ball, x, y, rand.nextDouble() - 0.5, rand.nextDouble() - 0.5);
+        vx = rand.nextDouble() - 0.5;
+        vy = rand.nextDouble() - 0.5;
+
+        setBall(ball, x, y, vx, vy);
       } while (isInside(ball) == false);
     }
 
@@ -101,14 +111,14 @@ public class Billiard implements Drawable {
    * @return sector (1, 2, 3 if inside, 0 if outside)
    */
   public int getSector(int ball) {
-    ball *= 4;
-    double x = state[ball];
-    double y = state[ball + 2];
+    int ball4 = ball * 4;
+    double x = state[ball4];
+    double y = state[ball4 + 2];
 
     // first sector (left)
     if (x < -l2) {
       double dist2 = Math.pow(x + l2, 2) + Math.pow(y, 2);
-      if (dist2 > r * r) {
+      if (dist2 > r2) {
         return 0;
       }
       return 1;
@@ -119,7 +129,7 @@ public class Billiard implements Drawable {
       return 2;
     } else {
       double dist2 = Math.pow(x - l2, 2) + Math.pow(y, 2);
-      if (dist2 > r * r) {
+      if (dist2 > r2) {
         return 0;
       }
       return 3;
@@ -169,14 +179,24 @@ public class Billiard implements Drawable {
 
     g.drawArc(x1, y1, rx, ry, 270, 180);
 
+    // hole on the right end of the third sector
+
+    if (h2 > 0.0) {
+      x1 = panel.xToPix(l2 + r) - 5;
+      x2 = Math.abs(panel.xToPix(l2 + r) - x1);
+      y1 = panel.yToPix(h2);
+      y2 = Math.abs(y1 - panel.yToPix(-h2));
+      g.fillRect(x1, y1, x2, y2);
+    }
+
     g.setColor(Color.blue);
 
     // draw balls
     for (int ball4 = 0; ball4 < state.length - 1; ball4 += 4) {
       x1 = panel.xToPix(state[ball4]);
       y1 = panel.yToPix(state[ball4 + 2]);
-      x2 = panel.xToPix(state[ball4] + state[ball4 + 1]);
-      y2 = panel.yToPix(state[ball4 + 2] + state[ball4 + 3]);
+      x2 = panel.xToPix(state[ball4] + state[ball4 + 1] * 0.1);
+      y2 = panel.yToPix(state[ball4 + 2] + state[ball4 + 3] * 0.1);
 
       g.fillOval(x1 - 5, y1 - 5, 10, 10);
       g.drawLine(x1, y1, x2, y2);
@@ -187,65 +207,49 @@ public class Billiard implements Drawable {
     return Math.sqrt(x * x + y * y);
   }
 
-  double solveQuadratic(double p, double q) {
-    if (p * p / 4 - q < 0.0) {
-      throw new RuntimeException(
-          "Impossibru! solveQuadratic: Starting outside the circle");
-    }
-
-    // -p/2 - Math.sqrt() is invalid, because it's in the past (since you
-    // entered the circle at some time)
-
-    return -p / 2 + Math.sqrt(p * p / 4 - q);
-  }
-
-  double getBounceTime(int ball) {
+  public double getBounceTime(int ball) {
     int ball4 = ball * 4;
-    while (getSector(ball) == 0) {
-      state[ball4] -= 1e-5 * state[ball4 + 1];
-      state[ball4 + 2] -= 1e-5 * state[ball4 + 3];
-    }
-    int sector = getSector(ball);
+    int sector = getApproxSector(ball);
     double time1 = 0.0, time2 = 0.0, timesum = 0.0;
 
     double x = state[ball4];
     double vx = state[ball4 + 1];
     double y = state[ball4 + 2];
     double vy = state[ball4 + 3];
-    double x0;
+    double x0, rdotv, secdist;
 
-    if (Math.abs(vx) < 1e5) {
-      switch (sector) {
-      case 1:
-        x0 = x + l2; // x relative to the center of the circle
-        return solveQuadratic(y * vy, x0 * x0 + y * y - r * r);
-      case 2:
-        if (vy > 0.0) {
-          // top
-          return (r - y) / vy;
-        } else {
-          return (-r - y) / vy;
-          // bottom
-        }
-      case 3:
-        x0 = x - l2; // x relative to the center of the circle
-        return solveQuadratic(y * vy, x0 * x0 + y * y - r * r);
-      }
-    } else if (vx > 0) {
+    if (vx > 0) {
+      // control.println("moving right");
       // ball moves right
       switch (sector) {
       case 1:
-        // time when the ball enters the second sector
-        time1 = (-l2 - x) / vx; // always > 0.0;
-        // time when the ball hits the circle. solve the quadratic equation to
-        // obtain it
         x0 = x + l2; // x relative to the center of the circle
-        time2 = solveQuadratic(y * vy + x0 * vx, x0 * x0 + y * y - r * r);
-        if (time1 >= time2 && time2 > 0.0) {
+
+        // time when the ball enters the second sector
+        if (vx == 0) {
+          // exorbitantly large value compared to the y velocity
+          time1 = 5 * r;
+        } else {
+          time1 = -x0 / vx;
+        }
+
+        // time when the ball hits the circle using a secant method
+        // get distance between secant and center
+        rdotv = x0 * vx + y * vy;
+        secdist = veclength(x0 - rdotv * vx, y - rdotv * vy);
+        // get time until the circle is reached. This equates to the distance
+        // between the current position on the secant and the circle, which can
+        // be calculated using the distance to the secant and the radius of the
+        // circle using pythagoras' law.
+        time2 = Math.sqrt(r2 - secdist * secdist) - rdotv;
+        // time2 = solveQuadratic(y * vy + x0 * vx, x0 * x0 + y * y - r2);
+
+        // control.println("first sector: sec2time=" + time1 + ", circtime="
+        // + time2);
+
+        if (time1 >= time2) {
           // bounced off the wall
-          if (vx * x0 + vy * y > 0.0) {
-            return time2;
-          }
+          return time2;
         }
 
         // advance to a valid starting point for the second section
@@ -256,7 +260,12 @@ public class Billiard implements Drawable {
         // fallthrough to the second section
       case 2:
         // time when the ball enters the third sector
-        time1 = (l2 - x) / vx;
+        if (vx == 0) {
+          // exorbitantly large value compared to the y velocity
+          time1 = 5 * r;
+        } else {
+          time1 = (l2 - x) / vx;
+        }
 
         // time when the ball hits the top or bottom line
         if (vy > 0.0) {
@@ -266,6 +275,9 @@ public class Billiard implements Drawable {
           time2 = (-r - y) / vy;
           // bottom
         }
+
+        // control.println("second sector: sec3time=" + time1 + ", walltime="
+        // + time2);
 
         if (time1 >= time2) {
           return timesum + time2;
@@ -278,9 +290,21 @@ public class Billiard implements Drawable {
         timesum += time1;
         // fallthrough to the third section
       case 3:
+        // time when the ball hits the circle using a secant method
         x0 = x - l2; // adjust x
-        // time when the border of the circle is hit
-        time1 = solveQuadratic(y * vy + x0 * vx, x0 * x0 + y * y - r * r);
+
+        // get distance between secant and center
+        rdotv = x0 * vx + y * vy;
+        secdist = veclength(x0 - rdotv * vx, y - rdotv * vy);
+        // get time until the circle is reached. This equates to the distance
+        // between the current position on the secant and the circle, which can
+        // be calculated using the distance to the secant and the radius of the
+        // circle using pythagoras' law.
+        time1 = Math.sqrt(r2 - secdist * secdist) - rdotv;
+        // time1 = solveQuadratic(y * vy + x0 * vx, x0 * x0 + y * y - r2);
+
+        // control.println("third sector: circtime=" + time1);
+
         return timesum + time1;
       }
     } else {
@@ -288,16 +312,29 @@ public class Billiard implements Drawable {
       switch (sector) {
       case 3:
         // time when the ball enters the second sector
-        time1 = (l2 - x) / vx; // always > 0.0;
-        // time when the ball hits the circle. solve the quadratic equation to
-        // obtain it
+        if (vx == 0) {
+          // exorbitantly large value compared to the y velocity
+          time1 = 5 * r;
+        } else {
+          time1 = (l2 - x) / vx; // always > 0.0;
+        }
+
+        // time when the ball hits the circle using a secant method
         x0 = x - l2; // x relative to the center of the circle
-        time2 = solveQuadratic(y * vy + x0 * vx, x0 * x0 + y * y - r * r);
-        if (time1 >= time2 && time2 > 0.0) {
+
+        // get distance between secant and center
+        rdotv = x0 * vx + y * vy;
+        secdist = veclength(x0 - rdotv * vx, y - rdotv * vy);
+        // get time until the circle is reached. This equates to the distance
+        // between the current position on the secant and the circle, which can
+        // be calculated using the distance to the secant and the radius of the
+        // circle using pythagoras' law.
+        time2 = Math.sqrt(r2 - secdist * secdist) - rdotv;
+        // time2 = solveQuadratic(y * vy + x0 * vx, x0 * x0 + y * y - r2);
+
+        if (time1 >= time2) {
           // bounced off the wall
-          if (vx * x0 + vy * y > 0.0) {
-            return time2;
-          }
+          return time2;
         }
 
         // advance to a valid starting point for the second section
@@ -308,7 +345,12 @@ public class Billiard implements Drawable {
         // fallthrough to the second section
       case 2:
         // time when the ball enters the third sector
-        time1 = (-l2 - x) / vx;
+        if (vx == 0) {
+          // exorbitantly large value compared to the y velocity
+          time1 = 5 * r;
+        } else {
+          time1 = (-l2 - x) / vx;
+        }
 
         // time when the ball hits the top or bottom line
         if (vy > 0.0) {
@@ -330,38 +372,51 @@ public class Billiard implements Drawable {
         timesum += time1;
         // fallthrough to the third section
       case 1:
-        x0 = x + l2; // adjust x
-        // time when the border of the circle is hit
-        time1 = solveQuadratic(y * vy + x0 * vx, x0 * x0 + y * y - r * r);
+        // time when the ball hits the circle using a secant method
+        x0 = x + l2; // x relative to the center of the circle
+
+        // get distance between secant and center
+        rdotv = x0 * vx + y * vy;
+        secdist = veclength(x0 - rdotv * vx, y - rdotv * vy);
+        // get time until the circle is reached. This equates to the distance
+        // between the current position on the secant and the circle, which can
+        // be calculated using the distance to the secant and the radius of the
+        // circle using pythagoras' law.
+        time1 = Math.sqrt(r2 - secdist * secdist) - rdotv;
+        // time1 = solveQuadratic(y * vy + x0 * vx, x0 * x0 + y * y - r2);
+
         return timesum + time1;
       }
     }
-    return 0.0;
+
+    throw new RuntimeException("getBounceTime: ball isn't inside the space");
   }
 
   public void doStep() {
+    if (state.length == 1) {
+      return;
+    }
+
     int minball = 0;
-    double minstep = 0.02;
     double mintime = (2 * r + l) / 1.0; // t=s/v with normalized v: initialize
                                         // with worst case time
     double time;
 
     int numballs = (state.length - 1) / 4;
+    // control.println("numballs: " + numballs);
     for (int ball = 0; ball < numballs; ++ball) {
-      time = getBounceTime(0);
+      time = getBounceTime(ball);
+
+      // control.println("bounce time for ball " + ball + ": " + time);
+
       if (time < mintime) {
         mintime = time;
         minball = ball;
       }
     }
 
-    if (mintime < minstep) {
-      advanceState(mintime);
-      System.out.println(mintime);
-      bounceBall(minball);
-    } else {
-      advanceState(minstep);
-    }
+    advanceState(mintime);
+    bounceBall(minball);
   }
 
   private void advanceState(double timestep) {
@@ -378,18 +433,13 @@ public class Billiard implements Drawable {
   private void bounceBall(int ball) {
     int ball4 = ball * 4;
 
-    while (getSector(ball) == 0) {
-      state[ball4] -= 1e-5 * state[ball4 + 1];
-      state[ball4 + 2] -= 1e-5 * state[ball4 + 3];
-    }
-
     double rx = state[ball4];
     double vx = state[ball4 + 1];
     double ry = state[ball4 + 2];
     double vy = state[ball4 + 3];
     double vr;
 
-    switch (getSector(ball)) {
+    switch (getApproxSector(ball)) {
     case 1:
       // first sector: bounce off circle
       rx += l2;
@@ -399,13 +449,16 @@ public class Billiard implements Drawable {
 
       state[ball4 + 1] = vx;
       state[ball4 + 3] = vy;
+
       break;
     case 2:
       // second sector: invert the y movement
       state[ball4 + 3] = -vy;
+
       break;
     case 3:
       // third sector: bounce off circle
+
       rx -= l2;
       vr = -2 * (rx * vx + ry * vy) / (rx * rx + ry * ry);
       vx += rx * vr;
@@ -413,10 +466,27 @@ public class Billiard implements Drawable {
 
       state[ball4 + 1] = vx;
       state[ball4 + 3] = vy;
+
+      // remove ball if it enters the hole
+      if (ry < h2 && ry > -h2) {
+        double oldstate[] = state;
+        state = new double[state.length - 4];
+        int offset = 0;
+        for (int i = 0; i < state.length; ++i) {
+          if (i == ball4) {
+            offset = 4;
+          }
+          state[i] = oldstate[i + offset];
+        }
+
+//        control.println("ball lost");
+        break;
+      }
+
       break;
     case 0:
       // outside: kill the program
-      throw new RuntimeException("ball left space");
+      throw new RuntimeException("bounceBall: Ball left space");
     }
 
     return;
@@ -424,5 +494,24 @@ public class Billiard implements Drawable {
 
   public double getTime() {
     return t;
+  }
+
+  /**
+   * retrieves and returns the sector
+   * 
+   * @return sector (1, 2, 3 if inside, 0 if outside)
+   */
+  public int getApproxSector(int ball) {
+    int ball4 = ball * 4;
+    double x = state[ball4];
+
+    // first sector (left)
+    if (x < -l2) {
+      return 1;
+    } else if (x <= l2) {
+      return 2;
+    } else {
+      return 3;
+    }
   }
 }
