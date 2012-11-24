@@ -10,17 +10,22 @@ package exercise5;
 import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.*;
 
-public class BilliardApp extends AbstractSimulation {
+public class ExerciseDApp extends AbstractSimulation {
   PlotFrame frame = new PlotFrame("x", "y", "Billiard Table");
+  PlotFrame plot = new PlotFrame("time", "fraction of remaining balls",
+      "Decay ploy");
   Billiard billiard;
+  private int initialballs;
 
   /**
-   * Constructor 
+   * Constructor
    */
-  public BilliardApp() {
+  public ExerciseDApp() {
     frame.setPreferredMinMax(-2, 2, -2, 2);
     frame.setSquareAspect(true);
     frame.setConnected(true);
+
+    plot.setConnected(true);
   }
 
   /**
@@ -32,36 +37,44 @@ public class BilliardApp extends AbstractSimulation {
       billiard.doStep(); // advances time
     }
 
-    // double time = billiard.getTime();
+    frame.setMessage("t=" + billiard.getTime());
+
+    plot.append(0, billiard.getTime(), (double) billiard.getNumBalls()
+        / initialballs);
+
+    if (billiard.getNumBalls() == 0) {
+      control.calculationDone("no balls left");
+    }
   }
 
   /**
    * Initializes the animation using the values in the control.
    */
   public void initialize() {
-    double r = control.getDouble("r");
     double l = control.getDouble("l");
     int balls = control.getInt("balls");
-    double holesize = control.getDouble("hole size");
-    
+    initialballs = balls;
+
     frame.clearDrawables();
-    
+
     billiard = new Billiard(control);
     frame.addDrawable(billiard);
-    billiard.setProperties(r, l, holesize, balls);
+    billiard.setProperties(1, l, 0.02, balls);
     billiard.randomize();
-    // frame.setMessage("t=0");
+    
+    frame.setMessage("t=" + billiard.getTime());
+    
+    plot.clearData();
+    plot.append(0, billiard.getTime(), 1.0);
   }
 
   /**
    * Resets animation to a predefined state.
    */
   public void reset() {
-    control.setValue("r", 1);
-    control.setValue("l", 2);
-    control.setValue("balls", 1);
-    control.setValue("hole size", -1);
-    control.setAdjustableValue("calculations per step", 1);
+    control.setValue("l", 1);
+    control.setValue("balls", 10000);
+    control.setAdjustableValue("calculations per step", 100);
     initialize();
   }
 
@@ -72,6 +85,6 @@ public class BilliardApp extends AbstractSimulation {
    *          command line parameters
    */
   public static void main(String[] args) {
-    SimulationControl.createApp(new BilliardApp());
+    SimulationControl.createApp(new ExerciseDApp());
   }
 }

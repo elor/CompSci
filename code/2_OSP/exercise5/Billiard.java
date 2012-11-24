@@ -11,7 +11,6 @@ import org.opensourcephysics.display.DrawingPanel;
 public class Billiard implements Drawable {
   double r, l;
   double state[];
-  double t;
   private double l2;
   Random rand;
   private double r2;
@@ -151,6 +150,8 @@ public class Billiard implements Drawable {
   @Override
   public void draw(DrawingPanel panel, Graphics g) {
     // TODO Auto-generated method stub
+
+    g.setColor(Color.black);
 
     int y1 = panel.yToPix(r);
     int x1 = panel.xToPix(-l2 - r);
@@ -479,7 +480,7 @@ public class Billiard implements Drawable {
           state[i] = oldstate[i + offset];
         }
 
-//        control.println("ball lost");
+        // control.println("ball lost");
         break;
       }
 
@@ -493,7 +494,25 @@ public class Billiard implements Drawable {
   }
 
   public double getTime() {
-    return t;
+    return state[state.length - 1];
+  }
+
+  public double[] getBall(int ball) {
+    double ballstate[] = new double[4];
+    int ball4 = ball * 4;
+
+    for (int i = 0; i < 4; ++i) {
+      ballstate[i] = state[ball4 + i];
+    }
+
+    return ballstate;
+  }
+
+  public int getNumBalls() {
+    if (state == null) {
+      return 0;
+    }
+    return (state.length - 1) / 4;
   }
 
   /**
@@ -513,5 +532,9 @@ public class Billiard implements Drawable {
     } else {
       return 3;
     }
+  }
+
+  public double veclength2(double x, double y) {
+    return x * x + y * y;
   }
 }

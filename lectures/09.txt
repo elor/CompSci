@@ -5,11 +5,11 @@ Tue Nov 13 09:20:23 CET 2012
 
 ### Feigenbaumkonstante
 ``
-b_k \approx r_\inf - C \delta^{-k}
+b_k \approx r_\infty - C \delta^{-k}
 \delta - Feigenbaumkonstante
        = 4.6692...
 
-\delta = lim_{k->\inf} \delta_k
+\delta = lim_{k->\infty} \delta_k
 \delta_k = {b_k - b_{k-1}} \over {b_{k+1} - b_k}
 ``
 
@@ -44,7 +44,7 @@ d_k = x_k^{*} -1/2
 ``
 Die d_k alternieren im Vorzeichen.
 ``
-\alpha = lim_{k->\inf} -d_k/d_{k+1}
+\alpha = lim_{k->\infty} -d_k/d_{k+1}
        = 2.5029...
 ``
 
@@ -104,7 +104,7 @@ auch hier Periodenverdopplung
 Untersuchen empfindliche Abh"angigkeit von den Anfangswerten x_0
 ``
 \abs{\Delta x_n} = \abs{\Delta x_0} \exp{\lambda n}
-\lambda - Lyapunov-Exponent f"ur n->\inf
+\lambda - Lyapunov-Exponent f"ur n->\infty
 ``
 
 Ganz monoton klappt das Ganze nicht, da es manchmal Spr"unge gibt (durch Beschr"ankung auf endliches Interval)
@@ -115,8 +115,8 @@ Au"serdem "uberspringt der rechte Term 1 und verl"asst somit das Intervall.
 
 besser:
 ``
-\lambda = lim_{n->\inf}{1/n \ln{{\abs{\Delta x_n}}\over{\abs{\Delta x_0}}}}
-        = lim_{n->\inf}{1/n \sum_{i=0}^{n-1}{\ln{\abs{{\Delta x_{i+1}}\over{\Delta x_i}}}}}
+\lambda = lim_{n->\infty}{1/n \ln{{\abs{\Delta x_n}}\over{\abs{\Delta x_0}}}}
+        = lim_{n->\infty}{1/n \sum_{i=0}^{n-1}{\ln{\abs{{\Delta x_{i+1}}\over{\Delta x_i}}}}}
 ``
 
 Interpretation: Jedes x_i wird als neuer Startwert genommen und betrachtet, wie stark ein einzelner Schritt abweicht.
@@ -125,7 +125,7 @@ Infinitesimale "Uberlegung:
 ``
 \Delta x -> dx
 
-\lambda = lim_{n->\inf}{1/n \sum_{i=0}^{n-1}{\ln{\abs{f'(x_i)}}}}
+\lambda = lim_{n->\infty}{1/n \sum_{i=0}^{n-1}{\ln{\abs{f'(x_i)}}}}
 
 f'(x_i) = 4r(1-2x_i)
 -> f"ur beliebige Startwerte von x_i l"asst sich der Lyapunov-Exponent bestimmen, jedoch sollte man das Einschwingverhalten vernachl"assigen.
@@ -144,7 +144,7 @@ Ebenso erzeugen kleinste St"orungen gro"se Abweichungen, wodurch Vorhersagen ers
 6.4. Kontrolle des Chaos
 ------------------------
 
-Idee: F"ur beliebige r (im chaotischen Bereich) gibt es (\inf viele) Trajektorien, die instabil sind.
+Idee: F"ur beliebige r (im chaotischen Bereich) gibt es (\infty viele) Trajektorien, die instabil sind.
 Suche eine x_0, so dass Trajektorie periodisch wird.
 
 Suche gezielt nach St"orung der chaotischen Trajektorie, so dass das System auf periodischer Trajektorie bleibt.

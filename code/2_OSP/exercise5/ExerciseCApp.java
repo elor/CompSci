@@ -7,20 +7,36 @@
 
 package exercise5;
 
+import java.awt.Color;
+
 import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.*;
 
-public class BilliardApp extends AbstractSimulation {
+public class ExerciseCApp extends AbstractSimulation {
   PlotFrame frame = new PlotFrame("x", "y", "Billiard Table");
   Billiard billiard;
+  Boolean inverted = false;
 
   /**
-   * Constructor 
+   * Constructor
    */
-  public BilliardApp() {
+  public ExerciseCApp() {
     frame.setPreferredMinMax(-2, 2, -2, 2);
     frame.setSquareAspect(true);
     frame.setConnected(true);
+    frame.setLineColor(1, Color.white);
+  }
+
+  @Override
+  public void start() {
+    super.start();
+
+    // invert ball movement if stopped and started again
+    if (billiard.getTime() != 0.0) {
+      double[] ball = billiard.getBall(0);
+      billiard.setBall(0, ball[0], ball[2], -ball[1], -ball[3]);
+      inverted = true;
+    }
   }
 
   /**
@@ -32,37 +48,44 @@ public class BilliardApp extends AbstractSimulation {
       billiard.doStep(); // advances time
     }
 
-    // double time = billiard.getTime();
+    appendBall(0);
+    frame.setMessage("t=" + billiard.getTime());
   }
 
   /**
    * Initializes the animation using the values in the control.
    */
   public void initialize() {
-    double r = control.getDouble("r");
     double l = control.getDouble("l");
-    int balls = control.getInt("balls");
-    double holesize = control.getDouble("hole size");
-    
+
     frame.clearDrawables();
-    
+
     billiard = new Billiard(control);
     frame.addDrawable(billiard);
-    billiard.setProperties(r, l, holesize, balls);
+    billiard.setProperties(1, l, 0.0, 1);
     billiard.randomize();
-    // frame.setMessage("t=0");
+
+    frame.clearData();
+    inverted = false;
+    appendBall(0);
+
+    frame.setMessage("t=" + billiard.getTime());
+  }
+
+  private void appendBall(int ball) {
+    double state[] = billiard.getBall(ball);
+    if (inverted) {
+      ball += billiard.getNumBalls();
+    }
+    frame.append(ball, state[0], state[2]);
   }
 
   /**
    * Resets animation to a predefined state.
    */
   public void reset() {
-    control.setValue("r", 1);
-    control.setValue("l", 2);
-    control.setValue("balls", 1);
-    control.setValue("hole size", -1);
+    control.setValue("l", 1);
     control.setAdjustableValue("calculations per step", 1);
-    initialize();
   }
 
   /**
@@ -72,6 +95,6 @@ public class BilliardApp extends AbstractSimulation {
    *          command line parameters
    */
   public static void main(String[] args) {
-    SimulationControl.createApp(new BilliardApp());
+    SimulationControl.createApp(new ExerciseCApp());
   }
 }
