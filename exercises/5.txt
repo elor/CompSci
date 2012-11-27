@@ -1,3 +1,15 @@
 a)
-  wip
+  done
 
+b)
+  difference grows until it reaches a steady state at 1
+
+c)
+  invertible only for l=0
+
+d)
+  exponential decay curve for all l (including l=0)
+  TODO: calculate characteristic decay time
+
+e)
+  TODO: self-similarity test

@@ -7,6 +7,10 @@
 
 package exercise5;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.*;
 
@@ -14,8 +18,8 @@ public class ExerciseDApp extends AbstractSimulation {
   PlotFrame frame = new PlotFrame("x", "y", "Billiard Table");
   PlotFrame plot = new PlotFrame("time", "fraction of remaining balls",
       "Decay ploy");
-  Billiard billiard;
-  private int initialballs;
+  Billiard billiard = new Billiard();
+  List<Double> list = new LinkedList<Double>();
 
   /**
    * Constructor
@@ -24,6 +28,8 @@ public class ExerciseDApp extends AbstractSimulation {
     frame.setPreferredMinMax(-2, 2, -2, 2);
     frame.setSquareAspect(true);
     frame.setConnected(true);
+    
+    frame.addDrawable(billiard);
 
     plot.setConnected(true);
   }
@@ -35,15 +41,29 @@ public class ExerciseDApp extends AbstractSimulation {
     int steps = control.getInt("calculations per step");
     for (int i = 0; i < steps; i++) { // do 5 steps between screen draws
       billiard.doStep(); // advances time
+      
+      if (billiard.getNumBalls() == 0) {
+        insertTime(billiard.getTime());
+        updatePlot();
+        resetBilliard();
+      }
     }
 
-    frame.setMessage("t=" + billiard.getTime());
+    setMessages();
+  }
 
-    plot.append(0, billiard.getTime(), (double) billiard.getNumBalls()
-        / initialballs);
+  private void updatePlot() {
+    // TODO Auto-generated method stub
+    plot.clearData();
+    Iterator<Double> it = list.iterator();
+    int size = list.size();
+    int i = size;
+    double time;
 
-    if (billiard.getNumBalls() == 0) {
-      control.calculationDone("no balls left");
+    while (it.hasNext()) {
+      --i;
+      time = it.next();
+      plot.append(0, time, (double) i / size);
     }
   }
 
@@ -51,21 +71,25 @@ public class ExerciseDApp extends AbstractSimulation {
    * Initializes the animation using the values in the control.
    */
   public void initialize() {
-    double l = control.getDouble("l");
-    int balls = control.getInt("balls");
-    initialballs = balls;
 
-    frame.clearDrawables();
+    resetBilliard();
 
-    billiard = new Billiard(control);
-    frame.addDrawable(billiard);
-    billiard.setProperties(1, l, 0.02, balls);
-    billiard.randomize();
-    
-    frame.setMessage("t=" + billiard.getTime());
-    
+    setMessages();
+    list.clear();
+
     plot.clearData();
     plot.append(0, billiard.getTime(), 1.0);
+  }
+
+  private void resetBilliard() {
+    double l = control.getDouble("l");
+    billiard.setProperties(1, l, 0.02, 1);
+    billiard.randomize();
+  }
+
+  private void setMessages() {
+    frame.setMessage("t=" + billiard.getTime());
+    plot.setMessage("ball no. " + list.size()+1);
   }
 
   /**
@@ -73,7 +97,6 @@ public class ExerciseDApp extends AbstractSimulation {
    */
   public void reset() {
     control.setValue("l", 1);
-    control.setValue("balls", 10000);
     control.setAdjustableValue("calculations per step", 100);
     initialize();
   }
@@ -87,4 +110,27 @@ public class ExerciseDApp extends AbstractSimulation {
   public static void main(String[] args) {
     SimulationControl.createApp(new ExerciseDApp());
   }
+
+  private void insertTime(double d) {
+    if (list.isEmpty()) {
+      list.add(d);
+      return;
+    }
+
+    Iterator<Double> it = list.iterator();
+    double v;
+    int pos = 0;
+
+    do {
+      v = it.next();
+      if (v < d) {
+        ++pos;
+      } else {
+        break;
+      }
+    } while (it.hasNext());
+
+    list.add(pos, d);
+  }
+
 }

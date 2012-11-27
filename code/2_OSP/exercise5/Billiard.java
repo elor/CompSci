@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
-import org.opensourcephysics.controls.SimControl;
 import org.opensourcephysics.display.Drawable;
 import org.opensourcephysics.display.DrawingPanel;
 
@@ -14,14 +13,12 @@ public class Billiard implements Drawable {
   private double l2;
   Random rand;
   private double r2;
-  SimControl control;
   private double h2;
 
   /**
    * empty default constructor. Values are set using specific setters
    */
-  public Billiard(SimControl control) {
-    this.control = control;
+  public Billiard() {
     rand = new Random();
   }
 
@@ -220,7 +217,6 @@ public class Billiard implements Drawable {
     double x0, rdotv, secdist;
 
     if (vx > 0) {
-      // control.println("moving right");
       // ball moves right
       switch (sector) {
       case 1:
@@ -245,7 +241,6 @@ public class Billiard implements Drawable {
         time2 = Math.sqrt(r2 - secdist * secdist) - rdotv;
         // time2 = solveQuadratic(y * vy + x0 * vx, x0 * x0 + y * y - r2);
 
-        // control.println("first sector: sec2time=" + time1 + ", circtime="
         // + time2);
 
         if (time1 >= time2) {
@@ -277,9 +272,6 @@ public class Billiard implements Drawable {
           // bottom
         }
 
-        // control.println("second sector: sec3time=" + time1 + ", walltime="
-        // + time2);
-
         if (time1 >= time2) {
           return timesum + time2;
         }
@@ -303,8 +295,6 @@ public class Billiard implements Drawable {
         // circle using pythagoras' law.
         time1 = Math.sqrt(r2 - secdist * secdist) - rdotv;
         // time1 = solveQuadratic(y * vy + x0 * vx, x0 * x0 + y * y - r2);
-
-        // control.println("third sector: circtime=" + time1);
 
         return timesum + time1;
       }
@@ -404,11 +394,8 @@ public class Billiard implements Drawable {
     double time;
 
     int numballs = (state.length - 1) / 4;
-    // control.println("numballs: " + numballs);
     for (int ball = 0; ball < numballs; ++ball) {
       time = getBounceTime(ball);
-
-      // control.println("bounce time for ball " + ball + ": " + time);
 
       if (time < mintime) {
         mintime = time;
@@ -480,7 +467,6 @@ public class Billiard implements Drawable {
           state[i] = oldstate[i + offset];
         }
 
-        // control.println("ball lost");
         break;
       }
 

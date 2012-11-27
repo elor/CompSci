@@ -46,7 +46,7 @@ public class BilliardApp extends AbstractSimulation {
     
     frame.clearDrawables();
     
-    billiard = new Billiard(control);
+    billiard = new Billiard();
     frame.addDrawable(billiard);
     billiard.setProperties(r, l, holesize, balls);
     billiard.randomize();

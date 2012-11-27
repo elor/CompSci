@@ -57,7 +57,7 @@ public class ExerciseBApp extends AbstractSimulation {
 
     frame.clearDrawables();
 
-    billiard = new Billiard(control);
+    billiard = new Billiard();
     frame.addDrawable(billiard);
     billiard.setProperties(1, l, 0.0, 2);
     randomize();
