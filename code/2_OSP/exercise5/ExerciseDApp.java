@@ -20,6 +20,7 @@ public class ExerciseDApp extends AbstractSimulation {
       "Decay ploy");
   Billiard billiard = new Billiard();
   List<Double> list = new LinkedList<Double>();
+  private double tau;
 
   /**
    * Constructor
@@ -28,7 +29,7 @@ public class ExerciseDApp extends AbstractSimulation {
     frame.setPreferredMinMax(-2, 2, -2, 2);
     frame.setSquareAspect(true);
     frame.setConnected(true);
-    
+
     frame.addDrawable(billiard);
 
     plot.setConnected(true);
@@ -41,7 +42,7 @@ public class ExerciseDApp extends AbstractSimulation {
     int steps = control.getInt("calculations per step");
     for (int i = 0; i < steps; i++) { // do 5 steps between screen draws
       billiard.doStep(); // advances time
-      
+
       if (billiard.getNumBalls() == 0) {
         insertTime(billiard.getTime());
         updatePlot();
@@ -53,17 +54,30 @@ public class ExerciseDApp extends AbstractSimulation {
   }
 
   private void updatePlot() {
-    // TODO Auto-generated method stub
     plot.clearData();
     Iterator<Double> it = list.iterator();
     int size = list.size();
     int i = size;
-    double time;
+    double time = 0.0;
+
+    tau = 0.0; // characteristical time
+    int charfraction = size - (int) (size / Math.exp(1));
 
     while (it.hasNext()) {
       --i;
       time = it.next();
       plot.append(0, time, (double) i / size);
+
+      if (charfraction == 0) {
+        tau = time;
+      }
+      --charfraction;
+    }
+    
+    // exp plot
+    
+    for (double t = 0.0; t <= time; t += time/20) {
+      plot.append(1, t, Math.exp(-t/tau));
     }
   }
 
@@ -89,7 +103,7 @@ public class ExerciseDApp extends AbstractSimulation {
 
   private void setMessages() {
     frame.setMessage("t=" + billiard.getTime());
-    plot.setMessage("ball no. " + list.size()+1);
+    plot.setMessage("ball no. " + (list.size() + 1) + ", tau=" + tau);
   }
 
   /**
@@ -97,7 +111,7 @@ public class ExerciseDApp extends AbstractSimulation {
    */
   public void reset() {
     control.setValue("l", 1);
-    control.setAdjustableValue("calculations per step", 100);
+    control.setAdjustableValue("calculations per step", 100000);
     initialize();
   }
 

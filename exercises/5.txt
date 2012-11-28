@@ -8,8 +8,8 @@ c)
   invertible only for l=0
 
 d)
-  exponential decay curve for all l (including l=0)
-  TODO: calculate characteristic decay time
+  exponential decay curve for all l != 0
+  something different for l == 0
 
 e)
   TODO: self-similarity test
