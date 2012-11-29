@@ -9,7 +9,7 @@ Physikalisches System
       -> Daten
         -> Vergleich mit Realitaet
 
-"Simulationen ersetzen nicht das Denken"
+_Simulationen ersetzen nicht das Denken_
 
 (Geschichten zu Programmiersprachen und FORTRAN/Java im Allgemeinen)
 

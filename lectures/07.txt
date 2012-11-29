@@ -110,7 +110,7 @@ f \sim F (Vernachl"assigung der Konstanten)
 ``
 
 eff. Ladung: Homogen in Kugel mit Radius a verteilt.
--> innerhalb von a wirkt nur Teil der Ladung ("Ladung wird abgeschirmt")
+-> innerhalb von a wirkt nur Teil der Ladung (_Ladung wird abgeschirmt_)
 
 % Cain pr"asentiert numerische Teilchenstreuungssimulation
 

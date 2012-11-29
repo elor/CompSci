@@ -46,7 +46,9 @@ public class ExerciseBApp extends AbstractSimulation {
     double deltas = getDeltaS(billiard.getBall(0), billiard.getBall(1));
     double time = billiard.getTime();
 
-    lyaplot.append(0, time, Math.log(deltas));
+    if (deltas < 1.0) {
+      lyaplot.append(0, time, Math.log(deltas));
+    }
   }
 
   /**
@@ -63,6 +65,7 @@ public class ExerciseBApp extends AbstractSimulation {
     randomize();
     
     lyaplot.clearData();
+//    lyaplot.setLogScaleY(true);
     lyapunovUpdate();
     
     frame.setMessage("t=" + billiard.getTime());

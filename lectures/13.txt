@@ -1,0 +1,173 @@
+Thu Nov 29 09:21:01 CET 2012
+
+7.2. Monte-Carlo-Algorithmus
+----------------------------
+
+Herkunft: Name eines US-Projektes im zweiten Weltkrieg
+
+Idee: Zuf"allige ausf"uhrung des wahrscheinlichsten Prozessschrittes.
+
+=> BoxApp
+* geteilter Kasten
+* N Teilchen auf einer Seite
+* Sprung eines zuf"alligen Teilchens auf die andere Seite
+* Zeitliche Abh"angigkeit plotten
+* Gleichgewicht bei N/2 auf einer Seite
+
+besserer Algorithmus:
+* w"ahle r zuf"allig
+* r <= p = n/N  => n = n-1
+* r > p         => n = n+1
+
+### Fluktuationen
+``
+\sigma_n^2 \equiv <\Delta_n^2> \equiv <(n-<n>)^2>
+            = <n^2> - 2<n*<n>> + <<n>^2>
+            = <n^2> - 2<n><n> + <n>^2
+            = <n^2> - <n>^2
+\sigma_n / <n> - relative Gr"o"se der Fluktiationen
+``
+
+Begriff: Messung
+Ein MC-Versuch
+
+``
+<n>_{t+1} - <n>_t = (- <n>_t/N + (N - <n>_t)/N) * \Delta t
+                       ^^^^^^^   ^^^^^^^^^^^^^
+                          p          1 - p
+
+\Delta t -> 0 => \dot{<n>_t} = 1 - 2 <n>_t / N
+
+Anfangsbedingung: <n>_{t=0} = N
+
+<n>_t = N/2 (1 + \exp{-2t/N})
+
+Relaxationszeit \tau:
+
+Abnahme von <n>_t - N/2 auf (1/e)*(<n>_{t=0} - N/2)
+``
+
+Methode: exaktes Abz"ahlen
+
+Beispiel: N=8
+
+t   p*n      <n>
+0     8
+1   8x7       7
+2   7x6
+    1x8       6.25
+3   unuebersichtlich
+
+7.3. Zufallspfade  (Random Walk)
+--------------------------------
+
+Anwendungen:
+Diffusionen, Teilchenbewegungen, Konstruktion von Polymerketten (Nobelpreis), Besoffener Seemann.
+
+Linearer Zufallspfad
+d = 1
+Schrittweite a
+p Wahrscheinlichkeit, nach links zu gehen
+q nach rechts
+(oft q = 1-p)
+
+Schritt s_i (+-1)
+``
+x_N = \sum_{i=1}^N{s_i}
+
+<x> \equiv <x_N> = \sum_{i=1}^N = N<s> = N(pa + q(-a)) = N (p-q) a
+q=1-p => <x> = 0  => kein gutes Ma"s
+``
+
+besseres Ma"s:
+*End-zu-End-Abstand*
+``
+\sigma_x^2 \equiv <\Delta_x^2> = <(x-<x>)^2> = <x^2> - <x>^2
+                  ^^^^^^^^^^^^
+                    = <(\sum_i{s_i - <s>})(\sum_j{s_j - <s>})>
+                    = <(\sum_i{s_i - <s>})^2> + <\sum_{i!=j}{(s_i-<s>)*(s_j-<s>)}>
+                    = N (<s^2>-<s>^2) + \sum_{i!=j}{<s_i-<s>> <s_j-<s>>}
+                                                    ^^^^^^^^^ ^^^^^^^^^
+                                                        =0        =0
+                    N (a^2 - (p-q)^2 a^2) = Na^2 4pq
+``
+
+=> Varianz (End-zu-End-Abstand) h"angt im Wesentlichen von N ab. Der Abstand selbst (\sigma_x) w"achst mit der Wurzel der Schritte.
+Man kommt beliebig weit, ben"otigt aber viele Schritte.
+
+OSP:
+WalkerApp
+  HistogramFrame
+    append()
+  Hashtable
+
+P_N(x): Wahrscheinlichkeit, mit N Schritten bei X anzukommen
+``
+P_N(x) = 1/(\sqrt{2\pi}\sigma_x) \exp{{-(x-<x>)^2} \over {2\sigma_x^2}}
+``
+
+Abstand von \vec r_0 = (0, 0) : R
+``
+\sigma_R^2 = <R^2> = <x^2> + <y^2>
+                   = \sigma_x^2 + \sigma_y^2
+``
+
+in 1 Dim:
+
+``
+R^2 = <x^2> = Na^2 f"ur p = q = 1/2
+
+Skalengesetz <R^2> \sim N^{2\ny}
+hier: \ny = 1/2
+``
+
+Wie pr"uft man seine numerische Simulation auf <R^2>?
+* fit
+  doppel logarithmische Skala
+  linearer fit
+  pruefung auf Anstieg 2\ny
+* R^2(N) = A N^{2\ny}
+  R^2(N-10) = A (N-10)^{2\ny}
+  \ln{R^2(N) / R^2(N-10)} = \ln{\left( {N} \over {N-10} \right)^{2\ny}} = 2\ny \ln{N/(N-10)}
+
+``
+<R^2> = 2dDN
+          ^
+          Selbstdiffusionskonstante
+         ^
+         Dimension
+d=2 => = 4DN  => Gittergas
+``
+
+Thu Nov 29 10:22:46 CET 2012
+
+Cain:
+Standardfehler
+``
+\sigma_x = \sigma / \sqrt{N} = \sqrt{1/{N(N-1)} \sum_{i=1}^N{(x_i -
+\bar{x})^2}
+``
+
+\sigma_x dr"uckt Abweichung zwischen \bar x und \my (gemessener und
+analytischer Mittelwert) aus.
+
+Nachteil:
+* komplette Zeitreihe n"otig
+* unpraktische Formulierung
+* komplette Neuberechnung bei jedem Zeichenschritt n"otig
+
+Anpassung:
+``
+\sum_{i=1}^N{(x_i - \bar x)^2 = \sum_{i=1}^N{x_i^2} - \sum_{i=1}^N{2x_i \bar x} + \sum_{i=1}^N{{\bar x}^2}
+= \sum_{i=1}^N{x_i^2} - 2 \bar x \sum_{i=1}^N{x_i} + (\sum_{i=1}^N{1}) {\bar x}^2
+= \sum_{i=1}^N{x_i^2} -N {\bar x}^2
+
+<(x_i-\bar x)^2> = <x_i^2> - <x_i>^2
+``
+
+Gau"sverteilung
+``
+f(x) = 1/(\sigma\sqrt{2\pi}) \exp{-1/2 ((x-\bar x)/\sigma)^2
+``
+
+Thu Nov 29 10:55:19 CET 2012

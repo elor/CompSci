@@ -36,7 +36,7 @@ m - Maximale Periode
 
 simples Beispiel:
 a=3, c=4, m=32, x_0 = 1 => Periode 8
-a=2416, c=374441, m=1771875 => Periode m, RNG "ordentlich"
+a=2416, c=374441, m=1771875 => Periode m, RNG _ordentlich_
 a=65539, c=0, m=2^{31}  => IBM-RANDU, besteht nicht alle statistischen Tests
 
 c=0 => Multiplicative linear congruential method

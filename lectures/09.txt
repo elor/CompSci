@@ -134,8 +134,8 @@ f'(x_i) = 4r(1-2x_i)
 \lambda = 0:
   Trajektorie divergiert algebraisch
   d.h. mit Potenz von n im Gegensatz zur exponentiellen Divergenz in der einfachen Gleichung oben.
-  "Das System befindet sich am Rande des Chaos"
-  "Wir sind im Bereich des schwachen Chaos"
+  _Das System befindet sich am Rande des Chaos_
+  _Wir sind im Bereich des schwachen Chaos_
 
 % Schreiber erz"ahlt von der Abweichung vom Laplaced"amon
 Auch im Chaos kann man Vorhersagen treffen, jedoch sind die Vorhersagen durch minimale Abweichungen ungenau.
