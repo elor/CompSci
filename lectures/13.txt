@@ -117,18 +117,18 @@ in 1 Dim:
 ``
 R^2 = <x^2> = Na^2 f"ur p = q = 1/2
 
-Skalengesetz <R^2> \sim N^{2\ny}
-hier: \ny = 1/2
+Skalengesetz <R^2> \sim N^{2\nu}
+hier: \nu = 1/2
 ``
 
 Wie pr"uft man seine numerische Simulation auf <R^2>?
 * fit
   doppel logarithmische Skala
   linearer fit
-  pruefung auf Anstieg 2\ny
-* R^2(N) = A N^{2\ny}
-  R^2(N-10) = A (N-10)^{2\ny}
-  \ln{R^2(N) / R^2(N-10)} = \ln{\left( {N} \over {N-10} \right)^{2\ny}} = 2\ny \ln{N/(N-10)}
+  pruefung auf Anstieg 2\nu
+* R^2(N) = A N^{2\nu}
+  R^2(N-10) = A (N-10)^{2\nu}
+  \ln{R^2(N) / R^2(N-10)} = \ln{\left( {N} \over {N-10} \right)^{2\nu}} = 2\nu \ln{N/(N-10)}
 
 ``
 <R^2> = 2dDN

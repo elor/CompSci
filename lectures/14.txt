@@ -1,0 +1,147 @@
+Tue Dec  4 09:20:03 CET 2012
+
+Diffusionskonstante anhand des Zufallswanderers erkl"art:
+``
+P(i , N) = 1/2 [P(i+1, N-1) + P(i-1, N-1)]
+  ^   ^
+ Ort  Zeit
+
+t = N\tau
+\Delta x = a (Schrittweite des Zufallspfades)
+=>
+P(i, N) = a P(x, t)
+
+P(x, t) = 1/2 [P(x+a, t-\tau) + P(x-a, t-\tau)]       |  -P(x, t-\tau)
+                                                      |  * t/\tau
+
+1/\tau P(x, t) - P(x, t-\tau) = {a^2}/{2\tau} [P(x+a, t-\tau) - 2P(x, t-\tau) + P(x-a, t-\tau)] / a^2
+
+\tau -> 0, a -> 0
+D = a^2/{2\tau} -- Selbstdiffusionskonstante, endlich.
+
+\dP/\dt = D \d^2P/\dx^2
+Diffusionsgleichung
+``
+
+3 Dimensionen:
+``
+\dP/\dT = D\nabla^2P    - v \dP/\dr
+          ^^^^^^^^^^    ^^^^^^^^^^^
+          Diffusion        Drift
+``
+
+Im Buch: Anhang 7
+
+Parabolische Differentialgleichung (wegen quadratischer Ableitung)
+Normalerweise ein nichttriviales Problem
+L"osung per Monte Carlo, genauer: Crank-Nicholson-Methode
+
+Stichwort: Mastergleichung
+
+### Varianten des Zufallspfades
+
+* beschr"ankter Zufallspfad (Restricted Random Walk)
+  Bsp: Regentropfen in der Atmosph"are (trifft Boden)
+  In unserer Physik: Halbleiter, in dem elektronische Anregungen beobachtet werden, welche in Fallen (St"orstellen) verschwinden.
+  In einfachster Modellierung: eindimensionale Kette, auf der Fallen verteilt sind.
+  Wir betrachten die Bewegung der Anregungen und damit den Transport in solchen gest"orten Halbleitern.
+  In einfachster Variante l"asst es sich abz"ahlen.
+  Bestimmung von Abklingzeiten, Anzahl der Schritte.
+  `\tau = 1/2D x_0 (L-x_0)` f"ur 2 Fallen an 1 und L
+* persistent random walk
+  Richtung mit \alpha erhalten
+  1-\alpha umgekehrt
+  typische Werte: 1/4, 1/2, 3/4
+  <x> = 0, trotz Persistenz
+  \sigma_x^2 \sim N^{2\nu} mit \nu != 1/2
+  Es gibt einen Zusammenhang zwischen \alpha und \nu
+  Was folgt f"ur die Selbstdiffusionskonstante?
+  Anwendungen: Chromatografie (Simulation eines Molek"ules)
+* synchronisierter Random Walk
+  Bewegungen zwischen zwei Random Walks werden synchronisiert
+* Kontinuumsmodelle
+  sehr alt, geht auf Herrn Rayleigh 1919 zur"uck
+  Relevant f"ur Polymerphysik
+  Beispiel:
+  a=1, aber kontinuierliche Winkel
+  End-Zu-End-Abstand (= \sigma_x^2) ist wieder \sim N^{2\nu}
+  andere Beispiele:
+  f(a) = C \exp(-a)   f"ur a > 0
+  f(a) = C 1/a^{1+\alpha}   mit \alpha <= 2 ("ublicherweise)
+    => Levy-Flight
+ 
+7.4. Verteilungen
+-----------------
+
+### Zentraler Grenzwertsatz
+
+Zufallsvariable x
+Wahrscheinlichkeitsdichte p(x)
+m-tes Moment: <x^m> = \int{x^m p(x) dx}
+- m=1: Mittelwert (oft \mu)
+- m=2: Varianz \sigma_x^2 = <x^2> - <x>^2
+
+zentrale Momente:
+\mu_m = \int{(x-\my)^m p(x) dx
+- \mu_0 = 1 (Norm)
+- \mu_1 = \mu
+- \mu_2 =  \sigma^2
+- \mu_3 = \gamma_3 \sigma^3
+          ^^^^^^^^
+          Asymmetrie der Verteilung (Skewness)
+- \mu_4 = (\gamma_4 + 3) * \sigma^4
+           ^^^^^^^^   ^Potenzen dritter Ordnung werden entsorgt
+           Kurtuosis (excess): Quantifizierung der Sch"arfe
+
+Median: \m_{1/2}: p(x < \mu_{1/2} = p(x > \mu_{1/2})
+Wahrscheinlichster Wert: (nicht Mittelwert): p(x = \mu_max) > p(x != \mu_max)
+FWHM: Full Width at Half Maximum (_Halbe Breite_ im Laborslang)
+``
+\sigma = 1/2 FWHM   f"ur Lorentz-Verteilung
+1.177\sigma = 1/2FWHM   f"ur gau"s
+``
+
+
+### Gesetz der gro"sen Zahlen
+(n soll gro"s sein)
+``
+y = y_n = 1/n \sum_{i=1}^nx_i   neue Zufallsvariable
+      Wichtig: Die Messungen der x_i sind unabh"angig.
+
+p(y) Gau"sverteilung mit \sigma_y \approx \sigma_x/\sqrt{n}
+  wenn: p(x) besitzt 1. und 2. Moment
+  \sigma_y^2 = <y^2> - <y>^2
+``
+
+Gegenbeispiel:
+Lorentz-Verteilung
+Breit-Wigner-Verteilung   `p(x) = 1/\pi s/{s^2 + (x-t)^2}`
+Cauchy-Verteilung
+(alle drei das selbe)
+
+
+Deshalb wird sehr h"aufig die Gau"sverteilung angenommen, wenn nichts
+genaueres "uber das untersuchte System bekannt ist.
+
+Wichtiges Beispiel aus Schreiber's Postdoc-Zeit:
+y = \sum_{i=1}^12 r_i   r_i gleichverteilt
+
+liefert im Prinzip eine Gau"sverteilung mit <y> = 6 und \sigma_y = 1.
+Eine der numerisch schnellsten Methoden f"ur Gau"sverteilungen.
+
+Bl"od: Die gro"sen Ausl"aufer erh"alt man damit nicht.
+Gr"o"ster und kleinster Wert sind hier stark eingeschr"ankt.
+
+Besser: Box-M"uller
+
+### Poisson-Verteilung:
+Beispiel:
+* Zielscheibe mit M Zellen
+* Pro Wurf wird eine Zelle zuf"allig gew"ahlt
+* P(n): Wahrscheinlichkeit, dass eine Zelle n-mal getroffen wird:
+  P(n) = <n>^n/n! \exp{-<n>}
+  <n> = \sum_{n=0}^N{n P(n)}  = Np  = N/M
+
+anderes Beispiel: Kernzerfall
+
+Tue Dec  4 10:23:11 CET 2012

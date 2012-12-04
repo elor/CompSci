@@ -123,18 +123,18 @@ c) \Chi^2-Test misst Abweichung von der gew"unschten Verteilung
   ``
   \Chi^2 = \sum_{i=1}^M{{(m_i - Np_i)^2}\over{Np_i}}
   ``
-  "Ubereinstimmung beurteilt nach Signifikanzniveau \alpha und ist abh"angig von der Zahl der Freiheitsgrade \ny
-    hier: \ny = M - 1 (eine Nebenbedingung)
+  "Ubereinstimmung beurteilt nach Signifikanzniveau \alpha und ist abh"angig von der Zahl der Freiheitsgrade \nu
+    hier: \nu = M - 1 (eine Nebenbedingung)
   \Chi^2-Verteilung:
   ``
-  P_{\Chi^2,\ny} = {(\Chi^2)^{\ny/2-1}\exp{-\Chi^2/2}}\over{2^{\ny/2}\Gamma(\ny/2)}
+  P_{\Chi^2,\nu} = {(\Chi^2)^{\nu/2-1}\exp{-\Chi^2/2}}\over{2^{\nu/2}\Gamma(\nu/2)}
   \Gamma(x+1) = x\Gamma(x)
   \Gamma(1) = 1
   \Gamma(1/2) = \sqrt{\pi}
   ``
-  \int_{\Chi^2(\alpha)}^{\infty}{\P_{Chi^2}d\Chi^2} (= Q(\Chi^2 | \ny)) = \alpha
-    Maximum bei \Chi^2 = \ny-2
-    Standardabweichung \sqrt{2\ny}
+  \int_{\Chi^2(\alpha)}^{\infty}{\P_{Chi^2}d\Chi^2} (= Q(\Chi^2 | \nu)) = \alpha
+    Maximum bei \Chi^2 = \nu-2
+    Standardabweichung \sqrt{2\nu}
     okay, wenn \Chi^2_{messen} < \Chi^2(\alpha)
     Die entsprechenden Zahlen stehen in Tabellen
   Ein Problem: Derartige Analysen werden in vielen Bereichen verwendet, so dass es keinen gemeinsamen Nenner gibt. Deshalb: Q (siehe oben)
