@@ -1,0 +1,3 @@
+Mean field approach
+DGL loesen (Variablenseparation)
+Anfangsbedingungen einsetzen und C erhalten 

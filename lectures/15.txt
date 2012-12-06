@@ -1,0 +1,140 @@
+Thu Dec  6 09:17:19 CET 2012
+
+7.6. Methode der kleinsten Quadrate
+-----------------------------------
+
+Lineare Regression
+Fit `y = f(x) = m x + b` an (x_i, y_i) anpassen
+i = 1..n
+y_i haben Ungenauigkeit
+
+``
+d_i = y_i - f(x_i)
+    = y_i - m x_i - b
+n gro"s: Gau"s-Verteilung
+\Chi^2 = \sum_{i=1}^n d_i^2 minimieren: \d\Chi^2/\dm =! 0
+
+m = {<xy> - <x><y>}\over{\sigma_x^2}
+b = <y> - m <x>
+``
+
+==> im Allgemeinen in jeder Datenbank vorhanden
+
+``
+\sigma_m = 1/\sqrt{n} \Delta/\sigma_x
+\sigma_b = \sigma_m \sqrt{<x^2>}
+
+\Delta^2 = 1/{n-2}\sum_{i=1}^n{d_i^2}
+``
+
+wenn y_i unterschiedliche \sigma_i
+``
+Gewichte w_i = 1/\sigma_i^2
+\Chi^2 = \sum_{i=1}^n{w_i d_i^2}
+<y> = {\sum_{i=1}^n{w_i y_i}}\over{\sum_{i=1}^n{w_I}}
+``
+
+Das ist in der Regel nicht in jeder Datenbank vorhanden.
+Man kennt ohnehin die Ungenauigkeiten nicht, weshalb man davon ausgeht, dass sie gleich sind.
+
+
+Dirac:
+> Mit vier Parametern kann man einen Elefanten fitten.
+> Mit einem f"unften kann er mit dem Schwanz wackeln.
+
+### Bewertungsm"oglichkeiten der Fits
+* Korrelationskoeffizient r_{x,y}
+  \Chi^2-Verteilung f"ur \nu Freiheitsgrade
+* Student's t-Test
+  Name basiert auf Spitznamen des Autors Gossed (oder so)
+* uU quadratischer Fit
+  Pr"ufung "uber \Chi^2 m"oglich, wobei die Freiheitsgrade weiter reduziert sind
+  Alternative: Fischer's F-Test
+
+allgemein:
+``
+y = f(a_1..a_m, x)  an (x_i, y_i)
+d_i = y_i - f(x_i)  f"ur viele Messungen
+f_i = f(a_1..a_m, x_i)
+y_i: Mittelwert f_i, Breite \sigma_i
+p(y_i) = 1/{\sqrt{2\pi}\sigma_i} \exp{-d_i^2/{2\sigma_i^2}}
+``
+
+Likelihood-Methode:
+``
+\L(a_1..a_m) = \prod_{i=1}^n{1/{\sqrt{2\pi}\sigma_i}\exp{-1/2 \Chi^2}}
+\Chi^2 = \sum_i=1^n{d_i^2/\sigma_i^2}
+
+Maximum von \L -> wahrscheinlichste a_k
+
+\d\L/\da_k = 0 => \d\Chi^2/\da_k = 0  f"ur k=1..m
+=> -2 \sum_{i=1}^n{d_i/\sigma_i \df_i/\da_k} = 0
+``
+
+Auch bei quadratischen Fits: _Multiple Lineare Regression_
+_linear_, da das a linear ist. Die Potenz von x ist uninteressant.
+Ein Quadratischer Fit ist eine lineare Anpassung.
+
+Beispiel:
+y = \sum_{k=1}^m{a_k f_k(x)}  nicht linear in x, linear in a_k
+
+max \L => \d\Chi^2/\da_j  =! 0
+\df_i/\da_j = \d\sum_{k=1}^m{a_k f_k(x_i)}/\da_j = f_j(x_i)
+=> lineares Gleichungssystem. n Gleichungen mit n Unbekannten.
+
+Die a_k sind oftmals nicht linear unabh"angig.
+
+7.7. Chemische Reaktionen
+-------------------------
+
+erstes Beispiel:
+A + A -> 0  im abgeschlossenen System
+  Konzentration A(t)
+
+\dot A = -k A^2
+A(t) = A(0) / {1+kt A(0)}
+-> A(t) \sim 1/t
+
+zweites Beispiel:
+A + B -> 0
+
+\dot A = \dot B = -kAB
+
+F"ur Fit `1/A(t) - 1/A(0)` in Abh. von t
+Doppelt logarithmisch auftragen.
+zuf"allige Anfangsverteilungen
+-> N"achster-Nachbar-Abstand r
+`P(r, t=0) = 2A\exp{-2A(r-1)}`
+
+Interessante Gr"o"se:
+D(t): Anzahl der Pl"atze, die von einem Random Walker besucht werden.
+
+7.8. Variationsmethoden
+-----------------------
+
+### 7.8.1. Fermat'sches Prinzip
+geometrische Optik von vor einigen hundert Jahren.
+
+Das Prinzip besagt, dass der Lichtstrahl den Weg mit der kleinsten Laufzeit nimmt.
+Damit kann man nachweisen, dass der Einfallswinkel \theta_i dem Ausgangswinkel \theta_f entspricht.  (initial und final)
+
+Brechungsindex n:
+v = c/n
+Somit wird keine gerade Linie angenommen, sondern eine an der Grenzfl"ache gebrochener Weg.
+
+FermatApp
+* N Schichten mit Brechungsindizes n_i
+* n_1 \sin{\theta_1} = n_2 \sin{\theta_2}
+
+### 7.8.2. Prinzip der kleinsten Wirkung
+``
+L = E_{kin} - E_{pot}
+S = \int_{t_0}^{t_f}{L dt}  minimal => Weg im 2. Newtonschen Gesetz (f"ur konservative Kr"afte)
+``
+Diskretisierung `S \approx \sum_{i=1}^{n-1}{L(t_i)\Delta t}`
+
+Gesucht: Weg von x(t_0) nach x(t_f)
+
+Metropolis Monte Carlo zur Anpassung
+
+Thu Dec  6 10:19:25 CET 2012

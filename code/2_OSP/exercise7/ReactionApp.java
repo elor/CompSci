@@ -5,7 +5,7 @@
  * <http://www.opensourcephysics.org/>
  */
 
-package exercise6;
+package exercise7;
 
 import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.*;
@@ -16,8 +16,8 @@ import org.opensourcephysics.frames.*;
  * @author Jan Tobochnik, Wolfgang Christian, Harvey Gould
  * @version 1.0 revised 04/21/05
  */
-public class WalkerApp extends AbstractSimulation {
-  Walker2D walker = new Walker2D();
+public class ReactionApp extends AbstractSimulation {
+  Reaction walker = new Reaction();
   PlotFrame plotFrame = new PlotFrame("x", "y", "Bees");
   PlotFrame meanPlot = new PlotFrame("time", "<x>, <y>", "Means");
   PlotFrame varPlot = new PlotFrame("time", "sigmax2,sigmay2,<R2>", "Variances");
@@ -27,7 +27,7 @@ public class WalkerApp extends AbstractSimulation {
   /**
    * Sets column names for data table
    */
-  public WalkerApp() {
+  public ReactionApp() {
     plotFrame.addDrawable(walker);
 
     meanPlot.setConnected(true);
@@ -147,7 +147,7 @@ public class WalkerApp extends AbstractSimulation {
    *          command line parameters
    */
   public static void main(String[] args) {
-    SimulationControl.createApp(new WalkerApp());
+    SimulationControl.createApp(new ReactionApp());
   }
 }
 

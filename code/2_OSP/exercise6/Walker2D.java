@@ -22,12 +22,12 @@ public class Walker2D implements Drawable {
     g.setColor(Color.black);
     int num = n();
     int px, py;
-    
+
     for (int i = 0; i < num; ++i) {
       px = panel.xToPix(x(i));
       py = panel.yToPix(y(i));
-      
-      g.fillArc(px-2, py-2, 4, 4, 0, 360);
+
+      g.fillArc(px - 2, py - 2, 4, 4, 0, 360);
     }
   }
 
@@ -70,7 +70,7 @@ public class Walker2D implements Drawable {
   public int t() {
     return time;
   }
-  
+
   public int n() {
     return state.length / 2;
   }
