@@ -11,14 +11,12 @@ public class ListTest {
    * @param args
    */
   public static void main(String[] args) {
-    // TODO Auto-generated method stub
     ListTest test = new ListTest();
     test.run();
     
   }
 
   private void run() {
-    // TODO Auto-generated method stub
     insert(1.0);
     insert(2.0);
     insert(1.5);

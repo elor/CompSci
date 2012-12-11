@@ -17,127 +17,66 @@ import org.opensourcephysics.frames.*;
  * @version 1.0 revised 04/21/05
  */
 public class ReactionApp extends AbstractSimulation {
-  Reaction walker = new Reaction();
-  PlotFrame plotFrame = new PlotFrame("x", "y", "Bees");
-  PlotFrame meanPlot = new PlotFrame("time", "<x>, <y>", "Means");
-  PlotFrame varPlot = new PlotFrame("time", "sigmax2,sigmay2,<R2>", "Variances");
-  PlotFrame logLogVarPlot = new PlotFrame("time", "sigmax2,sigmay2,<R2>",
-      "LogLog Variances");
+  Reaction reaction = new Reaction();
+  PlotFrame posPlot = new PlotFrame("x", "step", "Positions");
+  PlotFrame countPlot = new PlotFrame("log(t)", "log(count)", "Counts (loglog)");
+  private int steps;
 
   /**
    * Sets column names for data table
    */
   public ReactionApp() {
-    plotFrame.addDrawable(walker);
-
-    meanPlot.setConnected(true);
-    varPlot.setConnected(true);
-    logLogVarPlot.setConnected(true);
+    countPlot.setConnected(true);
   }
 
   /**
    * Gets parameters and initializes model
    */
   public void initialize() {
-    walker.initialize(control.getInt("N"));
-    meanPlot.clearData();
-    varPlot.clearData();
-  }
-
-  public double xMean() {
-    int num = walker.n();
-    double x = 0.0;
-
-    for (int i = 0; i < num; ++i) {
-      x += walker.x(i);
-    }
-
-    return x / num;
-  }
-
-  public double yMean() {
-    int num = walker.n();
-    double y = 0.0;
-
-    for (int i = 0; i < num; ++i) {
-      y += walker.y(i);
-    }
-
-    return y / num;
+    int n = control.getInt("N");
+    reaction.setDirectInteraction(control.getBoolean("direct interaction"));
+    reaction.initialize(n);
+    countPlot.clearData();
+    steps = 1;
+    posPlot.setPreferredMinMax(-1, n, -2, 2);
+    updatePlots();
   }
 
   /**
    * Does one walker at a time
    */
   public void doStep() {
-    int steps = control.getInt("steps per display");
     for (int i = 0; i < steps; ++i) {
-      walker.step();
+      reaction.step();
     }
 
-    int t = walker.t();
+    steps *= 2;
 
-    double xm = xMean();
-    double ym = yMean();
-    double x2 = xVar(xm);
-    double y2 = yVar(ym);
-    meanPlot.append(0, t, xm);
-    meanPlot.append(1, t, ym);
-    varPlot.append(0, t, x2);
-    varPlot.append(1, t, y2);
-    varPlot.append(2, t, x2 + y2);
+    int t = reaction.t();
 
-    logLogVarPlot.append(0, Math.log(t), Math.log(x2));
-    logLogVarPlot.append(1, Math.log(t), Math.log(y2));
-    logLogVarPlot.append(2, Math.log(t), Math.log(x2 + y2));
-
-    plotFrame.setMessage(t + " steps");
+    updatePlots();
+    posPlot.setMessage(t + " steps");
   }
 
-  private double xVar(double xm) {
-    int num = walker.n();
-    double x2 = 0.0;
-    double x;
-
-    for (int i = 0; i < num; ++i) {
-      x = walker.x(i);
-      x2 += x * x;
+  private void updatePlots() {
+    // Position Plot
+    posPlot.clearData();
+    for (int i = 0; i < reaction.length(); ++i) {
+      if (reaction.at(i) != 0) {
+        posPlot.append(0, i, reaction.at(i));
+      }
     }
-    return x2 / num - xm * xm;
-  }
 
-  private double yVar(double ym) {
-    int num = walker.n();
-    double y2 = 0.0;
-    double y;
-
-    for (int i = 0; i < num; ++i) {
-      y = walker.y(i);
-      y2 += y * y;
-    }
-    return y2 / num - ym * ym;
-  }
-
-  /**
-   * Plots data when user stops the simulation.
-   */
-  public void stopRunning() {
-    plotFrame.clearData();
-    for (int t = 0; t <= walker.n(); t++) {
-      // double xbar = walker.xAccum[t]*1.0/trials;
-      // double x2bar = walker.xSquaredAccum[t]*1.0/trials;
-      // plotFrame.append(0, 1.0*t, xbar);
-      // plotFrame.append(1, 1.0*t, x2bar-xbar*xbar);
-    }
-    plotFrame.repaint();
+    // Count Plot
+    countPlot.append(0, Math.log(reaction.t()), Math.log(reaction.count()));
   }
 
   /**
    * Resets to default values
    */
   public void reset() {
-    control.setValue("N", 100);
-    control.setAdjustableValue("steps per display", 10);
+    control.setValue("N", 10);
+    control.setValue("direct interaction", false);
   }
 
   /**

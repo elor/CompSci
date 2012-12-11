@@ -146,8 +146,6 @@ public class Billiard implements Drawable {
    */
   @Override
   public void draw(DrawingPanel panel, Graphics g) {
-    // TODO Auto-generated method stub
-
     g.setColor(Color.black);
 
     int y1 = panel.yToPix(r);

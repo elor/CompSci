@@ -1,0 +1,127 @@
+Tue Dec 11 09:34:12 CET 2012
+
+7.9. Polymere
+-------------
+
+self-avoiding random walk (SAW)
+
+Gitter <R^2> \sim N^{2\nu}
+
+\nu=0.75 in 2D
+\nu \approx 0.5874.. in 3D
+
+"excluded volume"
+
+SAW in 2D: beliebiges (x_0, y_0_ = (0, 0)
+1. Schritt: (x_1, y_1) = (1, 0)
+n"achster Schritt: 3 M"oglichkeiten (u.U. < 3)
+
+wenn Selbstwechselwirkung (d.h. schon besetzter Platz soll wieder erreicht werden vom Zufallspfad), dann neuer Pfad
+
+Z(N) \approx \exp{-aN}
+^
+Anzahl erfolgreicher Pfade
+
+in 2D: im Mittel effektiv 2.63385 M"oglichkeiten
+
+Erfolgsrate: Zustandssumme Z(N) -> C_0 * 2.6385^N N^{\gamma-1}    (De Gennes)
+
+Diamantgitter: N=100  3%
+
+K"afigeffekt: Man landet in einem vollst"andig umschlossenen Punkt auf dem Gitter, so dass keine weiteren Schritte m"oglich sind
+
+Andere (st"arkere) Einschr"ankung: Keine geraden Linien (nur +=90 \deg erlaubt)
+Meist zwei M"oglichkeiten des Random Walks im n"achsten Schritt
+Manchmal muss man dazu den Pfad umdrehen, da nur ein Schritt m"oglich ist.
+Es gibt aber auch hier doppelte Sackgassen.
+Erfolgsrate von "uber 90%
+
+Ganz zum Abschluss noch ein Ausflug in die Dynamik:
+
+% Bild mit gr"uner Linie und quadratgitterartig angeordneten Kreisen auf dem Projektor
+Idee: Die Kette darf sich ver"andern. Wir untersuchen die M"oglichkeiten der Kette, sich legal zu "andern. Es k"onnen einzige Kettenglieder verschoben werden, ohne die Kette zu unterbrechen.
+Im Beispiel gibt es 5 M"oglichkeiten f"ur die Dynamik.
+_Das ist die einfachste Variante, die Bewegung von Ketten zu simulieren; Hier beschr"ankt auf die einzelne Kette_
+Mit dieser Simulation kann man auch die Verkn"auelung einer Kette (zB DNA) simulieren.
+Sinnvoller Weise m"ussen wir Parameter einf"uhren, die die Kette quantifizieren (zB Wechselwirkungsenergien)
+
+8. Dynamik von Vielteilchensystemen
+===================================
+
+Beschreibung einzelner Molek"ule durch Newtonsche Gesetze.
+
+Begriff: Molekulardynamik (MD)
+
+8.1. Intermolekulare Potentiale
+-------------------------------
+
+Im Allgemeinen betrachten wir Molek"ule als Kugel.
+In Ausnahmef"allen werden einzelne Molek"ulteile oder Atome als Kugel angenommen.
+
+Wir beschr"anken uns auf Paarwechselwirkungen mit radialer Abh"angigkeit.
+
+Potential: U = \sum_{i=1}^{N-1}{\sum_{j=1+1}^{N}{u(r_{ij}}}
+Standardbeispiel: Fl"ussiges Argon
+
+Erste MD-Simulation: 1964
+Vorher: Harte Scheiben/Feste Kugeln
+
+u und/oder U werden im Allgemeinen aus der Quantenmechanik berechnet, oft aber auch ph"anomenologisch.
+
+Bekanntes Potential: LJ-Potential
+U(r) = 4\epsilon\left[\left(\sigma/r\right)^{12}-\left(\sigma/r\right)^6\right]
+
+Parameter oft in reduzierten Einheiten.
+
+\Delta_t \approx 10^{-1}
+t \sim 10..10^4
+
+Schwache Anziehung (Ladungen, van der Waals-Potential) und Starke Absto"sung (Pauli-Prinzip)
+Die steile Kurve mit r^{-12} ist so nicht begr"undbar, hat sich jedoch bew"ahrt.
+
+8.2. Numerischer Algorithmus
+----------------------------
+
+Erhaltungss"atze gelten
+Umkehrbarkeit gilt
+
+Wir w"ahlen einen symplektischen Algorithmus. Das Beste f"ur uns: Velocity Verlet
+
+Oberfl"acheneffekte sind hier besonders wichtig.
+Viele Teilchen haben keine Wechselwirkung mit einem Nachbarn in Richtung der Oberfl"achennormalen.
+Man sollte periodische Randbedingungen benutzen.
+
+Bei l"angerer Potentialreichweite als Raumgr"o"se muss man tricksen. Langreichweitige Sachen im Impulsraum rechnen und so ein Spa"s
+
+Beschr"ankung auf Minimum Image Convention:
+max. Abstand f"ur U: L/2
+                     ^
+                     Systemgr"o"se
+d.h. u=0 f"ur r > L/2
+
+In OSP: PBC.position() und PBC.separation()
+
+8.3. MD-Programm
+----------------
+
+2D
+Startwerte f"ur vorgegebenes T
+pro Freiheitsgrad <E_{kin}> = 1/2 k_B T
+
+k_B T = 2/d <E_{kin}> / N = \sum_i{m_i \vec v_i^2}
+
+d - Dimension
+N - Teilchen
+
+setVelocities()
+  v_i werden zuf"allig gew"ahlt, so dass sie die Temperaturbedingung erf"ullen.
+
+setRandomPositions()
+  Gut f"ur d"unne Gase, aber maximale Dichte, da er repulsive Anteil "uberwiegt und die Numerik zerrei"st.
+  M"oglicher Ausweg: Vorerst eine zus"atzliche Reibung einf"uhren.
+setRectangularLattice()
+  Die Atome werden auf die Positionen eines rechteckigen Gitters gesetzt. Durch hohe Geschwindigkeiten schmilzt das Gitter.
+
+Man sollte mit Anfangsbedingungen vorsichtig sein und in Frage stellen, ob man dem System durch die Anfangsbedingungen keine ungewollten Artefakte aufzwingt.
+
+Tue Dec 11 10:26:36 CET 2012
