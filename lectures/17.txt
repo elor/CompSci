@@ -1,0 +1,130 @@
+Thu Dec 13 09:17:41 CET 2012
+
+computeAcceleration():
+LJ ist kurzreichweitig: Cutoffreichweite
+Bei wenigen Teilchen und kleinen Systemen kann die Pruefung der Cutoffreichweite mehr Rechenzeit kosten als sparen.
+getRate(): ein Mal merken f"ur den n"achsten Schritt, da Verlet die Funktion doppelt aufruft.
+getMeanTemperature()
+getMeanEnergy() ( == const?)
+getMeanPressure()
+getHeatCapacity()
+resetAverages()
+  Zur Pr"ufung des Einschwingverhaltens
+drawMethod()
+LJparticles
+LJparticlesApp
+
+Untersuchung des Gleichgewichtes
+Dichte und Energie f"ur eine Konfiguration speichern und sp"ater als sinnvolle Startkonfiguration ausw"ahlen. Damit vermeidet man die erneute Relaxierung.
+=> LJParticlesLoader
+
+Test f"ur das Gleichgewicht:
+Man geht von einer extremen Anfangskonfiguration aus (zB alle Teilchen in der linken H"alfte) und betrachtet, wie sich diese Teilchen im gesamten System verteilen.
+Wenn diese Anfangsbedingung zur selben Konfiguration wie beispielsweise ein Gitter f"uhren, sind wir auf der sicheren Seite.
+
+auf makroskopischer Skala ist das eigentlich konservative System pl"otzlich nicht mehr zeitumkehrinvariant. Das ist bl"od, aber Numerik.
+
+### Tests
+
+E_{tot} erhalten?
+\Delta E(t) = \abs{E_{tot}(t)-E_{tot}(0)}
+\max{\Delta E} \sim {\Delta t}^2 (weil Verlet zweiter Ordnung ist)
+(f"ur festes t (gleiche Gesamtzeit))
+
+E(t): Gerade anpassen -> Drift
+Daumenregel: akzeptabel, wenn von Ordnung e-4
+
+nat"urlich auch Fluktuationen als Rauschen (gegeben durch Energievarianz)
+
+8.4. Berechnung der Mittelwerte
+-------------------------------
+
+### Temperatur T
+k_B T = 1/{d (N-1)} \sum_{i=1}^N{m_i \bar{\vec{v_i}^2}}
+              ^^^                ^^^^^^^^^^^^^^^^^
+              p_{tot}=0            Zeitmittelwert
+
+### Druck P
+Kraft pro Fl"ache
+PV = N K_B T + 1/d \sum_{i<j}{\vec r_{ij} \mult \vec F_{ij}}
+     ^^^^^^^   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     id. Gas                    Virialtheorem
+
+Virialtheorem: 2<E_{kin} = -\sum_{k=1}^N{<\vec F_k \mult \vec r_k}
+V(r) = a r*n (Bsp: Schwerkraft n=-1)
+=> 2<E_{kin}> = n<E_{pot}>
+
+Quasi-Ergoden-Hypothese:
+  Zeitmittel ist dem Ensemblemittel "aquivalent, was toll, aber nicht selbstverst"andlich ist.
+  Idee: Man erreicht "uber Zeitmittel und Ensemblemittel gleicherma"sen alle m"oglichen Konfigurationen.
+
+Uns interessiert auch die Verteilung der einzelnen Gr"o"sen:
+Histogramm P(v_x)
+System ist symmetrisch, also sollten die Verteilungen in x- und y-Richtung identisch sein.
+
+besser P(u) = 1/2 (P(v_x=u) + P(v_y=u))
+
+### spezifische W"arme
+Heat Capacity / Specific Heat
+
+c_v = \dE/\dT
+Es ist die Antwort des Systemes auf die Energie"anderung.
+Problem: MD liefert eigentlich T(E)
+
+c_v = \dE/\d\beta \d\beta/\dT
+\beta=1/{k_B T}
+
+\dE/\d\beta = {<E^2>-<E>^2} / {k_B T^2}
+
+getHeatCapacity()
+  Aus Umrechnung des Ganzen auf die Temperatur:
+  <T^2> - <T>^2 = d N/2 {k_B <T>}^2 (1 - {d N k_B}/{2 c_v})
+
+Diese Fluktuation dr"uckt die Abweichung der idealen Gasgleichung aus
+
+### Startgitterwahl
+
+Ein Dreiecksgitter (hexgitter) ist optimaler bei simplen LJ-Potentialen, da die gesamten Wechselwirkungsenergien geringer sind. (H"ohere Koordination)
+
+setTriangularLattice()
+
+Bei zu niedriger Temperatur erreicht man unter Umst"anden nicht das globale Energieminimum (zB bleibt man im Quadratgitter), so dass auch die Ergodenhypothese verletzt wird. Es werden offensichtlich nicht alle Zust"ande erreicht.
+
+### Radiale Paarverteilungsfunktion
+
+RDF, Radial Distribution Function, g(r)
+Kann auch experimentell bestimmt werden.
+Zahl der Teilchen im Abstand zwischen [r, r+dr]
+
+Aus Symmetriegr"unden beschr"anken wir es im Allgemeinen auf den Radius.
+Lediglich in Festk"orpern werden gelegentlich andere Werte gew"ahlt.
+
+\rho \int{g(r)dr} = N-1 \approx N
+^^^^
+ N/V
+
+                   r->0          r->\infty
+LJ-Potential: g(r) ---> 0   g(r) --------> 1
+  ideales Gas: g(r) = 1
+
+Wechselwirkungsenergie
+u(r) = \rho g(r) d\vec{r}
+       ^^^^^^^^^
+       lok. Dichte um ein Teilchen
+
+U/N = \rho/2 \int{g(r) u(r) d\vec{r}}
+^ ^
+| Iteration "uber N^2 (Teilchen-Teilchen statt Teilchen-Global)
+Gesamte potentielle Energie
+
+Druck PV/N = k_B T + \rho/2d \int{g(r)r du/dr d\vec{r}}
+
+computeRDF()
+
+Sind l_x oder l_y unterschiedlich, beschr"ankt man sich im Allgemeinen auf den Kleineren der beiden Werte.
+
+normalizeRDF()
+
+Es ist interessant, zu sehen, welche Strukturen auftreten.
+
+Thu Dec 13 10:22:04 CET 2012

@@ -1,0 +1,2 @@
+Gleichgewicht: Mittlere Energie "andert sich nicht mehr
+  -> RingBuffer
