@@ -20,6 +20,7 @@ public class ReactionApp extends AbstractSimulation {
   Reaction reaction = new Reaction();
   PlotFrame posPlot = new PlotFrame("x", "step", "Positions");
   PlotFrame countPlot = new PlotFrame("log(t)", "log(count)", "Counts (loglog)");
+  HistogramFrame nearestHist = new HistogramFrame("r", "P(r)", "Nearest Neighbor Distance");
   private int steps;
 
   /**
@@ -37,6 +38,7 @@ public class ReactionApp extends AbstractSimulation {
     reaction.setDirectInteraction(control.getBoolean("direct interaction"));
     reaction.initialize(n);
     countPlot.clearData();
+    nearestHist.clearData();
     steps = 1;
     posPlot.setPreferredMinMax(-1, n, -2, 2);
     updatePlots();
@@ -49,7 +51,7 @@ public class ReactionApp extends AbstractSimulation {
     for (int i = 0; i < steps; ++i) {
       reaction.step();
     }
-
+    
     steps *= 2;
 
     int t = reaction.t();
@@ -69,6 +71,14 @@ public class ReactionApp extends AbstractSimulation {
 
     // Count Plot
     countPlot.append(0, Math.log(reaction.t()), Math.log(reaction.count()));
+    
+    // NN Histogram
+    nearestHist.clearData();
+    int[] distances = reaction.getNearestNeighborDistances();
+    
+    for (int d : distances) {
+      nearestHist.append(d);
+    }
   }
 
   /**

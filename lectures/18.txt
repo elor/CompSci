@@ -1,0 +1,123 @@
+Tue Dec 18 09:23:29 CET 2012
+
+System in zwei Dimensionen:
+
+Substrat von "aquidistanten Atomen (Abstand a)
+
+gleichartige Atome in Dreiecksgitter mit 2a Gitterabstand darauf platziert
+
+am linken Rand: F_R mit a \approx 10v (grob)
+am rechten Rand: F_{ext} als Feder, wird langsam nach rechts gezogen
+
+Federn zwischen den aufgelegten Atomen
+LJ-Potentiale zwischen Substrat- und Auflageatomen
+
+Haftreibung und so weiter. Einfach mal programmieren und staunen (mit Parametern spielen)
+
+8.5. Harte Kugeln
+-----------------
+
+u(r) =  \infty f"ur r < \sigma
+        r >= \sigma
+
+r - Durchmesser, nicht Radius
+
+Dynamik: "uber St"o"se bestimmt.
+
+In Simulation: elastische Zweiteilchenst"o"se betrachten.
+
+Energieerhaltung: \vec v_i^2' + \vec v_j^2' = \vec v_i^2 + \vec v_j^2
+
+Impulserhaltung: \vec v_i' + \vec v_j' = \vec v_i + \vec v_j
+
+Eigentlich zwei ganz einfache Gleichungen. Somit ergibt sich ein einfacher iterativer Algorithmus.
+
+\Delta \vec v_i = \vec v_i' - \vec v_i
+\vec r_{ij} = \vec r_i + \vec r_j
+\vec v_{ij} = \vec v_i - \vec v_j
+Sto"s: Kraft parallel \vec r_{ij}, wenn \abs{\vec r_{ij}} = 2\sigma
+
+G"unstig, die Geschwindigkeiten in v_{i \parallel} und v_{i senkrecht}
+
+Vier Bedingungen:
+
+\vec v_{i p}' = \vec v_{j p}
+\vec v_{j p}' = \vec v_{i p}
+\vec v_{i s}' = \vec v_{i s}
+\vec v_{j s}' = \vec v_{j s}
+
+\vec{\Delta v_i} = - \vec{\Delta v_j} = (\vec v_{ij} \dotproduct \vec r_{ij} ) \vec r_{ij} / \sigma^2
+
+t_{ij}: Zeit der Kollision von i und j
+
+\abs{\vec{r_{ij}(t_{ij})}} = \sigma
+\vec r_i(t_{ij}) = \vec r_i(0) + \vec v_i(0) t_{ij}
+
+t_{ij} = - \vec v_{ij} \scalarprod \vec r_{ij} - \sqrt{(\vec v_{ij} \scalarprod \vec r_{ij})^2 - v_{ij}^2(r_{ij}^2 - \sigma^2)} / v_{ij}^2
+
+F"ur Simulation wichtig:
+1. Bestimmen t_{ij} f"ur alle Paare
+2. t_{i,min} = \min_j{t_{ij}}
+3. t_c = \min_i{t_{i,min}}  St"o"szeit (c is for cookies)
+4. alle Teilchen werden um t_c weiter bewegt
+5. t_{ij} werden um t_c reduziert
+6. Neue \vec v f"ur Sto"spartner
+7. ggf. phys. Gr"o"sen bestimmen
+8. neue Sto"szeiten t_{ij} f"ur alle veralteten Sto"sbeziehungen
+
+Initialisierung:
+* zuf"allige Anfangskonfiguration, aber auf "Uberlapp pr"ufen.
+* Gitter f"ur h"ohere Dichten
+
+checkCollision():
+  Nach St"o"sen auch in Nachbarzellen (periodische Randbedingungen) suchen
+
+Relativ gro"se Abschneidezeit bedenken.
+
+Druck \vec F_{ij}(t) = \vec I_{ij}\delta(t-t_c)
+                            ^^^^^^
+                            Impuls = m(\vec v_ij' - \vec v_{ij})
+                                   = m(\vec{\Delta v_i} - \vec{\Delta v_j})
+
+PV/N = k_BT + 1/dN 1/t \sum_{C_ij}{m(\vec v_ij' - \vec v_{ij}) \scalarprod \vec r_{ij}}
+
+C_ij - St"o"se zwischen i und j in (0, t)
+
+Paarkorrelationsfunktion g(r)
+Problem: Mittelwerte trotz variabler Zeitschritte t_c
+
+Mittlere Sto"szeit: 
+t_c = t/{2 n_c /N}
+         ^ weil immer zwei Partner beteiligt sind
+
+Mittlere freie Wegl"ange:
+l = \sqrt{\bar{v^2}} t_c
+
+8.6. dynamische Eigenschaften
+-----------------------------
+
+\vec{r_i(t)} - \vec{r_i(0)} \sim t (ohne Kr"afte)
+im Mittel: = 0
+
+\bar{R^2(t)} = \bar{(r_i (t - t_0) - r_i(t_0))^2}
+
+             = 2 d D t
+
+\bar{sth.} -> Zeitmittel "uber t_0 (verschiedene t_0 betrachten)
+
+=> computeR2()
+beachte periodische Randbedingungen xWrap yWrap
+
+\bar{R^2} \sim 4 * 0.61 t f"ur LJ-Potential in d=2
+
+f"ur dichte Fl"ussigkeit:
+
+\bar{R^2} \sim t f"ur gro"se t
+
+freies Teilchen \bar{R^2} \sim t^2
+
+in d=2: \bar{R^2} \sim t log t dominiert
+  (effektives D)
+
+
+Tue Dec 18 10:26:42 CET 2012
