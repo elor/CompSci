@@ -1,0 +1,171 @@
+Thu Dec 20 09:19:40 CET 2012
+
+Geschwindigkeits-Autokorrelations-Funktion
+
+C(t) = 1/v_0^2 \bar{\vec{v_i(t-t_0)} \scalarprod \vec{v_i(t_0)}}
+         ^^^^^ ^^^^ Mittelung "uber t_0
+          = \bar(v_i(t_0)^2)
+
+D = v_0^2 \int_0^\infty{C(t) dt}
+
+C(t=0) = 1
+
+C(t->\infty) -> 0
+
+Frage: Wie erreicht die Korrelationsfunktion dieses Abklingen?
+
+Interessante historische Anmerkung:
+F"ur \rho \approx 1/2 \rho_max    in d=2: C(t) \sim t^{-1} f"ur sehr gro"se t.
+                      ^^^^^^^^
+                      dichteste Packung
+
+Das bedeutet, dass das Integral D divergent ist
+Somit ist D nicht wohl definiert.
+Dieser Effekt wurde zuerst in der Simulation gefunden.
+Es hat lang gedauert, bis man das wirklich verstanden hat, aber so lange eigentlich auch nicht.
+Was da passiert ist, dass die Geschwindigkeit anschaulich ausgedr"uckt in Wirbeln gespeichert ist.
+Sie haben da Turbulenzen und diese Wirbel klingen sehr langsam ab.
+Dieser hydrodynamische Effekt wurde so nie vorher gesehen und ist deshalb historisch betrachtet etwas Besonderes.
+
+In drei Dimensionen ist das aber kein Problem, da D konvergiert (C(t) \sim t^{-3/2})
+
+
+8.7. Nachbarschaft
+------------------
+
+Zum Beispiel LJ-Potential: r_c = 2.3 \sigma oder 2.5 \sigma
+
+Problem: Wir setzen das Potential bei r_c auf 0, weshalb dort eine Unstetigkeit in U und dessen Ableitung du/dR vorliegt.
+Das f"uhrt leicht zu Artefakten.
+Deshalb ist ein m"oglicher Ausweg, \tilde u(r) = u(r) - u(r_c) - du/dr|_{r_c} (r-rc)
+
+Damit ist die Simulation wesentlich angenehmer, weil \tilde u stetig und differenzierbar.
+
+Welche Terme innerhalb des Cuttofs liegen, ist O(n^2).
+
+Binning als L"osung (Liste/Baum von Zellen)
+Nachbarschaftsliste als andere m"ogliche L"osung f"ur r_{ij} < r_n
+
+z.B. r_n = 2.7 \sigma, also etwas gr"o"ser als Abschneideradius
+
+Diese Liste ist k"urzer als die Nachbarzellen, aber speicherintensiver bei dichten Systemen. Au"serdem wartungsintensiver.
+Annahme dabei: Die Teilchen bewegen sich vergleichsweise langsam, so dass man die Nachbarschaftslisten erst aller \approx 20 Zeitschritte erneuern m"ussen.
+
+Bei einigen hundert Teilchen ist dieses Verfahren bedeutend effektiver.
+
+=> computeNeighbourList()
+
+H"aufig Multiskalenmodelle
+
+Anwendung: komplexe Fl"ussigkeiten, Glas"ubergang, dynamische Gleichgewichte (Nichtgleichgewichte), Bruchbildung
+
+8.8. Erg"anzungen
+-----------------
+
+### 8.8.1. Heisenberg-Modell
+
+Magnetismus
+
+H = -J \sum_{<i,j>}{\vec s_i \scalarprod \vec s_j}
+             ^   ^
+             Nur n"achste Nachbarn
+
+Spin s_i ist magnetisches Moment. i.A. dreidimensionaler Vektor, auch f"ur d=1,2
+
+Magnetisierung \vec M = \sum_i{s_i}
+
+"Uber das Vorzeichen der Energie H kann man beispielsweise unterscheiden, ob das System ferromagnetisch (alle Spins gleich gerichtet) oder antiferromagnetisch (Spins antiparallel) ist.
+
+Dynamik (d=1)
+d\vec{s_i}/dt = J \vec s_i \crossprod (\vec{s_{i-1} + \vec{s_{i+1}})
+
+Damit lassen sich die Diffusion von Spins betrachten. Auch Muster, die in h"oheren Dimensionen auftreten, Spinwellen, welche auch im Experiment beobachtet wurden.
+
+Diese und "ahnliche Modelle werden im Rahmen der Vorlesung noch "ofter betrachtet, da sie auch im Rahmen der Nachbarschaftsbedingungen interessant sind.
+
+### 8.8.2. ergodisches Verhalten
+
+Zeitmittel \bar{f_i(t)} = 1/t \int_0^t{f(t') dt'}
+
+Ensemblemittel <f(t)> = 1/N \sum_{i=1}^N{\bar f_i(t)}
+
+Ergodisch hei"st: Alle Teilchen sehen die gleiche Umgebung
+
+Das hei"st: \bar{f_i(t)} = \bar{f_j(t)}
+
+Das l"asst sich "uber eine entsprechende Metrik ausrechnen:
+z.B. \epsilon_i = p_i^2 / {2 m_i} + 1/2 \sum_{i != j} u(r_{ij})
+                  ^^^
+                 Impuls
+
+Damit definieren wir uns eine Energiemetrik \Omega_e(t):
+\Omega_e(t) = 1/N \sum_{i=1}^t{(\bar{\epsilon(t)} - <\epsilon(t)>)^2}
+
+Wir betrachten, ob \Omega_e(t) verschwindet.
+
+Zum Beispiel f"ur LJ-Potential:
+ergodisches System mit \Omega_e \sim 1/t
+
+Abschrecken (Quenching) -> amorphes System (hier: Glas), nicht ergodisch
+  Das Teilchen sieht nicht mehr die selbe Umgebung, sondern die Umgebung, wie sie beim Abschrecken vorhanden war.
+
+Es gibt auch andere Metriken. Beispiele:
+\Omega_v(t) = 1/dN \sum_{i=1}^N{(\bar{\vec{v_i(t)}} - <v(t)>)^2}
+                                                      ^^^^^^
+                                                      = 0 (Anfangsbedingung)
+            = 1/dN \sum_{i=1}^N{\bar{\vec{v_i(t)}}^2}
+
+\bar{\vec{v_i(t)}} = ... = 1/t (\vec{r_i(t)} - \vec{r_i(0)})
+=>
+\Omega_v(t) = ... = <R^2(t)>/dt^2 = 2D/t
+
+D - Diffusionskonstante
+
+Zum Vergleich: Das hatten wir links auch, wenn wir einen sch"onen Zufallspfad haben. Hier: Kein Zufallspfad, sondern durch St"o"se oder Wechselwirkungen definiert.
+
+im Festk"orper:
+R^2 ist beschr"ankt.
+Somit ist \Omega_v \sim t^{-2}, da die Teilchen lokalisiert sind.
+
+Das gilt sowohl f"ur Kristalle als auch f"ur Glas.
+                     ^^^^^^^^^
+                     ergodisch
+
+Somit eignet sich die Geschwindigkeitsmetrik nicht, ergodische und nicht ergodische Systeme zu unterscheiden.
+
+### 8.8.3. Molekulardynamik f"ur konstante Temperaturen
+
+Bisher: konstante Energie (aka. mikrokanonisches Ensemble, NVE)
+
+Jetzt: konstante Temperatur = konstante kinetische Energie (aka. kanonisches Ensemble, NVT)
+
+* brutal: v_i skalieren, so dass kinetische Energie konstant bleibt.
+* Anderson-Thermostat
+  W"armebad (gro"s, T=const)
+  Teilchen des Systemes sto"sen mit Teilchen des W"armebades
+  Das Sch"one: Es kann selten passieren (10^-4)
+  Es werden keine neuen Teilchen eingef"ugt, sondern nur einzelne St"o"se berechnet.
+* Nos\'e-Hoover-Thermostat
+  Zus"atzlicher Freiheitsgrad "s"
+  d\vec{p_i}/dt = \vec{F_i(t)} - s \vec{p_i}
+  Es wird also ein Reibungsterm proportional zur Geschwindigkeit eingef"uhrt
+  ds/dt = 1/M \sum_i{p_i^2/2m_i - dN/{k_B T})
+            ^ Masse von s
+  Somit kann s auch negativ sein, also Teilchen beschleunigen.
+
+Verteilungen werden nicht "uber das Thermostat aufgepr"agt, sondern von den Wechselwirkungen bestimmt.
+
+### 8.8.4 Molekulardynamik auf der Kugelschale
+F"allt aus. Siehe Buch.
+Coulomb-Potential ist sehr langreichweitig.
+F"uhrt man Teile der Rechnungen im Fourierraum durch, wird das Ganze schon irgendwie.
+
+Die Kugeloberfl"ache ist begrenzt und hat keinen Rand, so dass man problemlos "uber alle (endlich vielen) Teilchen integrieren kann. Trotzdem kann man nicht einfach in kartesischen Koordinaten rechnen.
+
+Es wird zur Simulation von Plasmen eingesetzt.
+Ladungswolke mit homogen positiv geladenem Hintergrund.
+Wird in der Astrophysik genutzt. Und Elektronen auf Oberfl"ache von fl"ussigem Helium.
+
+Problem: Man kann nicht in kartesischen Koordinaten rechnen, sondern muss das Ganze in Fourierkoordinaten rechnen. Unhandlich.
+
+Thu Dec 20 10:20:45 CET 2012

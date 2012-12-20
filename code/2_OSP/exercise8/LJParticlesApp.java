@@ -19,6 +19,7 @@ import org.opensourcephysics.display.GUIUtils;
  * @version 1.0 revised 03/28/05, 3/29/05
  */
 public class LJParticlesApp extends AbstractSimulation {
+
   LJParticles md = new LJParticles();
   PlotFrame pressureData = new PlotFrame("time", "PA/NkT", "Mean pressure");
   PlotFrame temperatureData = new PlotFrame("time", "temperature",
@@ -27,12 +28,21 @@ public class LJParticlesApp extends AbstractSimulation {
       "Velocity histogram");
   DisplayFrame display = new DisplayFrame("x", "y", "Lennard-Jones system");
 
-  int accnum = 0;
-  double[] Tacc = new double[250];
-  double[] Pacc = new double[250];
-  double TaccMean, PaccMean;
+  // PlotFrame Taccplot = new PlotFrame("t", "Tacc,Pacc",
+  // "Gleitendes Zeitmittel von T und P");
+
+  int accpos = 0;
+  Boolean accInitiating = true;
+  double[] Tacc = new double[100];
+  double[] Pacc = new double[100];
   private double Paccdelta;
   private double Taccdelta;
+  private double Paccmean;
+  private double Taccmean;
+
+  public LJParticlesApp() {
+    // Taccplot.setConnected(true);
+  }
 
   /**
    * Initializes the model by reading the number of particles.
@@ -52,7 +62,7 @@ public class LJParticlesApp extends AbstractSimulation {
                                                     // 2*initalTemp and bin
                                                     // width = Vmax/N
     xVelocityHistogram.setBinWidth(2 * md.initialKineticEnergy / md.N);
-    
+
     resetAccumulated();
   }
 
@@ -61,65 +71,83 @@ public class LJParticlesApp extends AbstractSimulation {
    */
   public void doStep() {
     md.step(xVelocityHistogram);
-    
+
     double P = md.getMeanPressure();
     double T = md.getMeanTemperature();
-    
-    pressureData.append(0, md.t, P);
-    temperatureData.append(0, md.t, T);
-    
-    accumulate(P, T);
-    
-    if (isStatic())
-    {
-      control.println("is static");
+
+    if (isStatic()) {
+      pressureData.append(1, md.t, P);
+      temperatureData.append(1, md.t, T);
+    } else {
+      pressureData.append(0, md.t, P);
+      temperatureData.append(0, md.t, T);
     }
+
+    accumulate(P, T);
+
+    // if (isStatic()) {
+    // Taccplot.setMessage("is static");
+    // } else {
+    // Taccplot.setMessage("is NOT static");
+    // }
+
   }
 
   private boolean isStatic() {
-    double tolerance = 0.02;
+    if (accInitiating && accpos == 0) {
+      return false;
+    }
+
+    double tolerance = 0.0005;
     return Math.abs(Paccdelta) < tolerance && Math.abs(Taccdelta) < tolerance;
   }
 
   private void accumulate(double P, double T) {
-    Tacc[accnum] = T;
-    Pacc[accnum] = P;
-    
-    ++accnum;
-    
-    if (accnum == Tacc.length)
-    {
-      double Pmean = 0.0;
-      double Tmean = 0.0;
-      
-      for (double t: Tacc)
-      {
-        Tmean += t;
-      }
-      for (double p: Pacc)
-      {
-        Pmean += p;
-      }
-      
-      Tmean /= accnum;
-      Pmean /= accnum;
-      
-      Taccdelta = (Tmean - TaccMean)/Tmean;
-      Paccdelta = (Pmean - PaccMean)/Pmean;
-      
-      TaccMean = Tmean;
-      PaccMean = Pmean;
-      
-      accnum = 0;
+    Tacc[accpos] = T;
+    Pacc[accpos] = P;
+
+    ++accpos;
+
+    if (accpos == Tacc.length) {
+      accpos = 0;
+      accInitiating = false;
     }
+
+    double Pmean = 0.0;
+    double Tmean = 0.0;
+
+    for (double t : Tacc) {
+      Tmean += t;
+    }
+    for (double p : Pacc) {
+      Pmean += p;
+    }
+
+    int num = (accInitiating ? accpos : Tacc.length);
+
+    Tmean /= num;
+    Pmean /= num;
+
+    double weight = 0.001;
+    double weight_old = 1.0 - weight;
+
+    Paccdelta = weight_old * Paccdelta + weight * (Paccmean - Pmean) / Pmean;
+    Paccmean = Pmean;
+
+    Taccdelta = weight_old * Taccdelta + weight * (Taccmean - Tmean) / Tmean;
+    Taccmean = Tmean;
+
+    // Taccplot.append(0, md.t, Taccdelta);
+    // Taccplot.append(1, md.t, Paccdelta);
   }
 
   private void resetAccumulated() {
-    accnum = 0;
-    Paccdelta = 1.0;
-    Taccdelta = 1.0;
-    TaccMean = 0.0;
-    PaccMean = 0.0;
+    accpos = 0;
+    accInitiating = true;
+
+    Paccdelta = Paccmean = Taccdelta = Taccmean = 0.0;
+
+    // Taccplot.clearData();
   }
 
   /**

@@ -1,2 +1,9 @@
-Gleichgewicht: Mittlere Energie "andert sich nicht mehr
-  -> RingBuffer
+a)
+  gleitendes Zeitmittel zur "Uberpr"ufung
+  Als Bedingung f"ur die Feststellung des statischen Zustandes wird hier auf
+  einen verschwindend geringen Driftterm geachtet, so dass T und P automatisch
+  nicht mehr driften.
+
+b)
+  
+
