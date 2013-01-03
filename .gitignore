@@ -3,4 +3,4 @@ code/*/bin/*
 bin
 .classpath
 .project
-
+.settings

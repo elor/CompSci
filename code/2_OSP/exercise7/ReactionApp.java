@@ -85,7 +85,7 @@ public class ReactionApp extends AbstractSimulation {
    * Resets to default values
    */
   public void reset() {
-    control.setValue("N", 10);
+    control.setValue("N", 5000);
     control.setValue("direct interaction", false);
   }
 
