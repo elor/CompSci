@@ -1,9 +1,33 @@
-a)
-  gleitendes Zeitmittel zur "Uberpr"ufung
-  Als Bedingung f"ur die Feststellung des statischen Zustandes wird hier auf
-  einen verschwindend geringen Driftterm geachtet, so dass T und P automatisch
-  nicht mehr driften.
-
-b)
+a) equilibrium
+  = 0.444... atoms/AU (area unit)
   
+  averages don't drift:
+    automatically fulfilled, since it's the criteria for equilibrium
+    
+b) conservation of energy, ideal gas ratio
+  PV/NkT = 1.6... / k
+  k?
+  
+  k=1 => 3 times greater
+  
+  saved as 8_save1.xml
+  
+c) density scaling
+  expectations: P and T will increase
+  
+  PV/NT decreases until it reaches 1
+  P and T increase
 
+d)
+  see LJParticlesAppTvsE
+  
+e)
+  T(E) increases linearly
+  T(0) = 1.158
+  E(0) = -94.883
+  
+  T depends solely on Ekin, thus reducing the influence of Epot on Cv to 0%.
+  
+f)
+  theoretically, the Method in e should be more accurate.
+  Cv = 144.196 arb. units

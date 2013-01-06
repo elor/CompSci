@@ -9,7 +9,6 @@ package exercise8;
 
 import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.*;
-import org.opensourcephysics.display.GUIUtils;
 
 /**
  * LJParticlesApp simulates a two-dimensional system of interacting particles
@@ -18,7 +17,105 @@ import org.opensourcephysics.display.GUIUtils;
  * @author Jan Tobochnik, Wolfgang Christian, Harvey Gould
  * @version 1.0 revised 03/28/05, 3/29/05
  */
-public class LJParticlesApp extends AbstractSimulation {
+public class LJParticlesAppTvsE extends AbstractSimulation {
+
+  public static class Accumulator {
+    int accpos;
+    Boolean accInitiating;
+    double[] Eacc;
+    double[] Tacc;
+    double[] Pacc;
+    double Eaccdelta;
+    double Paccdelta;
+    double Taccdelta;
+    double Eaccmean;
+
+    public double E() {
+      return Eaccmean;
+    }
+
+    public double P() {
+      return Paccmean;
+    }
+
+    public double T() {
+      return Taccmean;
+    }
+
+    void accumulate(double E, double P, double T) {
+      Eacc[accpos] = E;
+      Pacc[accpos] = P;
+      Tacc[accpos] = T;
+
+      ++accpos;
+
+      if (accpos == Tacc.length) {
+        accpos = 0;
+        accInitiating = false;
+      }
+
+      double Emean = 0.0;
+      double Pmean = 0.0;
+      double Tmean = 0.0;
+
+      for (double e : Eacc) {
+        Emean += e;
+      }
+      for (double p : Pacc) {
+        Pmean += p;
+      }
+      for (double t : Tacc) {
+        Tmean += t;
+      }
+
+      int num = (accInitiating ? accpos : Tacc.length);
+
+      Emean /= num;
+      Pmean /= num;
+      Tmean /= num;
+
+      double weight = 0.001;
+      double weight_old = 1.0 - weight;
+
+      Eaccdelta = weight_old * Eaccdelta + weight * (Eaccmean - Emean) / Emean;
+      Eaccmean = Emean;
+
+      Paccdelta = weight_old * Paccdelta + weight * (Paccmean - Pmean) / Pmean;
+      Paccmean = Pmean;
+
+      Taccdelta = weight_old * Taccdelta + weight * (Taccmean - Tmean) / Tmean;
+      Taccmean = Tmean;
+    }
+
+    boolean isStatic() {
+      if (accInitiating) {
+        return false;
+      }
+    
+      double tolerance = 0.0005;
+      return Math.abs(Paccdelta) < tolerance
+          && Math.abs(Taccdelta) < tolerance;
+    }
+
+    void reset() {
+      accpos = 0;
+      accInitiating = true;
+    
+      Eaccdelta = Eaccmean = Paccdelta = Paccmean = Taccdelta = Taccmean = 0.0;
+    }
+
+    public double Paccmean;
+    public double Taccmean;
+
+    public Accumulator(int accpos, Boolean accInitiating, double[] eacc,
+        double[] tacc, double[] pacc) {
+      this.accpos = accpos;
+      this.accInitiating = accInitiating;
+      Eacc = eacc;
+      Tacc = tacc;
+      Pacc = pacc;
+    }
+  }
 
   /**
    * Returns an XML.ObjectLoader to save and load data for this program.
@@ -38,10 +135,8 @@ public class LJParticlesApp extends AbstractSimulation {
    *          command line parameters
    */
   public static void main(String[] args) {
-    SimulationControl control = SimulationControl
-        .createApp(new LJParticlesApp());
-    control.addButton("resetData", "Reset Data");
-    control.addButton("scale", "scale");
+    // SimulationControl control = SimulationControl
+    SimulationControl.createApp(new LJParticlesAppTvsE());
   }
 
   LJParticles md = new LJParticles();
@@ -49,93 +144,82 @@ public class LJParticlesApp extends AbstractSimulation {
   // "Velocity histogram");
   DisplayFrame display = new DisplayFrame("x", "y", "Lennard-Jones system");
 
-  PlotFrame ratioData = new PlotFrame("time", "PV/NT", "1/k");
-  PlotFrame energyData = new PlotFrame("time", "E_tot", "total energy");
-  PlotFrame pressureData = new PlotFrame("time", "PA/NkT", "pressure");
-  PlotFrame temperatureData = new PlotFrame("time", "temperature",
-      "temperature");
-  int accpos = 0;
-  Boolean accInitiating = true;
-  double[] Eacc = new double[100];
-  double[] Tacc = new double[100];
-  double[] Pacc = new double[100];
-  private double Eaccdelta;
-  private double Paccdelta;
-  private double Taccdelta;
+  Accumulator acc = new Accumulator(0, true, new double[100], new double[100],
+      new double[100]);
+  private double Ttarget;
+  private PlotFrame TvsE = new PlotFrame("E", "T", "T(E)");
+  private PlotFrame CvPlot = new PlotFrame("t", "Cv", "Cv(t)");
 
-  private double Eaccmean;
-  private double Paccmean;
-  private double Taccmean;
-
-  public LJParticlesApp() {
-  }
-
-  private void accumulate(double E, double P, double T) {
-    Eacc[accpos] = E;
-    Pacc[accpos] = P;
-    Tacc[accpos] = T;
-
-    ++accpos;
-
-    if (accpos == Tacc.length) {
-      accpos = 0;
-      accInitiating = false;
-    }
-
-    double Emean = 0.0;
-    double Pmean = 0.0;
-    double Tmean = 0.0;
-
-    for (double e : Eacc) {
-      Emean += e;
-    }
-    for (double p : Pacc) {
-      Pmean += p;
-    }
-    for (double t : Tacc) {
-      Tmean += t;
-    }
-
-    int num = (accInitiating ? accpos : Tacc.length);
-
-    Emean /= num;
-    Pmean /= num;
-    Tmean /= num;
-
-    double weight = 0.001;
-    double weight_old = 1.0 - weight;
-
-    Eaccdelta = weight_old * Eaccdelta + weight * (Eaccmean - Emean) / Emean;
-    Eaccmean = Emean;
-
-    Paccdelta = weight_old * Paccdelta + weight * (Paccmean - Pmean) / Pmean;
-    Paccmean = Pmean;
-
-    Taccdelta = weight_old * Taccdelta + weight * (Taccmean - Tmean) / Tmean;
-    Taccmean = Tmean;
+  public LJParticlesAppTvsE() {
   }
 
   /**
    * Does a simulation step and appends data to the views.
    */
   public void doStep() {
-    double E, P, T;
+    /*
+     * TODO modify to calculate T(E)
+     */
 
-    do {
-      // md.step(xVelocityHistogram);
+    double Tmax = control.getDouble("Tmax");
+    double Tmin = control.getDouble("Tmin");
+    int steps = control.getInt("steps");
+    if (steps < 1) {
+      steps = 1;
+    }
+    double Tstep = (Tmax - Tmin) / steps;
+
+    // if Tmax is exceeded, stop the simulation
+    if (Ttarget > Tmax) {
+      control.calculationDone("target temperature reached");
+    }
+
+    // relax 50 time units
+    double stoptime = md.t + 50;
+    double rescaletime = md.t + 2.0;
+    while (md.t < stoptime) {
       md.step();
-      E = md.getEnergy();
-      P = md.getPressure();
-      T = md.getTemperature();
+      // rescale temperature every 2 time units
+      if (md.t > rescaletime) {
+        md.tempScale(Ttarget);
+        rescaletime += 2.0;
+      }
+    }
 
-      accumulate(E, P, T);
+    // relax until equilibrium is reached
+    acc.reset();
+    do {
+      md.step();
+      acc.accumulate(md.getEnergy(), md.getPressure(), md.getTemperature());
 
-    } while (!isStatic());
+      // rescale temperature every 2 time units
+      if (md.t > rescaletime) {
+        md.tempScale(Ttarget);
+        rescaletime += 2.0;
+      }
+    } while (!acc.isStatic());
 
-    ratioData.append(0, md.t, Paccmean * md.Lx * md.Ly / (md.N * Taccmean));
-    energyData.append(0, md.t, Eaccmean);
-    pressureData.append(0, md.t, Paccmean);
-    temperatureData.append(0, md.t, Taccmean);
+    // average total energy and temperature over 10 time units
+    stoptime = md.t + 10;
+    double Eacc = 0.0;
+    double Tacc = 0.0;
+    int count = 0;
+    while (md.t < stoptime) {
+      md.step();
+
+      Eacc += md.getEnergy();
+      Tacc += md.getTemperature();
+      ++count;
+    }
+
+    // append T(E) to plot frame
+
+    TvsE.append(0, Eacc / count, Tacc / count);
+    CvPlot.append(0, md.t, md.getHeatCapacity());
+
+    // increase target temperature by (Tmax - Tmin) / Tsteps end step
+    Ttarget += Tstep;
+
   }
 
   /**
@@ -144,11 +228,10 @@ public class LJParticlesApp extends AbstractSimulation {
   public void initialize() {
     md.nx = control.getInt("nx"); // number of particles per row
     md.ny = control.getInt("ny"); // number of particles per column
-    md.initialKineticEnergy = control
-        .getDouble("initial kinetic energy per particle");
+    md.initialKineticEnergy = 2.0;
     md.Lx = control.getDouble("Lx");
     md.Ly = control.getDouble("Ly");
-    md.initialConfiguration = control.getString("initial configuration");
+    md.initialConfiguration = "rectangular";
     md.dt = control.getDouble("dt");
     md.initialize();
     display.addDrawable(md);
@@ -159,16 +242,7 @@ public class LJParticlesApp extends AbstractSimulation {
                                                     // * md.initialKineticEnergy
                                                     // / md.N);
 
-    resetAccumulated();
-  }
-
-  private boolean isStatic() {
-    if (accInitiating && accpos == 0) {
-      return false;
-    }
-
-    double tolerance = 0.0005;
-    return Math.abs(Paccdelta) < tolerance && Math.abs(Taccdelta) < tolerance;
+    acc.reset();
   }
 
   /**
@@ -177,22 +251,13 @@ public class LJParticlesApp extends AbstractSimulation {
   public void reset() {
     control.setValue("nx", 8);
     control.setValue("ny", 8);
-    control.setAdjustableValue("Lx", 12.0);
-    control.setAdjustableValue("Ly", 12.0);
-    control.setValue("initial kinetic energy per particle", 2.0);
+    control.setValue("Lx", 12.0);
+    control.setValue("Ly", 12.0);
     control.setAdjustableValue("dt", 0.01);
-    control.setValue("initial configuration", "rectangular");
-    control.setAdjustableValue("scale ratio", 0.95);
-    enableStepsPerDisplay(true);
-    super.setStepsPerDisplay(10); // draw configurations every 10 steps
+    control.setAdjustableValue("Tmin", 1.0);
+    control.setAdjustableValue("Tmax", 1.2);
+    control.setAdjustableValue("steps", 100);
     display.setSquareAspect(true); // so particles will appear as circular disks
-  }
-
-  private void resetAccumulated() {
-    accpos = 0;
-    accInitiating = true;
-
-    Eaccdelta = Eaccmean = Paccdelta = Paccmean = Taccdelta = Taccmean = 0.0;
   }
 
   /**
@@ -202,13 +267,6 @@ public class LJParticlesApp extends AbstractSimulation {
    */
   public void resetData() {
     md.resetAverages();
-    GUIUtils.clearDrawingFrameData(false); // clears old data from the plot
-                                           // frames
-  }
-
-  public void scale() {
-    double ratio = control.getDouble("scale ratio");
-    md.scale(ratio);
   }
 
   /**
@@ -218,6 +276,7 @@ public class LJParticlesApp extends AbstractSimulation {
     md.dt = control.getDouble("dt");
     double Lx = control.getDouble("Lx");
     double Ly = control.getDouble("Ly");
+    Ttarget = control.getDouble("Tmin");
     if ((Lx != md.Lx) || (Ly != md.Ly)) {
       md.Lx = Lx;
       md.Ly = Ly;
