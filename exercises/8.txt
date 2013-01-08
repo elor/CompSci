@@ -23,11 +23,11 @@ d)
   
 e)
   T(E) increases linearly
-  T(0) = 1.158
-  E(0) = -94.883
+  dE/dT = 80.791
   
   T depends solely on Ekin, thus reducing the influence of Epot on Cv to 0%.
   
 f)
   theoretically, the Method in e should be more accurate.
-  Cv = 144.196 arb. units
+  Cv = 83.252
+  they fit

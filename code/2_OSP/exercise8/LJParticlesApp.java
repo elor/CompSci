@@ -9,7 +9,6 @@ package exercise8;
 
 import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.*;
-import org.opensourcephysics.display.GUIUtils;
 
 /**
  * LJParticlesApp simulates a two-dimensional system of interacting particles
@@ -163,7 +162,7 @@ public class LJParticlesApp extends AbstractSimulation {
   }
 
   private boolean isStatic() {
-    if (accInitiating && accpos == 0) {
+    if (accInitiating) {
       return false;
     }
 
@@ -202,13 +201,15 @@ public class LJParticlesApp extends AbstractSimulation {
    */
   public void resetData() {
     md.resetAverages();
-    GUIUtils.clearDrawingFrameData(false); // clears old data from the plot
+//    GUIUtils.clearDrawingFrameData(false); // clears old data from the plot
                                            // frames
   }
 
   public void scale() {
     double ratio = control.getDouble("scale ratio");
     md.scale(ratio);
+    accInitiating = true;
+    accpos = 0;
   }
 
   /**

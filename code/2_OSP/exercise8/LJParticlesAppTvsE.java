@@ -157,10 +157,6 @@ public class LJParticlesAppTvsE extends AbstractSimulation {
    * Does a simulation step and appends data to the views.
    */
   public void doStep() {
-    /*
-     * TODO modify to calculate T(E)
-     */
-
     double Tmax = control.getDouble("Tmax");
     double Tmin = control.getDouble("Tmin");
     int steps = control.getInt("steps");
@@ -198,9 +194,11 @@ public class LJParticlesAppTvsE extends AbstractSimulation {
         rescaletime += 2.0;
       }
     } while (!acc.isStatic());
+    
+    md.resetAverages();
 
-    // average total energy and temperature over 10 time units
-    stoptime = md.t + 10;
+    // average total energy and temperature over many time units
+    stoptime = md.t + 100;
     double Eacc = 0.0;
     double Tacc = 0.0;
     int count = 0;

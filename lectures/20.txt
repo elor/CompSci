@@ -1,0 +1,152 @@
+Tue Jan  8 09:21:32 CET 2013
+
+9. Normalschwingungen und Wellen
+================================
+
+Normalschwingungen: eher stehende Wellen
+Wellen (hier): bewegt sich fort
+
+9.1. gekoppelte Oszillatoren
+----------------------------
+
+Bedingungen: d=1, N Teilchen, Masse m, Federkonstante k, Abstand a, fester Rand
+betrachten: Auslenkung u_j(t)
+
+Fester Rand: u_0(t) = u(N+1)(t) = 0
+
+Bewegungsgleichungen sind unkompliziert
+
+m \ddot u_j = -k(u_j - u_{j+1}) - k(u_j - u_{j-1})
+            = -k(2 u_j - u_{j+1} - u_{j-1})
+
+eigentlich longitidunale Schwingungen
+Darstellungn oftmals transversal zur besseren Veranschaulichung
+
+transversal-Schwingungen sind nicht prinzipiell schwieriger
+Im Experiment gibt es nat"urlich Unterschiede (euklidischen Abstand berechnen)
+
+ODE sind linear und einfach genug f"ur analytische L"osungen
+
+Ansatz:
+u_j(t) = \tilde u_j \cos{\omega t}  % auch sin m"oglich
+
+- \omega^2 \tilde u_j = -k/m (2 \tilde u_j - u_{j+1} - u_{j-1})
+
+Ansatz:
+\tilde u_j = C \sin{qja} (NICHT cos, wegen Rand = 0)
+
+\omega^2 = 2k/m (1 - \cos{qa})
+         = 4k/m \sin{qa/2}^2
+
+Welche q?
+
+u_{N+1}(t) = 0 => q_n = {\pi n}/{a(N+1)} ; n = 1..N
+\tilde u_{jn} = C \sin{q_nja}
+
+q_n - Wellenvektor, Wellenzahl
+
+\lambda_n = 2\pi / q_n
+
+Dispersionsrelation: 
+\omega_n = 2\sqrt{k/m}\sin{q_na/2}
+^
+Normalschwingungen, Eigenmoden
+(bleiben erhalten, wenn man eine einzige gezielt als AB ausw"ahlt)
+
+Hinweis aus mathematischer Sicht: \tilde u_jn sind orthogonal
+
+Sinnvoll: \omega_n <= 2\sqrt{k/m} = \omega_c
+                                    ^^^^^^^^
+                                    Cutofffrequenz
+
+Bei transversalen Schwingungen ergeben sich andere Terme insbesondere der Dispersionsrelation.
+
+allgemeine L"osung: u_j(t) = \sum_{n=1}^N{(A_n\cos{\omega_nt} + B_n\sin{\omega_nt})\sin{q_nja}}
+
+Anfangsbedingungen => A_n = 1/\sqrt{(N+1)/2} \sum_{j=1}^N{n_j(0)\sin{q_nja}}
+
+B_n = 1/\sqrt{(N+1)/2} \sum_{j=1}^N{v_j(0)/\omega_n \sin{q_nja}}
+
+Oscillators
+OscillatorsMode
+OscillatorsApp
+
+9.2. numerische L"osungen, z.B. f"ur nichtlinieare Kr"afte
+----------------------------------------------------------
+
+Oscillators
+
+periodische Randbedingungen: u_0 = u_N, u_1 = u_{N+1}
+
+-> q_n = {\pi n}/{aN}
+
+Restriktion des Kosinus entf"allt
+=>
+auch \cos{q_nja}
+
+offene Randbedingungen:
+_freie R"ander_
+u_0 = u_1
+u_{N+1} = u_n
+
+Wir f"ugen also Teilchen hinzu, die einen konstanten Abstand zum eigentlichen Rand haben.
+
+auch interessant: "Anderung der k-Werte (Stufenartig). auch dort gibt es eine Reflektion sowie Phasenverschiebungen.
+
+externe Kraft:
+periodische Anregung: F_{ext}/m = 0.5 \cos{\omega t} wirke auf ein Teilchen.
+D"ampfung: -\gamma v_j
+
+Die Normalmoden bleiben bei externen Kr"aften erhalten, so dass sich die Energie auf verschiedene Normalmoden verteilen muss.
+
+9.3. Fourierreihen
+------------------
+
+Fouriersynthese:
+Entwickeln von f(t), periodisch in t mit Periodenl"ange T.
+
+f(t) = 1/2 a_0 + \sum_{k=1}^{\infty}{a_k\cos{\omega_kt} + b_k\sin{\omega_kt}}
+\omega_k = k\omega_0
+\omega_0 = 2\pi/T
+
+a_k = 2/T\int_0^T{f(t)\cos{\omega_kt}}
+b_k = 2/T\int_0^T{f(t)\sin{\omega_kt}}
+
+SynthesizeApp
+
+Gibb'sche Oszillationen
+
+im Allgemeinen:
+
+N Datenpunkte f(t_j) f"ur t_j = j\Delta
+\Delta = T/N
+
+d.h. nur \omega <= \omega_Q = \pi/N m"oglich
+
+\gamma_Q = 1/(2\Delta)
+
+Nyquist-Frequenz
+
+Theorem Nyquist & Shannon:
+stetige Funktion ist vollst"andig bestimmt durch N Datenpunkte, wenn sie durch einen Fiter mit \omega_c < \omega_Q gelaufen ist.
+
+1 + \omega_Q/\omega_0   unabh"angige a_k  >
+    ^^^^^^^^^                             >
+      N/2                                 > N+1 Koeffizienten
+                                          >
+\omega_Q/\omega_c unabh"angige b_k        >
+
+wegen \sin{\omega_Qt_j} = 0 => b_{N/2} = 0
+
+Damit genau N Koeffizienten und das System ist l"osbar.
+
+ODE:
+Analyze
+
+a_k = 2/N \sum_{j=0}^{N-1}{f_j\cos{\omega_kt_j}}
+b_k = 2/N \sum_{j=0}^{N-1}{f_j\sin{\omega_kt_j}}
+
+  (f_j = f(t_j) = f(j\Delta))
+
+
+Tue Jan  8 10:23:04 CET 2013
