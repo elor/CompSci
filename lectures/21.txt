@@ -1,0 +1,184 @@
+Thu Jan 10 09:19:57 CET 2013
+
+komplexe Fouriertransformation
+
+f(t) = \sum_{k=-\infty}^{\infty}{c_k \exp{i \omega_k t}
+\omega_k = k\omega_0
+\omega_0 = 2\pi/T
+
+c_{+-k} = 1/2 (a_k +- b_k)
+
+a_k = a_{-k}
+b_k = -b_{-k}
+
+c_0 = 1/2 a_0
+
+c_k = 1/T \int_{-T/2}^{T/2}{f(t) \exp{-i \omega_k t} dt}
+    \approx 1/N \sum_{j=-N/2}^{N/2-1}{f_j \exp{-i \omega_k j \Delta}
+
+inverse Transformation
+
+g_k = g(\omega_k) \equiv c_k T/\Delta     | * \exp{2\pi k j /N} Orthogonalit"aten
+
+f_j = 1/N \sum_{k=-N/2}^{N/2-1}{g_k \exp{2\pi k j /N}
+    = 1/N \sum_{k=-N/2}^{N/2-1}{g_k \exp{i \omega_k t_j}
+
+=> Inverse Formel zu c_k
+=> doppelte Fouriertrafo ergibt die urspr"ungliche Funktion.
+Ein bisschen mit den Normierungen aufpassen, aber im Allgemeinen funktioniert das.
+
+### FFT
+Das selbe wie oben, nur geschickt sortiert.
+Dabei:
+W = \exp{-i 2\pi /N}
+
+1. Summe in gerade und ungerade Indizes zerlegen
+2. Terme so umformen, dass die Indizes j beider Teilsummen 0, 1, 2, 3 ... sind
+3. Die Terme im Exponenten sind (links) 2j und (rechts) (2j+1)
+4. umformen dieser Terme zu j/(N/2), herausziehen eines W^k vor der rechten Summe
+5. Aufteilen in gerade und ungerade Teile
+6. weitere Aufteilung in gerade Teile der geraden Anteile (g^{ee}) und so halt
+7. hinsehen und merken, dass wir unten recht wenige Exponentialfunktionen haben (selber Vorfaktor W. Potenzieren kann recht schnell geschehen)
+
+also \BigOh{N\log{N}} statt \BigOh{N^2}
+
+OSP stellt auch SimpleFFT zur Verf"ugung.
+
+### Wrap-Around-Ordnung
+-f .. 0 .. f
+-->
+0 .. f, -f .. 0
+
+toNaturalOrder
+FFTCalculationApp
+FFTFrame
+
+r"aumliche Fouriertransformation
+
+        F.T.
+\Psi(x) ---> \phi(q)
+
+q_0 = 2\pi/L
+
+      F.T.
+Gauss ---> Gauss
+
+9.4. Fouriertransformation in d=2
+---------------------------------
+
+f(x,y) = \sum_{n=-N/2}^{N/2-1}\sum_{m=-N/2}^{N/2-1}{c_{nm}\exp{iq_nx}\exp{iq_my}}
+
+q_n = 2\pin/X
+q_m = 2\pim/Y
+
+X,Y - Periodenl"angen
+
+FFT2DcalculationApp
+
+Gauss2D ---> Gauss2D
+
+9.5. Fourier-Integrale f"ur nichtperiodische Funktionen
+-------------------------------------------------------
+
+g(\omega) = \int_{-\infty}^{\infty}{f(t)\exp{-i \omega t}dt}
+
+f(t) = 1/{2\pi} \int_{-\infty}^{\infty}{g(\omega)\exp{i\omega t} d\omega}
+
+Manchmal werden die Vorfaktoren auch auf beide Integrale verteilt. Auch hier haben die Exponenten umgekehrte Vorzeichen.
+
+Numerisch werden auch hier wieder St"u"tzstellen eingesetzt.
+Die Zahl der St"utzstellen steigt linear mit der Periodenl"ange.
+
+9.6. Leistungsspektrum
+----------------------
+
+Idee: Ein elektrisches Signal wird hinsichtlich seiner Leistung charakterisiert.
+
+Leistung P = 1/T \int_0^T{\abs{f(t)}^2 dt}
+            <<<<<<<<<<<< MAGIC >>>>>>>>>>> 
+           = \sum_{k=-N/2}^{N/2-1}{\abs{c_k}^2}
+
+Die Leistung wird hier durch einige wenige Koeffizienten wiedergegeben.
+Das unterstreicht die Bedeutung der Fourierzerlegung bzw. der Normalschwingungen.
+Diese Verteilung wird nun durch diese Koeffizienten wiedergegeben.
+Name: Parseval'sches Theorem (zumindest eine Form davon)
+
+\omega > \omega_Q
+=>
+\omega+\omega_Q-Terme werden zur"uckgefaltet auf \omega-\omega_Q
+
+Dagegen hilft beispielsweise Filtern des Signales.
+
+### FPU-Problem
+(Fermi, Pasta, Ulam 1955)
+
+F_{ij} = -(u_i-u_j) - \alpha (u_i-u_j)^3
+
+Fragestellung: ergodisch oder nichtergodisch?
+
+(lineares Problem ist nichtergodisch, da es in seiner Normalschwingung bleibt und somit nicht den gesamten Zustandsraum abdeckt)
+
+Erwartung: Nichtlineare Oszillatoren werden ergodisch, da durch die Nichtlinearit"at die Leistung einer Normalschwingung auf die andere "ubertragen werden kann.
+
+Qualitativ: F"ur bestimmte (sehr kleine) \alpha ist das System nichtergodisch.
+Das erste qualitative neue Ergebnis, das sich aus der Numerik ergeben hat.
+
+9.7. laufende Wellen
+--------------------
+
+Wellengleichung \d^2u/\dt^2 = c^2 \d^2u/\dx^2
+
+Bewegungsgleichung aus Kap. 9.1.
+f"ur N->\infty, a->0, Na=const
+
+c^2 = k/m a^2 = ka/{m/a}
+
+c - Schallgeschwindigkeit
+
+L"osung: jede f(x +- ct)
+         insbesondere u = A\cos{2\pi/\lambda (x+-ct)}
+                  und u = B\sin{2\pi/\lambda (x+-ct)}
+
+Diskretisierung:
+
+u(x, t+\Delta_t) = 2 u(x, t) - u(x, t-\Delta_t) + (c \Delta_t/\Delta_x)^2
+(u(x+\Delta_x, t) - 2u(x, t) + u(x-\Delta_x, t))
+
+Wenn (c \Delta_t/\Delta_x)^2 \equiv 1: Beste numerische Ergebnisse.
+
+z.B. u(x, t=0) = \exp{-(x-10)^2}
+Einfach mal betrachten, wo die Gaussfunktion gewesen sein muss, um nun so
+auszusehen.
+
+allgemeiner Ansatz: u(x, t=-\Delta_t) = \exp{-(x-10+c\Delta_t)^2}
+=> Bewegung nach rechts.
+
+Sich "uberlagernde Pulse st"oren sich nicht, jedoch kann es zu numerischem
+Bullshit f"uhren.
+
+Schwebungen sind ebenso m"oglich, wenn die Wellen leicht unterschiedliche
+Geschwindigkeiten haben.
+
+Thu Jan 10 10:18:23 CET 2013
+
+Cain:
+### FFT-Rechenregeln
+
+FT von h(t)    =     H(f)
+
+Zeitdom"ane       Frequenzdom"ane
+
+Eigenschaften:
+
+h(a*t)    <=> 1/\abs{a} H(f/a)          Zeitskalierung
+H(b*f)    <=> 1/\abs{b} h(t/b)          Frequenzskalierung
+h(t-t_0)  <=> H(f)*\exp{2\pi i f t_0}   Zeitverschiebung
+H(f-f_0)  <=> h(t)*\exp{-2\pi i f_0 t}  Frequenzverschiebung
+
+Eingeschr"ankte Variablenbereiche
+h(t) reell      => H(-f) = [H(f)]*    (konjugiert komplex)
+h(t) imagin"ar  => H(-f) = -[H(f)]*
+
+h(t) gerade (i.e. h(t) = h(-t))     => H(f) gerade
+h(t) ungerade (i.e. h(t) = -h(-t))  => H(f) ungerade
+
