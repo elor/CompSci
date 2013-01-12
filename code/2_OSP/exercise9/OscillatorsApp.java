@@ -6,21 +6,58 @@
  */
 
 package exercise9;
+
 import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.DisplayFrame;
 
 /**
  * OscillatorsApp displays a system of coupled oscillators in a drawing panel.
- *
+ * 
  * The separation between oscillators is one in the current model.
- *
+ * 
  * @author Wolfgang Christian, Jan Tobochnik, Harvey Gould
  * @version 1.0
  */
 public class OscillatorsApp extends AbstractSimulation {
-  DisplayFrame displayFrame = new DisplayFrame("Position", "Displacement", "Oscillators");
+  /**
+   * Creates the oscillator program from the command line
+   * 
+   * @param args
+   */
+  public static void main(String[] args) {
+    SimulationControl.createApp(new OscillatorsApp());
+  }
+
+  DisplayFrame displayFrame = new DisplayFrame("Position", "Displacement",
+      "Oscillators");
   Oscillators oscillators;
+
   double dt;
+
+  /**
+   * return a diff between 
+   * @return
+   */
+  public double[] compare() {
+    double[] analytical = oscillators.analyticalPositions();
+    double[] numerical = oscillators.numericalPositions();
+
+    double[] diff = analytical;
+
+    for (int i = 0; i < analytical.length; ++i) {
+      diff[i] = analytical[i] - numerical[i];
+    }
+
+    return diff;
+  }
+
+  /**
+   * Does a time step
+   */
+  public void doStep() {
+    oscillators.step(dt); // advance the state by dt
+    displayFrame.setMessage("t = " + decimalFormat.format(oscillators.time));
+  }
 
   /**
    * Initializes the simulation by creating a system of oscillators.
@@ -29,19 +66,11 @@ public class OscillatorsApp extends AbstractSimulation {
     dt = control.getDouble("dt"); // time step
     int mode = control.getInt("mode");
     int N = control.getInt("number of particles");
-    oscillators = new Oscillators(mode, N);
-    displayFrame.setPreferredMinMax(0, N+1, -1.5, 1.5);
+    oscillators = new Oscillators(mode, N, 1.0, "fixed");
+    displayFrame.setPreferredMinMax(0, N + 1, -1.5, 1.5);
     displayFrame.clearDrawables(); // remove old oscillators
     displayFrame.setSquareAspect(false);
     displayFrame.addDrawable(oscillators);
-  }
-
-  /**
-   * Does a time step
-   */
-  public void doStep() {
-    oscillators.step(dt); // advance the state by dt
-    displayFrame.setMessage("t = "+decimalFormat.format(oscillators.time));
   }
 
   /**
@@ -53,37 +82,28 @@ public class OscillatorsApp extends AbstractSimulation {
     control.setValue("dt", 0.5);
     initialize();
   }
-
-  /**
-   * Creates the oscillator program from the command line
-   *
-   * @param args
-   */
-  public static void main(String[] args) {
-    SimulationControl.createApp(new OscillatorsApp());
-  }
 }
 
-/* 
- * Open Source Physics software is free software; you can redistribute
- * it and/or modify it under the terms of the GNU General Public License (GPL) as
+/*
+ * Open Source Physics software is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License (GPL) as
  * published by the Free Software Foundation; either version 2 of the License,
  * or(at your option) any later version.
-
+ * 
  * Code that uses any portion of the code in the org.opensourcephysics package
- * or any subpackage (subdirectory) of this package must must also be be released
- * under the GNU GPL license.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston MA 02111-1307 USA
- * or view the license online at http://www.gnu.org/copyleft/gpl.html
- *
- * Copyright (c) 2007  The Open Source Physics project
- *                     http://www.opensourcephysics.org
+ * or any subpackage (subdirectory) of this package must must also be be
+ * released under the GNU GPL license.
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+ * Suite 330, Boston MA 02111-1307 USA or view the license online at
+ * http://www.gnu.org/copyleft/gpl.html
+ * 
+ * Copyright (c) 2007 The Open Source Physics project
+ * http://www.opensourcephysics.org
  */

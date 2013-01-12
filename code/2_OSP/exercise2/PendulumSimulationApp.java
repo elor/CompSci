@@ -6,6 +6,11 @@ import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.*;
 import org.opensourcephysics.numerics.*;
 
+/**
+ * Pendulum App using Simulation class
+ * 
+ * @author elor
+ */
 public class PendulumSimulationApp extends AbstractSimulation {
 
   private PendulumODE pendulae[];
@@ -13,6 +18,9 @@ public class PendulumSimulationApp extends AbstractSimulation {
   private PlotFrame plot;
   private PlotFrame areaplot;
 
+  /**
+   * empty constructor
+   */
   public PendulumSimulationApp() {
   }
 
@@ -23,6 +31,11 @@ public class PendulumSimulationApp extends AbstractSimulation {
     SimulationControl.createApp(new PendulumSimulationApp());
   }
 
+  /**
+   * calculate area of all pendulae in phase space
+   * 
+   * @return area
+   */
   public double calcArea() {
     double A = 0.0;
     int max = pendulae.length - 1;

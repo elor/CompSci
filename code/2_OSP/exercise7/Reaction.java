@@ -2,20 +2,38 @@ package exercise7;
 
 import java.util.Random;
 
+/**
+ * Class modeling the reactions on a onedimensional band according to exercise 7
+ * 
+ * @author elor
+ */
 public class Reaction {
   int[] lattice;
   int time;
   Random rng = new Random();
   private boolean directInteraction = false;
 
+  /**
+   * @return true if direct interactions are considered, false otherwise
+   */
   public boolean isDirectInteraction() {
     return directInteraction;
   }
 
+  /**
+   * @param directInteraction
+   *          whether to consider direct interaction
+   */
   public void setDirectInteraction(boolean directInteraction) {
     this.directInteraction = directInteraction;
   }
 
+  /**
+   * initialized the arrays, but does not randomize anything
+   * 
+   * @param size
+   *          size of the simulation space
+   */
   public void initialize(int size) {
     lattice = new int[size];
     for (int i = 0; i < length(); ++i) {
@@ -25,6 +43,9 @@ public class Reaction {
     time = 0;
   }
 
+  /**
+   * perform a step
+   */
   public void step() {
     int len = length();
 
@@ -89,15 +110,26 @@ public class Reaction {
     lattice[(i + length()) % length()] = value;
   }
 
+  /**
+   * @param i
+   *          position in the lattice
+   * @return +1 if particle is moving right, -1 of left, 0 if cell is empty
+   */
   public int at(int i) {
     // the indexing still is a hack
     return lattice[(i + length()) % length()];
   }
 
+  /**
+   * @return current simulation time
+   */
   public int t() {
     return time;
   }
 
+  /**
+   * @return number of remaining atoms
+   */
   public int n() {
     int num = 0;
     int l = length();
@@ -111,22 +143,16 @@ public class Reaction {
     return num;
   }
 
+  /**
+   * @return size of the simulation space
+   */
   public int length() {
     return lattice.length;
   }
 
-  public int count() {
-    int count = 0;
-
-    for (int i = 0; i < length(); ++i) {
-      if (at(i) != 0) {
-        ++count;
-      }
-    }
-
-    return count;
-  }
-
+  /**
+   * @return counts of nearest neighbor distances
+   */
   public int[] getNearestNeighborDistances() {
     // Create return array of length n (atom count)
     // find first cell

@@ -70,7 +70,7 @@ public class ReactionApp extends AbstractSimulation {
     }
 
     // Count Plot
-    countPlot.append(0, Math.log(reaction.t()), Math.log(reaction.count()));
+    countPlot.append(0, Math.log(reaction.t()), Math.log(reaction.n()));
     
     // NN Histogram
     nearestHist.clearData();

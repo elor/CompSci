@@ -12,6 +12,11 @@ import java.util.Random;
 import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.*;
 
+/**
+ * App for exercise 5b
+ * @author elor
+ *
+ */
 public class ExerciseBApp extends AbstractSimulation {
   PlotFrame frame = new PlotFrame("x", "y", "Billiard Table");
   PlotFrame lyaplot = new PlotFrame("t", "L", "Lyapunov exponent");

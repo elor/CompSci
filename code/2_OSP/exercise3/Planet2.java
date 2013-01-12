@@ -139,6 +139,10 @@ public class Planet2 implements Drawable, ODE {
     }
   }
 
+  /**
+   * @param i index of the observed planet
+   * @return angular momentum of planet i
+   */
   public double getAMom(int i) {
     double L = -1.0;
     switch (i) {
@@ -153,10 +157,17 @@ public class Planet2 implements Drawable, ODE {
     return L;
   }
 
+  /**
+   * @return time
+   */
   public double getTime() {
     return state[8];
   }
 
+  /**
+   * @param i index of the observed planet
+   * @return kinetic energy of planet i
+   */
   public double getKineticEnergy(int i) {
     double T = -1.0;
     double v2;
@@ -175,6 +186,10 @@ public class Planet2 implements Drawable, ODE {
     return T;
   }
 
+  /**
+   * @param i index of the observed planet
+   * @return potential energy of planet i
+   */
   public double getPotentialEnergy(int i) {
     double VSun = -1.0; // potential energy relative to sun
     double VPlanet = -1.0; // potential energy relative to the other planet

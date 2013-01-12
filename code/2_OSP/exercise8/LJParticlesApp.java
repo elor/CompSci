@@ -66,6 +66,9 @@ public class LJParticlesApp extends AbstractSimulation {
   private double Paccmean;
   private double Taccmean;
 
+  /**
+   * empty constructor
+   */
   public LJParticlesApp() {
   }
 
@@ -205,6 +208,9 @@ public class LJParticlesApp extends AbstractSimulation {
                                            // frames
   }
 
+  /**
+   * scale the system to the ratio entered in the control panel
+   */
   public void scale() {
     double ratio = control.getDouble("scale ratio");
     md.scale(ratio);

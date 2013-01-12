@@ -10,6 +10,10 @@ package exercise5;
 import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.*;
 
+/**
+ * Billiard App according to exercive5
+ * @author elor
+ */
 public class BilliardApp extends AbstractSimulation {
   PlotFrame frame = new PlotFrame("x", "y", "Billiard Table");
   Billiard billiard;

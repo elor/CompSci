@@ -148,14 +148,23 @@ public class Planet3 implements Drawable, ODE {
   // return L;
   // }
 
+  /**
+   * @return time
+   */
   public double getTime() {
     return state[4];
   }
 
+  /**
+   * @return kinetic energy
+   */
   public double getKineticEnergy() {
     return GM1 * (state[1] * state[1] + state[3] * state[3]) / 2;
   }
 
+  /**
+   * @return potential energy
+   */
   public double getPotentialEnergy() {
     double V1 = -1.0; // potential energy relative to sun
     double V2 = -1.0; // potential energy relative to the other planet

@@ -44,6 +44,9 @@ public class WalkerApp extends AbstractSimulation {
     varPlot.clearData();
   }
 
+  /**
+   * @return mean x position of all walkers
+   */
   public double xMean() {
     int num = walker.n();
     double x = 0.0;
@@ -55,6 +58,9 @@ public class WalkerApp extends AbstractSimulation {
     return x / num;
   }
 
+  /**
+   * @return mean y position of all walkers
+   */
   public double yMean() {
     int num = walker.n();
     double y = 0.0;

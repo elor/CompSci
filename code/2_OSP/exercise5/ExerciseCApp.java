@@ -12,6 +12,10 @@ import java.awt.Color;
 import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.*;
 
+/**
+ * App for exercise 5c
+ * @author elor
+ */
 public class ExerciseCApp extends AbstractSimulation {
   PlotFrame frame = new PlotFrame("x", "y", "Billiard Table");
   Billiard billiard;

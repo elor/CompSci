@@ -12,13 +12,20 @@ import org.opensourcephysics.frames.*;
 
 /**
  * LJParticlesApp simulates a two-dimensional system of interacting particles
- * via the Lennard-Jones potential.
+ * via the Lennard-Jones potential. This second app scales the temperature and
+ * plots T vs. E
  * 
  * @author Jan Tobochnik, Wolfgang Christian, Harvey Gould
  * @version 1.0 revised 03/28/05, 3/29/05
  */
 public class LJParticlesAppTvsE extends AbstractSimulation {
 
+  /**
+   * accumulator for temperature, energy and pressure. It works on ring buffers
+   * to check static states
+   * 
+   * @author elor
+   */
   public static class Accumulator {
     int accpos;
     Boolean accInitiating;
@@ -30,14 +37,23 @@ public class LJParticlesAppTvsE extends AbstractSimulation {
     double Taccdelta;
     double Eaccmean;
 
+    /**
+     * @return mean energy
+     */
     public double E() {
       return Eaccmean;
     }
 
+    /**
+     * @return mean pressure
+     */
     public double P() {
       return Paccmean;
     }
 
+    /**
+     * @return mean temperature
+     */
     public double T() {
       return Taccmean;
     }
@@ -91,29 +107,31 @@ public class LJParticlesAppTvsE extends AbstractSimulation {
       if (accInitiating) {
         return false;
       }
-    
+
       double tolerance = 0.0005;
-      return Math.abs(Paccdelta) < tolerance
-          && Math.abs(Taccdelta) < tolerance;
+      return Math.abs(Paccdelta) < tolerance && Math.abs(Taccdelta) < tolerance;
     }
 
     void reset() {
       accpos = 0;
       accInitiating = true;
-    
+
       Eaccdelta = Eaccmean = Paccdelta = Paccmean = Taccdelta = Taccmean = 0.0;
     }
 
-    public double Paccmean;
-    public double Taccmean;
+    double Paccmean;
+    double Taccmean;
 
-    public Accumulator(int accpos, Boolean accInitiating, double[] eacc,
-        double[] tacc, double[] pacc) {
-      this.accpos = accpos;
-      this.accInitiating = accInitiating;
-      Eacc = eacc;
-      Tacc = tacc;
-      Pacc = pacc;
+   /**
+     * constructor
+     * @param size
+     */
+    public Accumulator(int size) {
+      this.accpos = 0;
+      this.accInitiating = true;
+      Eacc = new double[size];
+      Tacc = new double[size];
+      Pacc = new double[size];
     }
   }
 
@@ -144,12 +162,14 @@ public class LJParticlesAppTvsE extends AbstractSimulation {
   // "Velocity histogram");
   DisplayFrame display = new DisplayFrame("x", "y", "Lennard-Jones system");
 
-  Accumulator acc = new Accumulator(0, true, new double[100], new double[100],
-      new double[100]);
+  Accumulator acc = new Accumulator(100);
   private double Ttarget;
   private PlotFrame TvsE = new PlotFrame("E", "T", "T(E)");
   private PlotFrame CvPlot = new PlotFrame("t", "Cv", "Cv(t)");
 
+  /**
+   * empty constructor
+   */
   public LJParticlesAppTvsE() {
   }
 
@@ -194,7 +214,7 @@ public class LJParticlesAppTvsE extends AbstractSimulation {
         rescaletime += 2.0;
       }
     } while (!acc.isStatic());
-    
+
     md.resetAverages();
 
     // average total energy and temperature over many time units

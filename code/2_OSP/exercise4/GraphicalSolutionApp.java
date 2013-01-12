@@ -23,6 +23,9 @@ public class GraphicalSolutionApp extends AbstractSimulation {
   double x, y;
   double x0, y0;
 
+  /**
+   * Constructor. Initializes the plotframe
+   */
   public GraphicalSolutionApp() {
     plotFrame.setPreferredMinMax(0, 1, 0, 1);
     plotFrame.setConnected(true);
@@ -85,17 +88,34 @@ public class GraphicalSolutionApp extends AbstractSimulation {
     }
   }
 
+  /**
+   * Slope at position x with parameter r and periodicity p
+   * 
+   * @param x
+   * @param r
+   * @param p
+   * @return slope
+   */
   public double df(double x, double r, int p) {
     switch (p) {
     case 0:
       return 0.0;
     case 1:
-      return 4*r-8*r*x;
+      return 4 * r - 8 * r * x;
     default:
-      return (4*r - 8*r*f(x, r, p-1)) * df(x, r, p-1);
+      return (4 * r - 8 * r * f(x, r, p - 1)) * df(x, r, p - 1);
     }
   }
 
+  /**
+   * f(x) with parameter r
+   * 
+   * @param x
+   * @param r
+   * @param iterate
+   *          number of iterations
+   * @return value of f(x)
+   */
   public double f(double x, double r, int iterate) {
     if (iterate > 1) {
       double y = f(x, r, iterate - 1);
@@ -104,6 +124,9 @@ public class GraphicalSolutionApp extends AbstractSimulation {
     return 4 * r * x * (1 - x);
   }
 
+  /**
+   * clear all data
+   */
   public void clear() {
     plotFrame.clearData();
     drawFunction();
@@ -111,11 +134,15 @@ public class GraphicalSolutionApp extends AbstractSimulation {
     plotFrame.repaint();
   }
 
+  /**
+   * main function
+   * @param args
+   */
   public static void main(String[] args) {
     SimulationControl control = SimulationControl
         .createApp(new GraphicalSolutionApp());
-		control.addButton("clear", "Clear", "Clears the trajectory.");
-	}
+    control.addButton("clear", "Clear", "Clears the trajectory.");
+  }
 }
 
 /*

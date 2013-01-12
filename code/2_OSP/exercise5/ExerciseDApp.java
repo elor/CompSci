@@ -14,6 +14,10 @@ import java.util.List;
 import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.*;
 
+/**
+ * App for exercise 5d
+ * @author elor
+ */
 public class ExerciseDApp extends AbstractSimulation {
   PlotFrame frame = new PlotFrame("x", "y", "Billiard Table");
   PlotFrame plot = new PlotFrame("time", "fraction of remaining balls",

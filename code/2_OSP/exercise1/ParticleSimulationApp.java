@@ -4,6 +4,10 @@ import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.*;
 import org.opensourcephysics.numerics.*;
 
+/**
+ * Particle App using abstract OSP simulation class
+ * @author elor
+ */
 public class ParticleSimulationApp extends AbstractSimulation {
 
   private ParticleODE frictionparticle;
@@ -14,6 +18,9 @@ public class ParticleSimulationApp extends AbstractSimulation {
   private PlotFrame traj;
   private DisplayFrame draw;
 
+  /**
+   * empty constructor
+   */
   public ParticleSimulationApp() {
   }
 
@@ -37,6 +44,9 @@ public class ParticleSimulationApp extends AbstractSimulation {
     setStepsPerDisplay(10);
   }
 
+  /**
+   * print system state to control output
+   */
   public void print() {
     control.println(spaceparticle.toString() + "\t"
         + frictionparticle.toString());

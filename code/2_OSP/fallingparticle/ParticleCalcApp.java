@@ -2,10 +2,17 @@ package fallingparticle;
 
 import org.opensourcephysics.controls.*;
 
+/**
+ * Particle App using the abstract ODE Calculation class
+ * @author elor
+ */
 public class ParticleCalcApp extends AbstractCalculation {
 
   private Particle particle;
 
+  /**
+   * constructor
+   */
   public ParticleCalcApp() {
   }
 
@@ -24,6 +31,9 @@ public class ParticleCalcApp extends AbstractCalculation {
 
   }
 
+  /**
+   * print system state to control output
+   */
   public void print() {
     control.println("t=" + particle.getT() + ", y=" + particle.getY() + " ("
         + particle.analyticalPosition() + "), v=" + particle.getV() + " ("

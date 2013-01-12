@@ -2,6 +2,11 @@ package exercise1;
 
 import org.opensourcephysics.numerics.*;
 
+/**
+ * ODE Test
+ * 
+ * @author elor
+ */
 public class ODETest {
 
   /**

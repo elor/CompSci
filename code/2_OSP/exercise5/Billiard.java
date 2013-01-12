@@ -7,6 +7,11 @@ import java.util.Random;
 import org.opensourcephysics.display.Drawable;
 import org.opensourcephysics.display.DrawingPanel;
 
+/**
+ * Billiard class according to exercise 5
+ * 
+ * @author elor
+ */
 public class Billiard implements Drawable {
   double r, l;
   double state[];
@@ -30,8 +35,11 @@ public class Billiard implements Drawable {
    *          radius of the caps
    * @param l
    *          length of the middle part
+   * @param holesize
+   *          Size of the hole at the right-hand side of the table
    * @param balls
    *          number of balls
+   * @param balls
    */
   public void setProperties(double r, double l, double holesize, int balls) {
     this.r = r;
@@ -104,6 +112,8 @@ public class Billiard implements Drawable {
   /**
    * retrieves and returns the sector
    * 
+   * @param ball
+   *          index of the considered ball
    * @return sector (1, 2, 3 if inside, 0 if outside)
    */
   public int getSector(int ball) {
@@ -135,6 +145,8 @@ public class Billiard implements Drawable {
   /**
    * Checks if the position is inside the 'billiard table'
    * 
+   * @param ball
+   *          index if the ball
    * @return true if the position (x, y) is inside, false otherwise
    */
   public Boolean isInside(int ball) {
@@ -199,10 +211,24 @@ public class Billiard implements Drawable {
     }
   }
 
+  /**
+   * @param x
+   *          first value of the 2D vector
+   * @param y
+   *          second value of the 2D vector
+   * @return length of the vector
+   */
   public double veclength(double x, double y) {
     return Math.sqrt(x * x + y * y);
   }
 
+  /**
+   * Calculate the time the ball hits a wall
+   * 
+   * @param ball
+   *          index of the ball
+   * @return bounce time
+   */
   public double getBounceTime(int ball) {
     int ball4 = ball * 4;
     int sector = getApproxSector(ball);
@@ -381,6 +407,10 @@ public class Billiard implements Drawable {
     throw new RuntimeException("getBounceTime: ball isn't inside the space");
   }
 
+  /**
+   * do the step, i.e. calculate the next bounce time and advance the simulation
+   * state by that time.
+   */
   public void doStep() {
     if (state.length == 1) {
       return;
@@ -477,10 +507,18 @@ public class Billiard implements Drawable {
     return;
   }
 
+  /**
+   * @return current simulation time
+   */
   public double getTime() {
     return state[state.length - 1];
   }
 
+  /**
+   * @param ball
+   *          index of the ball
+   * @return state of the ball: [x, vx, y, vy]
+   */
   public double[] getBall(int ball) {
     double ballstate[] = new double[4];
     int ball4 = ball * 4;
@@ -492,6 +530,9 @@ public class Billiard implements Drawable {
     return ballstate;
   }
 
+  /**
+   * @return number of balls in the current simulation
+   */
   public int getNumBalls() {
     if (state == null) {
       return 0;
@@ -502,6 +543,8 @@ public class Billiard implements Drawable {
   /**
    * retrieves and returns the sector
    * 
+   * @param ball
+   *          index of the ball
    * @return sector (1, 2, 3 if inside, 0 if outside)
    */
   public int getApproxSector(int ball) {
@@ -518,6 +561,13 @@ public class Billiard implements Drawable {
     }
   }
 
+  /**
+   * @param x
+   *          first value
+   * @param y
+   *          second value
+   * @return square of the vector length
+   */
   public double veclength2(double x, double y) {
     return x * x + y * y;
   }

@@ -7,16 +7,36 @@ import org.opensourcephysics.display.Drawable;
 import org.opensourcephysics.display.DrawingPanel;
 import org.opensourcephysics.numerics.ODE;
 
+/**
+ * Particle class implementing the ODE interface
+ * 
+ * @author elor
+ */
 public class ParticleODE implements Drawable, ODE {
   double[] state;
   double g, c1, c2, m;
 
-  public ParticleODE(double x0, double vx0, double y0, double vy0, double c1, double c2, double m, double g) {
+  /**
+   * constructor
+   * 
+   * @param x0
+   * @param vx0
+   * @param y0
+   * @param vy0
+   * @param c1
+   *          first friction parameter (linear friction)
+   * @param c2
+   *          second friction parameter (quadratic friction)
+   * @param m
+   * @param g
+   */
+  public ParticleODE(double x0, double vx0, double y0, double vy0, double c1,
+      double c2, double m, double g) {
     this.g = g;
     this.c1 = c1;
     this.c2 = c2;
     this.m = m;
-    
+
     state = new double[5];
     state[0] = x0;
     state[1] = vx0;
@@ -32,11 +52,11 @@ public class ParticleODE implements Drawable, ODE {
 
   @Override
   public void getRate(double[] state, double[] rate) {
-    double v = Math.sqrt(state[1]*state[1] + state[3]*state[3]);
+    double v = Math.sqrt(state[1] * state[1] + state[3] * state[3]);
     rate[0] = state[1];
-    rate[1] = -c1*state[1]/m - c2*v*state[1]/m;
+    rate[1] = -c1 * state[1] / m - c2 * v * state[1] / m;
     rate[2] = state[3];
-    rate[3] = -g - c1*state[3]/m - c2*v*state[3]/m;
+    rate[3] = -g - c1 * state[3] / m - c2 * v * state[3] / m;
     rate[4] = 1.0;
   }
 
@@ -50,7 +70,7 @@ public class ParticleODE implements Drawable, ODE {
   public void draw(DrawingPanel panel, Graphics g) {
     int x = panel.xToPix(state[0]);
     int y = panel.yToPix(state[2]);
-    
+
     g.setColor(Color.blue);
     g.fillArc(x, y, 5, 5, 0, 360);
   }

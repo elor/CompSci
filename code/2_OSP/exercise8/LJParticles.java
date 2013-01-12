@@ -21,30 +21,29 @@ import org.opensourcephysics.numerics.*;
  * @version 1.1 revised 01/14/06
  */
 public class LJParticles implements Drawable, ODE {
-  public double state[];
-  public double ax[], ay[];
-  public int N, nx, ny; // number of particles, number per row, number per
-                        // column
-  public double Lx, Ly;
-  public double rho = N / (Lx * Ly);
-  public double initialKineticEnergy;
-  public int steps = 0;
-  public double dt = 0.01;
-  public double t;
-  public double totalPotentialEnergyAccumulator;
-  public double totalKineticEnergyAccumulator,
-      totalKineticEnergySquaredAccumulator;
-  public double virialAccumulator;
-  public double totalKineticEnergyCurrent;
-  public double totalPotentialEnergyCurrent;
-  public double virialCurrent;
-  public String initialConfiguration;
-  public double radius = 0.5; // radius of particles on screen
+  double state[];
+  double ax[], ay[];
+  int N, nx, ny; // number of particles, number per row, number per
+                 // column
+  double Lx, Ly;
+  double rho = N / (Lx * Ly);
+  double initialKineticEnergy;
+  int steps = 0;
+  double dt = 0.01;
+  double t;
+  double totalPotentialEnergyAccumulator;
+  double totalKineticEnergyAccumulator, totalKineticEnergySquaredAccumulator;
+  double virialAccumulator;
+  double totalKineticEnergyCurrent;
+  double totalPotentialEnergyCurrent;
+  double virialCurrent;
+  String initialConfiguration;
+  double radius = 0.5; // radius of particles on screen
   Verlet odeSolver = new Verlet(this);
 
-  // end break
-  // start break
-  // computeAcceleration
+  /**
+   * compute Acceleration for all particles
+   */
   public void computeAcceleration() {
     for (int i = 0; i < N; i++) {
       ax[i] = 0;
@@ -98,6 +97,9 @@ public class LJParticles implements Drawable, ODE {
     g.drawRect(xpix, ypix, lx, ly);
   }
 
+  /**
+   * @return current Energy (NOT accumulated or averaged)
+   */
   public double getEnergy() {
     return totalKineticEnergyCurrent + totalPotentialEnergyCurrent;
   }
@@ -123,24 +125,33 @@ public class LJParticles implements Drawable, ODE {
     return N / denom;
   }
 
+  /**
+   * @return mean energy, averaged over all steps since last reset
+   */
   public double getMeanEnergy() {
     return totalKineticEnergyAccumulator / steps
         + totalPotentialEnergyAccumulator / steps;
   }
 
+  /**
+   * @return mean pressure, averaged over all steps since last reset
+   */
   public double getMeanPressure() {
     double meanVirial = virialAccumulator / steps;
     return 1.0 + 0.5 * meanVirial / (N * getMeanTemperature()); // quantity
                                                                 // PA/NkT
   }
 
-  // end break
-  // start break
-  // averages
+  /**
+   * @return mean temperature
+   */
   public double getMeanTemperature() {
     return totalKineticEnergyAccumulator / (N * steps);
   }
 
+  /**
+   * @return current pressure, not averaged
+   */
   public double getPressure() {
     double meanVirial = virialCurrent;
     return 1.0 + 0.5 * meanVirial / (N * getTemperature()); // quantity
@@ -171,13 +182,16 @@ public class LJParticles implements Drawable, ODE {
     return state;
   }
 
-  // end break
-  // start break
-  // averages
+  /**
+   * @return current temperature
+   */
   public double getTemperature() {
     return totalKineticEnergyCurrent / N;
   }
 
+  /**
+   * initializes the system to triangular, rectangular or random positions
+   */
   public void initialize() {
     N = nx * ny;
     t = 0;
@@ -230,6 +244,9 @@ public class LJParticles implements Drawable, ODE {
     return ds;
   }
 
+  /**
+   * reset averages
+   */
   public void resetAverages() {
     steps = 0;
     virialCurrent = 0;
@@ -241,6 +258,12 @@ public class LJParticles implements Drawable, ODE {
     totalKineticEnergySquaredAccumulator = 0;
   }
 
+  /**
+   * compress/inflate the system
+   * 
+   * @param ratio
+   *          ratio by which to scale all positions and lengths
+   */
   public void scale(double ratio) {
     Lx *= ratio;
     Ly *= ratio;
@@ -253,11 +276,12 @@ public class LJParticles implements Drawable, ODE {
     }
   }
 
-  // end break
-  // start break
-  // setRandomPositions
-  public void setRandomPositions() { // particles placed at random, but not
-                                     // closer than rMinimumSquared
+  /**
+   * initialize the system to random positions
+   */
+  void setRandomPositions() {
+    // particles placed at random, but not
+    // closer than rMinimumSquared
     double rMinimumSquared = Math.pow(2.0, 1.0 / 3.0);
     boolean overlap;
     for (int i = 0; i < N; ++i) {
@@ -278,11 +302,11 @@ public class LJParticles implements Drawable, ODE {
     }
   }
 
-  // end break
-  // start break
-  // setRectangularLattice
-  public void setRectangularLattice() { // place particles on a rectangular
-                                        // lattice
+  /**
+   * set a rectangular lattice
+   */
+  void setRectangularLattice() {
+    // place particles on a rectangular lattice
     double dx = Lx / nx; // distance between columns
     double dy = Ly / ny; // distance between rows
     for (int ix = 0; ix < nx; ++ix) { // loop through particles in a row
@@ -294,12 +318,11 @@ public class LJParticles implements Drawable, ODE {
     }
   }
 
-  // end break
-
-  // end break
-  // start break
-  // setTriangularLattice
-  public void setTriangularLattice() { // place particles on triangular lattice
+  /**
+   * set a triangular lattice
+   */
+  public void setTriangularLattice() {
+    // place particles on triangular lattice
     double dx = Lx / nx; // distance between particles on same row
     double dy = Ly / ny; // distance between rows
     for (int ix = 0; ix < nx; ++ix) {
@@ -315,9 +338,9 @@ public class LJParticles implements Drawable, ODE {
     }
   }
 
-  // end break
-  // start break
-  // setVelocities
+  /**
+   * set velocities to random values (uniform)
+   */
   public void setVelocities() {
     double vxSum = 0.0;
     double vySum = 0.0;
@@ -348,6 +371,9 @@ public class LJParticles implements Drawable, ODE {
     }
   }
 
+  /**
+   * perform an md step
+   */
   public void step() {
     odeSolver.step();
     totalKineticEnergyCurrent = 0;
@@ -365,6 +391,11 @@ public class LJParticles implements Drawable, ODE {
     t += dt;
   }
 
+  /**
+   * rescale all velocities towards, but not exactly to, the target temperature
+   * 
+   * @param targetTemperature
+   */
   public void tempScale(double targetTemperature) {
     // calculate velocity scaling factor
     double factor = Math.sqrt(targetTemperature / getTemperature());

@@ -1,5 +1,9 @@
 package fallingparticle;
 
+/**
+ * Particle App
+ * @author elor
+ */
 public class ParticleApp {
 
   /**
