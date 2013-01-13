@@ -8,7 +8,7 @@
 package exercise9;
 
 import org.opensourcephysics.controls.*;
-import org.opensourcephysics.frames.DisplayFrame;
+import org.opensourcephysics.frames.PlotFrame;
 
 /**
  * OscillatorsApp displays a system of coupled oscillators in a drawing panel.
@@ -28,18 +28,23 @@ public class OscillatorsApp extends AbstractSimulation {
     SimulationControl.createApp(new OscillatorsApp());
   }
 
-  DisplayFrame displayFrame = new DisplayFrame("Position", "Displacement",
-      "Oscillators");
+  PlotFrame posFrame = new PlotFrame("Position", "Displacement", "Oscillators");
+  PlotFrame diffFrame = new PlotFrame("particle", "difference",
+      "diff between analytical and numerical solutions");
   Oscillators oscillators;
 
   double dt;
 
   /**
-   * return a diff between 
+   * return the differences between analytical and numerical solutions
+   * 
    * @return
    */
   public double[] compare() {
     double[] analytical = oscillators.analyticalPositions();
+    if (analytical == null) {
+      return null;
+    }
     double[] numerical = oscillators.numericalPositions();
 
     double[] diff = analytical;
@@ -55,31 +60,65 @@ public class OscillatorsApp extends AbstractSimulation {
    * Does a time step
    */
   public void doStep() {
-    oscillators.step(dt); // advance the state by dt
-    displayFrame.setMessage("t = " + decimalFormat.format(oscillators.time));
+    int steps = control.getInt("steps per display");
+    for (int i = 0; i < steps; ++i) {
+      oscillators.step(dt); // advance the state by dt
+    }
+    posFrame.setMessage("t = " + decimalFormat.format(oscillators.time));
+
+    // compare
+    diffFrame.clearData();
+    posFrame.clearData();
+
+    double[] diff = compare();
+    if (diff != null) {
+      double[] analytical = oscillators.analyticalPositions();
+      for (int i = 0; i < diff.length; ++i) {
+        posFrame.append(1, i, analytical[i]);
+        diffFrame.append(0, i, diff[i]);
+      }
+    }
+  }
+
+  @Override
+  public void start() {
+    dt = control.getDouble("dt");
+
+    String bc = control.getString("boundary conditions");
+    oscillators.setBC(bc);
   }
 
   /**
    * Initializes the simulation by creating a system of oscillators.
    */
   public void initialize() {
-    dt = control.getDouble("dt"); // time step
     int mode = control.getInt("mode");
     int N = control.getInt("number of particles");
-    oscillators = new Oscillators(mode, N, 1.0, "fixed");
-    displayFrame.setPreferredMinMax(0, N + 1, -1.5, 1.5);
-    displayFrame.clearDrawables(); // remove old oscillators
-    displayFrame.setSquareAspect(false);
-    displayFrame.addDrawable(oscillators);
+    double k = control.getDouble("k/m");
+    String positioning = control.getString("initial positioning");
+    String bc = control.getString("boundary conditions");
+
+    oscillators = new Oscillators(positioning, mode, N, k, bc);
+
+    posFrame.setPreferredMinMax(0, N + 1, -1.5, 1.5);
+    posFrame.clearDrawables(); // remove old oscillators
+    posFrame.setSquareAspect(false);
+    posFrame.addDrawable(oscillators);
+
+    diffFrame.setPreferredMinMax(0, N + 1, -1.0, 1.0);
   }
 
   /**
    * Resets the oscillator program to its default values.
    */
   public void reset() {
-    control.setValue("number of particles", 16);
-    control.setValue("mode", 1);
-    control.setValue("dt", 0.5);
+    control.setValue("number of particles", 10);
+    control.setValue("mode", 3);
+    control.setValue("k/m", 1.0);
+    control.setValue("initial positioning", "mode");
+    control.setAdjustableValue("boundary conditions", "free");
+    control.setAdjustableValue("dt", 0.01);
+    control.setAdjustableValue("steps per display", 100);
     initialize();
   }
 }

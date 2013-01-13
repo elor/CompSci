@@ -12,7 +12,7 @@ Wellen (hier): bewegt sich fort
 Bedingungen: d=1, N Teilchen, Masse m, Federkonstante k, Abstand a, fester Rand
 betrachten: Auslenkung u_j(t)
 
-Fester Rand: u_0(t) = u(N+1)(t) = 0
+Fester Rand: u_0(t) = u_{N+1}(t) = 0
 
 Bewegungsgleichungen sind unkompliziert
 

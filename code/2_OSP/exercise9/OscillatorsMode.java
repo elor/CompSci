@@ -18,8 +18,8 @@ import org.opensourcephysics.numerics.*;
  * @version 1.0
  */
 public class OscillatorsMode implements Drawable, Function {
-  static final double OMEGA_SQUARED = 1; // equals k/m
   FunctionDrawer functionDrawer; // draws the initial condition
+  double omega_squared;
   double omega; // oscillation frequency of mode
   double wavenumber; // wavenumber = 2*pi/wavelength
   double amplitude;
@@ -34,10 +34,11 @@ public class OscillatorsMode implements Drawable, Function {
    * @param N
    *          int
    */
-  OscillatorsMode(int mode, int N) {
+  OscillatorsMode(int mode, int N, double k_m) {
+    omega_squared = k_m;
     amplitude = Math.sqrt(2.0 / (N + 1));
-    omega = 2 * Math.sqrt(OMEGA_SQUARED)
-        * Math.abs(Math.sin(mode * Math.PI / N / 2));
+    omega = 2 * Math.sqrt(omega_squared)
+        * Math.abs(Math.sin(mode * Math.PI / (N+1) / 2));
     wavenumber = Math.PI * mode / (N + 1);
     functionDrawer = new FunctionDrawer(this);
     functionDrawer.initialize(0, N + 1, 300, false); // draws the initial

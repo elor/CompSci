@@ -8,6 +8,8 @@
 package exercise9;
 
 import java.awt.Graphics;
+import java.util.Random;
+
 import org.opensourcephysics.display.*;
 import org.opensourcephysics.numerics.ODE;
 import org.opensourcephysics.numerics.ODESolver;
@@ -37,20 +39,57 @@ public class Oscillators implements Drawable, ODE {
    * Constructs a chain of coupled oscillators in the given mode and number of
    * oscillators.
    * 
-   * @param mode  initial oscillation mode
-   * @param N number of particles without ghost images
-   * @param k spring parameter (actually k/m)
-   * @param bc  boundary conditions. Can be one of "fixed", "periodic" and "free"
+   * @param positioning
+   *          initial positioning. Must be one of "mode", "random" and "pulse".
+   * @param mode
+   *          initial oscillation mode
+   * @param N
+   *          number of particles without ghost images
+   * @param k
+   *          spring parameter (actually k/m)
+   * @param bc
+   *          boundary conditions
    */
-  public Oscillators(int mode, int N, double k, String bc) {
+  public Oscillators(String positioning, int mode, int N, double k, String bc) {
     this.state = new double[2 * (N + 2)]; // includes the two ends of the chain
-    this.modePos = new double[N + 2];
     this.k = k;
     this.bc = bc;
-    normalMode = new OscillatorsMode(mode, N);
-    for (int i = 0, n = state.length / 2; i < n; ++i) {
-      modePos[i] = state[2 * i] = normalMode.evaluate(i); // initial
-                                                          // displacement
+
+    if (positioning.equals("mode")) {
+      int correction = 0;
+      int offset = 0;
+
+      if (this.bc.equals("periodic")) {
+        correction = 1;
+      } else if (this.bc.equals("free")) {
+        correction = 2;
+        offset = 1;
+      }
+      
+      this.normalMode = new OscillatorsMode(mode, N - correction, k);
+      this.modePos = new double[N + 2];
+
+      for (int i = 0, n = state.length / 2 - offset; i < n; ++i) {
+        // initial displacement
+        modePos[i + offset] = state[2 * (i + offset)] = normalMode.evaluate(i);
+      }
+    } else if (positioning.equals("random")) {
+      // initialize on random positions
+      Random rand = new Random();
+      for (int i = 2; i < state.length - 2; i += 2) {
+        state[i] = rand.nextDouble() - 0.5;
+      }
+    } else if (positioning.equals("pulse")) {
+      if (state.length < 12) {
+        throw new RuntimeException(
+            "Too few particles for positioning type 'pulse'. You need at least 5");
+      }
+
+      state[2] = 0.2;
+      state[4] = 0.6;
+      state[6] = 1.0;
+      state[8] = 0.6;
+      state[10] = 0.2;
     }
 
     solver = new RK4(this);
@@ -64,7 +103,12 @@ public class Oscillators implements Drawable, ODE {
    */
   public void draw(DrawingPanel drawingPanel, Graphics g) {
     applyBoundaries(state);
-    normalMode.draw(drawingPanel, g); // draw initial condition
+
+    // draw initial condition
+    if (normalMode != null) {
+      normalMode.draw(drawingPanel, g);
+    }
+
     for (int i = 0, n = state.length; i < n; i += 2) {
       circle.setXY(i / 2, state[i]);
       circle.draw(drawingPanel, g);
@@ -86,20 +130,20 @@ public class Oscillators implements Drawable, ODE {
   private void applyBoundaries(double[] state) {
     int l = state.length;
 
-    if (bc == "fixed") {
+    if (bc.equals("fixed")) {
       // ghost particles don't move
       state[0] = 0.0;
       state[l - 2] = 0.0;
-    } else if (bc == "periodic") {
+    } else if (bc.equals("periodic")) {
       // ghost particles follow periodic images
       state[0] = state[l - 4];
       state[l - 2] = state[2];
-    } else if (bc == "free") {
+    } else if (bc.equals("free")) {
       // ghost particles follow their respective ends of the chain
       state[0] = state[2];
       state[l - 2] = state[l - 4];
-    } else {
-      throw new RuntimeException("Unknown boundary condition.");
+    } else if (bc.equals("free")) {
+      throw new RuntimeException("Unknown boundary condition:" + bc);
     }
   }
 
@@ -109,7 +153,7 @@ public class Oscillators implements Drawable, ODE {
   }
 
   /**
-   * @return the number of particles, excluding ghost images 
+   * @return the number of particles, excluding ghost images
    */
   public int size() {
     return state.length / 2 - 2;
@@ -127,9 +171,13 @@ public class Oscillators implements Drawable, ODE {
   }
 
   /**
-   * @return analytically calculated particle positions for current time 
+   * @return analytically calculated particle positions for current time
    */
   public double[] analyticalPositions() {
+    if (normalMode == null) {
+      return null;
+    }
+
     double[] pos = new double[modePos.length];
 
     double phase = Math.cos(time * normalMode.omega);
@@ -141,7 +189,8 @@ public class Oscillators implements Drawable, ODE {
   }
 
   /**
-   * @return numerically calculated positions of the particles for the current time
+   * @return numerically calculated positions of the particles for the current
+   *         time
    */
   public double[] numericalPositions() {
     double[] pos = new double[state.length / 2];
@@ -151,6 +200,17 @@ public class Oscillators implements Drawable, ODE {
     }
 
     return pos;
+  }
+
+  /**
+   * set Boundary Conditions on the fly
+   * 
+   * @param bc
+   *          boundary conditions. See source code of applyBoundaries() for
+   *          details
+   */
+  public void setBC(String bc) {
+    this.bc = bc;
   }
 }
 

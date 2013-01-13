@@ -1,0 +1,30 @@
+a)
+  Numerical solution introduced (RK4, two ghosts). Comparison yields no differences.
+  
+b)
+  n=3:
+  Initial displacement is sinusoidal with 1.5 periods.
+  Displacements oscillate. No differences to analytical solution.
+  
+  n=8: symmetric, but seemingly chaotic displacements, which still follow the sinusoidal construction rule.
+  Displacements still oscillate. No differences to analytical solution.
+
+  The system seemingly remains in normal mode, though differences to analytical solution slowly increase over time.
+  
+  The particles seem to be moving chaotically or oscillating independently, though a combination of different modes seems more likely.
+  
+ c)
+  It yields a normal mode solution.
+  
+  There are N+2 atoms (2 ghosts) in a fixed bc, which equals N+1 springs.
+  Since there are no effective ghosts particles, but just ghost images, there are N-1 springs plus 1 spring to connect both ends, totaling N springs.
+  
+  Only even values of n give normal modes.
+  
+  free:
+  From the looks of it, the normal modes are at least not sinusoidal, if they are sinusoidal at all.
+  However, the oscillations show a very large period, which becomes clearer when watching the ends of the chain. 
+  
+  reflection:
+  fixed: 180 deg
+  free: 0 deg
