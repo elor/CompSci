@@ -65,7 +65,7 @@ public class Oscillators implements Drawable, ODE {
         correction = 2;
         offset = 1;
       }
-      
+
       this.normalMode = new OscillatorsMode(mode, N - correction, k);
       this.modePos = new double[N + 2];
 
@@ -85,11 +85,12 @@ public class Oscillators implements Drawable, ODE {
             "Too few particles for positioning type 'pulse'. You need at least 5");
       }
 
-      state[2] = 0.2;
-      state[4] = 0.6;
-      state[6] = 1.0;
-      state[8] = 0.6;
-      state[10] = 0.2;
+      int offset = 76;
+      state[offset + 2] = 0.2;
+      state[offset + 4] = 0.6;
+      state[offset + 6] = 1.0;
+      state[offset + 8] = 0.6;
+      state[offset + 10] = 0.2;
     }
 
     solver = new RK4(this);

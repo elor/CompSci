@@ -1,0 +1,138 @@
+
+Tue Jan 15 09:20:43 CET 2013
+
+nichtlinearer Oszillator
+
+E_{pot} = 1/2 \sum_{j=1}^N{(\exp{u_{j-1}-u_j} - 1)^2}   Morse-Potential
+        = 1/2 \sum_{j=1}^N{(Q_j - 1)^2}
+
+F_j = - \dE_{pot} / \du_j = Q_j(1-Q_j) - Q_{j+1}(1-Q_{j+1})
+
+## 9.8. Interferenz
+
+sph"arische Welle geht von \vec r_1 aus
+E(\vec r, t) = A/\abs{\vec r - \vec r_1} \exp{i(q\abs{\vec r - \vec r_1} - \omega t)}
+
+q = 2\pi/\lambda
+
+eigentlich: \vec q * \vec r
+aber: kugelf"ormig
+
+Superposition
+
+E = \exp{-i \omega t} \E(\vec r)
+
+\E(\vec r) = \sum_n{\exp{i q \abs{\vec r - \vec r_n} / \abs{\vec r - \vec r_n} A_n}
+
+\E - Phasor
+(sieht aus wie ein gro"ses \epsilon)
+
+=> Gesamtzustand setzt sich aus den einzelnen Wellen zusammen.
+
+Uns interessiert:
+* Energiedichte E/V
+* Lichtintensit"at E/A (Fl"ache, nicht Vorfaktor)
+
+Beide \propto (Re E)^2
+i.d.R nur zeitgemittelte Werte
+Wellenfront: Fl"ache konstanter Phase
+
+HuygensApp  Energiedichte von 1 oder mehreren Punktquellen
+
+Feldvisualisierungen:
+* RasterFrame
+* Scalar2DFrame
+
+Doppelspalt (Experiment: Young)
+Zwei Punktquellen simulieren Doppelspalt
+
+Beugung an Einfachspalt: Viele Punktquellen sehr eng zusammen f"uhren nach Huygens-Prinzip.
+
+## 9.9. Fraunhofer-Beugung
+
+F"ur Fernfeld sinnvoll.
+
+E(\vec r, t) = \exp{-i \omega t} \E(\vec r)
+
+\E(\vec r) = \E_0 \exp{i q \vec r_1} (1 + a_1 \exp{i q (r_2 - r_1)} + a_2 \exp{i q (r_3 - r_1)} + ... + a_{N-1} \exp{i q r_N - r_1})
+(Vektorpfeile gespart)
+
+Gitter r_1, r_2, ... r_N mit Abstand d
+r_2 - r_1 = r_3 - r-2 = ... = d \sin{\theta}
+
+\E(\bar r) = E_0 \exp{i q r_1}(1 + \sum_{n=1}^{N-1}{a_n \exp(i n \delta)}
+
+Das ist die Fouriertransformation des Spaltes.
+
+FraunhoferApp
+Fraunhofer2DApp
+
+Kreisf"ormige "Offnung -> zweidimensionale Fouriertransformation
+
+Aufpassen: Auf einem groben Rechteckgitter k"onnen Artefakte der Simulation entstehen.
+
+## 9.10. Fresnel-Beugung
+F"ur Nahfeld
+
+ebene Wellen
+\E = E_0 \exp{i \vec q * \vec r}
+
+=> tats"achlicher Wellenvektor \vec q
+
+\abs{\vec q} = 2\pi/\lambda
+
+Schirm bei z = z_0
+
+\E = E_0 \exp{i q_z z_0} = E_0 \exp{i z_0 \sqrt{q^2 - q_x^2 - q_y^2}}
+
+"Offnung bei z=0
+
+E_0(q_x, q_y) = \int\int_{"Offnung}{\exp{i(q_xx + q_yy)}dxdy
+
+Fouriertransformation der "Offnung
+
+Bei weit entferntem Schirm (z_0 gro"s) lohnt sich der Fraunhoferansatz eher, da die Oszillation im \exp{iq_zz_0}-Term gro"s wird.
+
+In der Anwendung nimmt man oftmals Radialkoordinaten (zylindrisches System)
+
+# 10. Elektrodynamik
+## 10.1. Statische Ladungen
+
+\vec E(\vec r) = K\sum_{i=1}^N{q_i/\abs{\vec r - \vec r_i}^3 (\vec r - \vec r_i)}
+
+\vec E - elektrisches Feld
+q_i - Ladungen
+K = 1/{4\pi\epsilon_0} \approx 9e9 Nm^2/c^2
+\epsilon - Dielektrizit"atskonstante
+
+Fr"uher (gcs, Gau"ssches Einheitensystem): K = 1
+
+Offensichtlich: Superposition
+
+Lorentz-Kraft
+
+\vec F = q (\vec E + \vec v/c \cross \vec B)
+
+\vec B - Magnetfeld
+auch wieder in cgs
+
+Vector2DFrame
+VectorPlotApp
+
+Feldlinien
+* parallel zu elektrischem Feld
+* stetig
+* glatt, au"ser an Punktladungen
+* Dichte entspricht St"arke des elektrischen Feldes
+* kreuzen sich nicht
+* laufen vom Positiven ins Negative vice versa
+
+_Die Visualisierung der Felder ist eine gewisse Kunst_
+FieldLineApp: Folgt nach einem Mausklick dem Feld per ODESolver.
+
+Wichtig, um es als Thread zu starten: implements Runnable
+
+ElectricFieldApp
+
+
+Tue Jan 15 11:24:33 CET 2013
