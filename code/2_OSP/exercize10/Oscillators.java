@@ -5,7 +5,7 @@
  * <http://www.opensourcephysics.org/>
  */
 
-package exercise9;
+package exercize10;
 
 import java.awt.Graphics;
 import java.util.Random;
@@ -16,7 +16,7 @@ import org.opensourcephysics.numerics.ODESolver;
 import org.opensourcephysics.numerics.RK4;
 
 /**
- * Oscillators models the analytic soution of a chain of oscillators with fixed
+ * Oscillators models the numeric solution of a chain of oscillators with fixed
  * end points.
  * 
  * Students should implement the ODE interface to complete the exercise in
@@ -29,11 +29,12 @@ public class Oscillators implements Drawable, ODE {
   OscillatorsMode normalMode;
   Circle circle = new Circle();
   double[] state; // displacement
-  double[] modePos; // positions of the initial mode (== amplitudes)
-  double time = 0;
-  private double k;
   ODESolver solver;
   private String bc;
+  private int lowMassId;
+  private double forceOmega;
+  private double forceAmplitude;
+  private double frictionGamma;
 
   /**
    * Constructs a chain of coupled oscillators in the given mode and number of
@@ -45,15 +46,18 @@ public class Oscillators implements Drawable, ODE {
    *          initial oscillation mode
    * @param N
    *          number of particles without ghost images
-   * @param k
-   *          spring parameter (actually k/m)
+   * @param lowMassId
+   *          id of the particle with reduced mass (1/4 with respect to the
+   *          other particles)
    * @param bc
    *          boundary conditions
    */
-  public Oscillators(String positioning, int mode, int N, double k, String bc) {
-    this.state = new double[2 * (N + 2)]; // includes the two ends of the chain
-    this.k = k;
+  public Oscillators(String positioning, int mode, int N, int lowMassId,
+      String bc) {
+    this.state = new double[2 * (N + 2) + 1]; // includes the two ends of the
+                                              // chain
     this.bc = bc;
+    this.lowMassId = lowMassId;
 
     if (positioning.equals("mode")) {
       int correction = 0;
@@ -66,20 +70,18 @@ public class Oscillators implements Drawable, ODE {
         offset = 1;
       }
 
-      this.normalMode = new OscillatorsMode(mode, N - correction, k);
+      this.normalMode = new OscillatorsMode(mode, N - correction);
       if (this.bc.equals("free")) {
         normalMode.setPhase(Math.PI / 2);
       }
-      this.modePos = new double[N + 2];
-
-      for (int i = offset, n = state.length / 2; i < n; ++i) {
+      for (int i = offset, n = getNum(); i < n; ++i) {
         // initial displacement
-        modePos[i] = state[2 * i] = normalMode.evaluate(i - offset);
+        state[2 * i] = normalMode.evaluate(i - offset);
       }
     } else if (positioning.equals("random")) {
       // initialize on random positions
       Random rand = new Random();
-      for (int i = 2; i < state.length - 2; i += 2) {
+      for (int i = 2; i < getNum2() - 2; i += 2) {
         state[i] = rand.nextDouble() - 0.5;
       }
     } else if (positioning.equals("pulse")) {
@@ -100,35 +102,17 @@ public class Oscillators implements Drawable, ODE {
   }
 
   /**
-   * Draws the oscillators
-   * 
-   * @param drawingPanel
-   * @param g
+   * @return number of atoms
    */
-  public void draw(DrawingPanel drawingPanel, Graphics g) {
-    applyBoundaries(state);
-
-    // draw initial condition
-    if (normalMode != null) {
-      normalMode.draw(drawingPanel, g);
-    }
-
-    for (int i = 0, n = state.length; i < n; i += 2) {
-      circle.setXY(i / 2, state[i]);
-      circle.draw(drawingPanel, g);
-    }
+  public int getNum() {
+    return (state.length - 1) / 2;
   }
 
-  @Override
-  public void getRate(double[] state, double[] rate) {
-    applyBoundaries(state);
-
-    rate[0] = rate[rate.length - 1] = 0.0;
-
-    for (int i = 2; i < rate.length - 2; i += 2) {
-      rate[i] = state[i + 1];
-      rate[i + 1] = k * (state[i - 2] + state[i + 2] - 2 * state[i]);
-    }
+  /**
+   * @return number of atoms * 2
+   */
+  public int getNum2() {
+    return state.length - 1;
   }
 
   private void applyBoundaries(double[] state) {
@@ -151,45 +135,52 @@ public class Oscillators implements Drawable, ODE {
     }
   }
 
+  /**
+   * Draws the oscillators
+   * 
+   * @param drawingPanel
+   * @param g
+   */
+  public void draw(DrawingPanel drawingPanel, Graphics g) {
+    applyBoundaries(state);
+
+    for (int i = 0, n = getNum2(); i < n; i += 2) {
+      circle.setXY(i / 2, state[i]);
+      circle.draw(drawingPanel, g);
+    }
+  }
+
+  /**
+   * Returns the externally applied force
+   * 
+   * @param time
+   * @return the force (same for every particle)
+   */
+  private double getForce(double time) {
+    return forceAmplitude * Math.sin(forceOmega * time);
+  }
+
+  @Override
+  public void getRate(double[] state, double[] rate) {
+    applyBoundaries(state);
+
+    double force = getForce(state[state.length - 1]);
+
+    for (int i = 2; i < getNum2() - 2; i += 2) {
+      rate[i] = state[i + 1];
+      rate[i + 1] = (state[i - 2] + state[i + 2] - 2 * state[i]) - state[i + 1]
+          * frictionGamma + force;
+      if (i == lowMassId) {
+        rate[i + 1] *= 4;
+      }
+    }
+
+    rate[getNum2()] = 1.0; // time
+  }
+
   @Override
   public double[] getState() {
     return state;
-  }
-
-  /**
-   * @return the number of particles, excluding ghost images
-   */
-  public int size() {
-    return state.length / 2 - 2;
-  }
-
-  /**
-   * Steps the time using the given time step.
-   * 
-   * @param dt
-   */
-  public void step(double dt) {
-    time += dt;
-    solver.setStepSize(dt);
-    solver.step();
-  }
-
-  /**
-   * @return analytically calculated particle positions for current time
-   */
-  public double[] analyticalPositions() {
-    if (normalMode == null) {
-      return null;
-    }
-
-    double[] pos = new double[modePos.length];
-
-    double phase = Math.cos(time * normalMode.omega);
-    for (int i = 0; i < pos.length; ++i) {
-      pos[i] = modePos[i] * phase;
-    }
-
-    return pos;
   }
 
   /**
@@ -199,7 +190,7 @@ public class Oscillators implements Drawable, ODE {
   public double[] numericalPositions() {
     double[] pos = new double[state.length / 2];
 
-    for (int i = 0; i < state.length / 2; ++i) {
+    for (int i = 0; i < getNum(); ++i) {
       pos[i] = state[2 * i];
     }
 
@@ -215,6 +206,30 @@ public class Oscillators implements Drawable, ODE {
    */
   public void setBC(String bc) {
     this.bc = bc;
+  }
+
+  /**
+   * @return the number of particles, excluding ghost images
+   */
+  public int size() {
+    return state.length / 2 - 2;
+  }
+
+  /**
+   * Steps the time using the given time step.
+   * 
+   * @param dt
+   */
+  public void step(double dt) {
+    solver.setStepSize(dt);
+    solver.step();
+  }
+
+  /**
+   * @return current time
+   */
+  public double getTime() {
+    return state[getNum2()];
   }
 }
 

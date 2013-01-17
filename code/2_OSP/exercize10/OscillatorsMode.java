@@ -5,7 +5,7 @@
  * <http://www.opensourcephysics.org/>
  */
 
-package exercise9;
+package exercize10;
 
 import java.awt.*;
 import org.opensourcephysics.display.*;
@@ -35,8 +35,7 @@ public class OscillatorsMode implements Drawable, Function {
    * @param N
    *          int
    */
-  OscillatorsMode(int mode, int N, double k_m) {
-    omega_squared = k_m;
+  OscillatorsMode(int mode, int N) {
     amplitude = Math.sqrt(2.0 / (N + 1));
     omega = 2 * Math.sqrt(omega_squared)
         * Math.abs(Math.sin(mode * Math.PI / (N + 1) / 2));

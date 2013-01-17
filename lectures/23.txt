@@ -1,0 +1,122 @@
+
+Thu Jan 17 09:20:59 CET 2013
+
+## 10.2 Elektrisches Potential
+Spannung, Energie
+
+V(\vec r_2) - V(\vec r_1) = - \int_{r_1}^{r_2}{\vec E d\vec r}
+Gauss: \oint{\vec E d\vec r} = 0
+
+E(\vec r) = - \nabla V(\vec r)
+wenn \vec E = \vec E(\abs{\vec r}) => E(r) = -dV/dr
+
+Punktladung V(r) = q/r
+
+V=const => "Aquipotentialfl"ache
+interessant: wegen Gradientenbeziehung ist Fl"ache immer senkrecht zu den Feldlinien.
+"Aquipotentiallinien kreuzen sich auch nicht.
+Sie sind abh"angig von den Ladungen und Kr"ummungen
+
+Scalar2DFrame
+
+Im Leiter: \vec E = 0
+=> Ladungen werden an die Oberfl"ache verschoben.
+An starken Kr"ummungen liegen die Ladungen dichter an der Oberfl"ache.
+
+in 2d: E \sim 1r => V \sim \log{r}
+
+Oberfl"achenladungen schirmen "au"sere Ladungen im Allgemeinen ab.
+
+## 10.3. Randwertprobleme
+
+Laplace-Gleichung
+\nabla^2 V = 0
+
+V bekannt auf Rand
+
+Taylor-Entwicklung V(x,y) \approx 1/4 \left[V(x+\Delta_x,y) + ... \right]
+
+### triviale Relaxationsmethode
+1. Gitter, Rand, V_i^R Potential des n"achsten Randes zu Platz i
+2. V_i beliebig, "reasonable guess"
+3. V_i = 1/4 \sum_{j \elem {N"achstnachbarn}{V_j}
+
+LaplaceApp macht genau das
+
+Kondensator:
+charakteristische Gr"o"se: Kapazit"at
+C = Q / \Delta V
+Q - Ladung auf den Kondensatorplatten (+Q & -Q)
+
+Hier interessieren einzelne Ladungen nicht mehr, da die Oberfl"ache des Leiters stets "aquipotential ist.
+
+Oberfl"achenladungsdichte:
+\sigma = E_\bot / 4\pi
+
+Zylinderf"ormiges Kondensatormodell:
+C = 1/2 \log{r_i/r_a}
+
+### Jacobi-Relaxation
+
+gesamtes Gitter wird gleichzeitig aktualisiert
+Literatur sagt, dass es schlecht konvergiert.
+
+### Gau"s-Seidel-Relaxation
+update sequentiell
+konvergiert besser
+
+noch besser: Update auf einem Untergitter (Stichwort: Schachbrett)
+Man aktualisiert jeweils nur die H"alfte der Felder
+
+Hier ist das die geschickteste Variante
+
+### "Uberrelaxation
+
+V_i^{neu} = w \sum_{n.N.}{V_j} + (1-w) V_i(alt)
+
+w liegt zwischen 1 und 2 (deshalb "Uberrelaxation)
+
+Es gibt auch andere Beispiele f"ur F"alle, in denen ein "uberm"a"siger Gewichtsfaktor zu einer schnelleren Konvergenz f"uhrt.
+
+### Mehrgitterverfahren
+In einigen Anwendungen ist auch die "Uberrelaxation zu langsam f"ur gro"se Probleme.
+Auch "Uberrelaxation ist zu langsam (nur lokale Interaktionen).
+
+Idee bei Mehrgitterverfahren:
+
+Man definiert sich unterschiedliche Gitter, die durch die Schrittweite b^n im n-ten Gitter unterschieden werden.
+
+Algorithmen ben"otigt f"ur:
+* Prolongationen  (n -> n+1)  gr"oberes Gitter nutzen
+  -> Werte aus Nachbarzellen nehmen und mitteln (mit bedeckter Fl"ache wichten)
+* Restriktionen   (n -> n-1)  feineres Gitter nutzen
+  -> Werte aus Nachbarzellen nehmen und interpolieren
+
+Buch: Kapitel 19 -> nicht-quadratische Gitter (wenn Schreiber sich recht erinnert)
+
+Wenn wir noch externe Ladungen haben, gilt die Poisson-Gleichung:
+
+\nabla^2 V = -4\pi\rho(r)
+\rho(r) - Ladungsdichte
+
+Das ist nicht der metallische Rand, sondern irgend ein Dielektrikum zwischen den Kondensatorfl"achen, in dem die Ladungen nicht verschiebbar sind. Diese Ladung wird also durch das materialwissenschaftliche Problem vorgegeben.
+
+Taylor (hier f"ur 2d):
+V(x,y) = 1/4 \sum_{n.N.}{V(x+\Delta_x,y) + ...} + 1/4\Delta_x\Delta_y4\pi\rho
+q = \Delta_x\Delta_y\rho
+
+Dielektrika
+\vec D = k\vec E
+k - Dielektrische Suszeptibilit"at
+
+0 = \oint_l{k\nabla V dl}
+
+N"aherung:
+dl -> 2h => V_i = \sum_{n.N.}{k_jV_j}/\sum_{n.N.}{k_j}
+
+Somit gibt es zwei verschiedene M"oglichkeiten:
+* Systembeschreibung "uber Ladungsverteilung im Raum
+* Beschreibung durch Verteilung der Suszeptibilit"at im Raum
+
+
+Thu Jan 17 10:25:27 CET 2013

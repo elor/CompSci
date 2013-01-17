@@ -5,7 +5,7 @@
  * <http://www.opensourcephysics.org/>
  */
 
-package exercise9;
+package exercize10;
 
 import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.PlotFrame;
@@ -29,32 +29,9 @@ public class OscillatorsApp extends AbstractSimulation {
   }
 
   PlotFrame posFrame = new PlotFrame("Position", "Displacement", "Oscillators");
-  PlotFrame diffFrame = new PlotFrame("particle", "difference",
-      "diff between analytical and numerical solutions");
   Oscillators oscillators;
 
   double dt;
-
-  /**
-   * return the differences between analytical and numerical solutions
-   * 
-   * @return
-   */
-  public double[] compare() {
-    double[] analytical = oscillators.analyticalPositions();
-    if (analytical == null) {
-      return null;
-    }
-    double[] numerical = oscillators.numericalPositions();
-
-    double[] diff = analytical;
-
-    for (int i = 0; i < analytical.length; ++i) {
-      diff[i] = analytical[i] - numerical[i];
-    }
-
-    return diff;
-  }
 
   /**
    * Does a time step
@@ -64,20 +41,10 @@ public class OscillatorsApp extends AbstractSimulation {
     for (int i = 0; i < steps; ++i) {
       oscillators.step(dt); // advance the state by dt
     }
-    posFrame.setMessage("t = " + decimalFormat.format(oscillators.time));
+    posFrame.setMessage("t = " + decimalFormat.format(oscillators.getTime()));
 
     // compare
-    diffFrame.clearData();
     posFrame.clearData();
-
-    double[] diff = compare();
-    if (diff != null) {
-      double[] analytical = oscillators.analyticalPositions();
-      for (int i = 0; i < diff.length; ++i) {
-        posFrame.append(1, i, analytical[i]);
-        diffFrame.append(0, i, diff[i]);
-      }
-    }
   }
 
   @Override
@@ -94,31 +61,27 @@ public class OscillatorsApp extends AbstractSimulation {
   public void initialize() {
     int mode = control.getInt("mode");
     int N = control.getInt("number of particles");
-    double k = control.getDouble("k/m");
     String positioning = control.getString("initial positioning");
     String bc = control.getString("boundary conditions");
 
-    oscillators = new Oscillators(positioning, mode, N, k, bc);
+    oscillators = new Oscillators(positioning, mode, N, N/4, bc);
 
     posFrame.setPreferredMinMax(0, N + 1, -1.5, 1.5);
     posFrame.clearDrawables(); // remove old oscillators
     posFrame.setSquareAspect(false);
     posFrame.addDrawable(oscillators);
-
-    diffFrame.setPreferredMinMax(0, N + 1, -1.0, 1.0);
   }
 
   /**
    * Resets the oscillator program to its default values.
    */
   public void reset() {
-    control.setValue("number of particles", 10);
-    control.setValue("mode", 2);
-    control.setValue("k/m", 1.0);
-    control.setValue("initial positioning", "mode");
-    control.setAdjustableValue("boundary conditions", "free");
-    control.setAdjustableValue("dt", 0.01);
-    control.setAdjustableValue("steps per display", 20);
+    control.setValue("number of particles", 20);
+    control.setValue("initial positioning", "random");
+    control.setValue("mode", 1);
+    control.setAdjustableValue("boundary conditions", "fixed");
+    control.setAdjustableValue("dt", 0.005);
+    control.setAdjustableValue("steps per display", 100);
     initialize();
   }
 }
