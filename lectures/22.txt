@@ -6,7 +6,7 @@ nichtlinearer Oszillator
 E_{pot} = 1/2 \sum_{j=1}^N{(\exp{u_{j-1}-u_j} - 1)^2}   Morse-Potential
         = 1/2 \sum_{j=1}^N{(Q_j - 1)^2}
 
-F_j = - \dE_{pot} / \du_j = Q_j(1-Q_j) - Q_{j+1}(1-Q_{j+1})
+F_j = - \partial E_{pot} / \partial u_j = Q_j(1-Q_j) - Q_{j+1}(1-Q_{j+1})
 
 ## 9.8. Interferenz
 

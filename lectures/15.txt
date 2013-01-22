@@ -12,7 +12,7 @@ y_i haben Ungenauigkeit
 d_i = y_i - f(x_i)
     = y_i - m x_i - b
 n gro"s: Gau"s-Verteilung
-\Chi^2 = \sum_{i=1}^n d_i^2 minimieren: \d\Chi^2/\dm =! 0
+\Chi^2 = \sum_{i=1}^n d_i^2 minimieren: \partial\Chi^2/\partial m =! 0
 
 m = {<xy> - <x><y>}\over{\sigma_x^2}
 b = <y> - m <x>
@@ -67,8 +67,8 @@ Likelihood-Methode:
 
 Maximum von \L -> wahrscheinlichste a_k
 
-\d\L/\da_k = 0 => \d\Chi^2/\da_k = 0  f"ur k=1..m
-=> -2 \sum_{i=1}^n{d_i/\sigma_i \df_i/\da_k} = 0
+\partial\L/\partial a_k = 0 => \partial\Chi^2/\partial a_k = 0  f"ur k=1..m
+=> -2 \sum_{i=1}^n{d_i/\sigma_i \partial f_i/\partial a_k} = 0
 ``
 
 Auch bei quadratischen Fits: _Multiple Lineare Regression_
@@ -78,8 +78,8 @@ Ein Quadratischer Fit ist eine lineare Anpassung.
 Beispiel:
 y = \sum_{k=1}^m{a_k f_k(x)}  nicht linear in x, linear in a_k
 
-max \L => \d\Chi^2/\da_j  =! 0
-\df_i/\da_j = \d\sum_{k=1}^m{a_k f_k(x_i)}/\da_j = f_j(x_i)
+max \L => \partial\Chi^2/\partial a_j  =! 0
+\partial f_i/\partial a_j = \partial \sum_{k=1}^m{a_k f_k(x_i)}/\partial a_j = f_j(x_i)
 => lineares Gleichungssystem. n Gleichungen mit n Unbekannten.
 
 Die a_k sind oftmals nicht linear unabh"angig.

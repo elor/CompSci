@@ -67,14 +67,14 @@ besser P(u) = 1/2 (P(v_x=u) + P(v_y=u))
 ### spezifische W"arme
 Heat Capacity / Specific Heat
 
-c_v = \dE/\dT
+c_v = \partial E/\partial T
 Es ist die Antwort des Systemes auf die Energie"anderung.
 Problem: MD liefert eigentlich T(E)
 
-c_v = \dE/\d\beta \d\beta/\dT
+c_v = \partial E/\partial\beta \partial\beta/\partial T
 \beta=1/{k_B T}
 
-\dE/\d\beta = {<E^2>-<E>^2} / {k_B T^2}
+\partial E/\partial\beta = {<E^2>-<E>^2} / {k_B T^2}
 
 getHeatCapacity()
   Aus Umrechnung des Ganzen auf die Temperatur:

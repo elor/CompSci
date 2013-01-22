@@ -164,7 +164,7 @@ _akademischer_ Algorithmus:
 
 Methode: Taylorentwicklung von f(x_n) und x(i) um r_0
 ``
-x_{n+1} - x(i+1) = \d f/\d x|_x(i) \left[ x_n - x(i) \right] + \d f/\d r|_{r_0} \Delta r = 0 (soll 0 werden)
+x_{n+1} - x(i+1) = \partial f/\partial x\right|_x(i) \left[ x_n - x(i) \right] + \partial f/\partial r\right|_{r_0} \Delta r = 0 (soll 0 werden)
 ``
 
 Anpassung:

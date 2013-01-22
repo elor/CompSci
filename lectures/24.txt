@@ -1,0 +1,132 @@
+
+Tue Jan 22 09:21:14 CET 2013
+
+## 10.4. L"osung von \nabla^2=0 mit Zufalspfad
+
+V_i = < V >_{Kreis um i}
+
+V(x,y) = 1/N \sum_{n=1}^N{V_{Rand}(n)}
+"uber N Zufallspfade
+
+Man geht also per Random Walk vom Punkt (x,y) aus.
+
+Die Gewichtung stimmt tats"achlich mit der notwendigen Gewichtung "uberein.
+
+Somit k"onnen wir auf einfache Weise mit beliebiger Genauigkeit unser Problem l"osen.
+Daf"ur ist der Random Walk langsam, wenn wir es mit der Relaxationsmethode vergleichen.
+Effizient, wenn nur wenige i bzw. (x,y) interessieren.
+
+Besonders gut, wenn viele verschiedene V_{Rand} betrachtet werden sollen bei fester Geometrie.
+
+V(x,y) = 1/N \sum_{x_R, y_R}{G(x, y, x_R, y_R) V(x_R, y_R)}
+
+G - Greensfunktion
+    (Anzahl der Zufallspfade von (x,y) nach (x_R,y_R)
+V - vorgegeben f"ur alle (x_R, y_R)
+
+Poisson-Gleichung
+
+V(x,y) = 1/N \sum_n{V_{Rand}(n)}+ 1/N \pi \Delta_x \Delta_y \sum_{n,i}{\rho(x_i, y_i)}
+
+i - z"ahlt Pl"atze des n-ten Zufallspfades ab
+
+## 10.5. Bewegte Ladungen
+-> Strahlung
+
+V(\vec R) = q/\abs{\vec R - \vec r}
+\vec E(\vec R) = - \nabla V(\vec R)
+
+q = q(vec r)
+
+\abs{\vec R - \vec r} - Ort des Beobachters
+
+=> verz"ogerte Wirkung der Bewegung
+
+V(\vec R) = q/r_{ret}
+
+r_{ret} = \abs{\vec R - \vec r(t_{ret})}
+r_{ret} - verz"ogerter abstand
+
+t_{ret} = t - r_{ret}(t_{ret})/c
+
+V(\vec R, t) = q/{r_ret(1 - {\^{\vec{r_{ret}}} \cdot \vec v_{ret}} / c)}
+
+\vec v_{ret} = d\vec r/dt\right|_{t=t_{ret}}
+
+And now to something completely different.
+
+magnetische Felder
+
+\vec B = 1/c {q \vec v \times \vec r} / r^3
+
+\vec B = \nabla \times \vec A
+
+z.B. \nabla^2 \vec A = \mu \vec j
+
+\vec j - Stromdichte
+
+\vec j = (0 0 j(x,y))
+\vec A = (0 0 A(x,y))
+
+=> Problem in 2 Dimensionen
+=> Relaxationsmethode
+
+\vec E = -\nablaV - 1/\partial\vec A/\partialt
+          ^^^^^^                     ^^^^^^^^
+          Ableitung nach R, t aber f"ur t_{ret}(\vec R, \vec r, t)
+
+\vec E = q r_{ret}/(\vec r_{ret} \cdot \vec u_{ret})^3 \left[ \vec u_{ret}(c^2 - v_{ret}^2) + \vec r_{ret} \times (\vec u_{ret} \times \vec a_{ret}) \right]
+
+\vec u_{ret} = c \^{\vec r_{ret}} - \vec v_{ret}
+\vec a_{ret} = dv/dt\right|_{t=t_{ret}}
+
+\vec B = \vec \r_{ret} \times \vec E
+
+\vec A(\vec R, t) = {q {\vec v_{ret}/c}}/{r_{ret}(1-{\^{\vec r_{ret} \cdot \vec v_{ret}}/c})}
+
+Die Formeln sind im Rahmen der speziellen Relativit"atstheorie richtig.
+Die Formeln sind wegen der retardierten Zeit im Allgemeinen nicht analytisch l"osbar.
+
+z.B. x(t_{ret}) = A \cos{\omega t_{ret}}
+
+% Achtung: Im Buch steht hier \cos^2{}. Diese Formel hier ist richtig.
+Suche L"osung zu t_{ret} = t - r_{ret}/c = t - 1/c \sqrt{(x-A\cos{\omega t_{ret}})^2 + y^2 + z^2} f"ur \vec R = (x, y, z)
+
+=> Nullstellensuche f"ur f(t_{ret}) = t - t_{ret} - r_{ret}/c
+Besonders, weil Bisektion f"ur Pfad, nicht f"ur Zeit.
+
+V, A: Li\'{e}nard-Wiechert-Potential
+
+RadiatingCharge
+  berechnet \vec E, \vec B aus LWP f"ur obiges Beispiel
+
+z.B. x_{ret} = 1-2\t_{ret}
+
+## 10.6. Maxwell-Gleichungen
+
+{\partial \vec B} \over {\partial t} = - 1/c \nabla \times \vec E
+
+{\partial \vec E} \over {\partial t} = c \nabla \times \vec B - 4 \pi j
+
+{\partial \rho} \over {\partial t} = - \nabla \cdot \vec j
+=> Ladungserhaltung
+
+mit \nabla \cdot und \nabla \cdot(\nabla \times \vec a) = 0 und \int{dt}
+=>
+\nabla \cdot \vec E = 4\pi\rho und \nabla\cdot\vec B = 0
+
+\nabla\times numerisch?
+z.B.
+(\nabla\times\vec B)\cdot\^{\vec S} = \lim_{s->0}{1/s\oint_C{\vec B\cdot d\vec l}
+
+Fl"ache \vec S
+Rand C
+
+\approx 1/\Delta_l^2\sum_{n=1}^4{B_n \Delta l_n}
+
+\nabla\cdot numerisch?
+z.B. \nabla\cdot\vec j = lim_{V->0}1/V\oint_S{\vec j\cdot d\vec S}
+\approx 1/\Delta_l\sum_{n=1}^6{j_n}
+
+
+Tue Jan 22 10:26:46 CET 2013

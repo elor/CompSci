@@ -19,13 +19,13 @@ P(x, t) = 1/2 [P(x+a, t-\tau) + P(x-a, t-\tau)]       |  -P(x, t-\tau)
 \tau -> 0, a -> 0
 D = a^2/{2\tau} -- Selbstdiffusionskonstante, endlich.
 
-\dP/\dt = D \d^2P/\dx^2
+\partial P/\partial t = D \partial^2P/\partial x^2
 Diffusionsgleichung
 ``
 
 3 Dimensionen:
 ``
-\dP/\dT = D\nabla^2P    - v \dP/\dr
+\partial P/\partial T = D\nabla^2P    - v \partial P/\partial r
           ^^^^^^^^^^    ^^^^^^^^^^^
           Diffusion        Drift
 ``

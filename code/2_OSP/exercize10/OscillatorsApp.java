@@ -8,6 +8,7 @@
 package exercize10;
 
 import org.opensourcephysics.controls.*;
+import org.opensourcephysics.frames.FFTFrame;
 import org.opensourcephysics.frames.PlotFrame;
 
 /**
@@ -29,9 +30,43 @@ public class OscillatorsApp extends AbstractSimulation {
   }
 
   PlotFrame posFrame = new PlotFrame("Position", "Displacement", "Oscillators");
+  FFTFrame fftFrame = new FFTFrame("xlable", "ylabel", "title");
   Oscillators oscillators;
 
   double dt;
+  private double[] fftData;
+  private double maxTime = 51.2;
+  private int fftStepsLeft;
+
+  /**
+   * @param data
+   * @return max value within data
+   */
+  public double max(double[] data) {
+    double ret = data[0];
+    for (int i = 1; i < data.length; ++i) {
+      if (data[i] > ret) {
+        ret = data[i];
+      }
+    }
+
+    return ret;
+  }
+
+  /**
+   * @param data
+   * @return min value within data
+   */
+  public double min(double[] data) {
+    double ret = data[0];
+    for (int i = 1; i < data.length; ++i) {
+      if (data[i] < ret) {
+        ret = data[i];
+      }
+    }
+
+    return ret;
+  }
 
   /**
    * Does a time step
@@ -40,17 +75,24 @@ public class OscillatorsApp extends AbstractSimulation {
     int steps = control.getInt("steps per display");
     for (int i = 0; i < steps; ++i) {
       oscillators.step(dt); // advance the state by dt
-    }
-    posFrame.setMessage("t = " + decimalFormat.format(oscillators.getTime()));
 
-    // compare
-    posFrame.clearData();
+      if (fftStepsLeft != 0) {
+        fftData[fftData.length - fftStepsLeft] = oscillators.getBluePos();
+        --fftStepsLeft;
+
+        if (fftStepsLeft == 0) {
+          fftFrame.doFFT(fftData, 0, oscillators.getTime());
+
+          control.calculationDone(maxTime + "reached");
+        }
+      }
+    }
+
+    posFrame.setMessage("t = " + decimalFormat.format(oscillators.getTime()));
   }
 
   @Override
   public void start() {
-    dt = control.getDouble("dt");
-
     String bc = control.getString("boundary conditions");
     oscillators.setBC(bc);
   }
@@ -63,13 +105,19 @@ public class OscillatorsApp extends AbstractSimulation {
     int N = control.getInt("number of particles");
     String positioning = control.getString("initial positioning");
     String bc = control.getString("boundary conditions");
+    dt = control.getDouble("dt");
 
-    oscillators = new Oscillators(positioning, mode, N, N/4, bc);
+    oscillators = new Oscillators(positioning, mode, N, 5, bc);
 
     posFrame.setPreferredMinMax(0, N + 1, -1.5, 1.5);
     posFrame.clearDrawables(); // remove old oscillators
     posFrame.setSquareAspect(false);
     posFrame.addDrawable(oscillators);
+
+    fftStepsLeft = (int) (maxTime / dt);
+    fftData = new double[2 * fftStepsLeft];
+    fftFrame.clearData();
+    fftFrame.setPreferredMinMaxX(-2, 2);
   }
 
   /**
@@ -79,9 +127,9 @@ public class OscillatorsApp extends AbstractSimulation {
     control.setValue("number of particles", 20);
     control.setValue("initial positioning", "random");
     control.setValue("mode", 1);
+    control.setValue("dt", 0.005);
     control.setAdjustableValue("boundary conditions", "fixed");
-    control.setAdjustableValue("dt", 0.005);
-    control.setAdjustableValue("steps per display", 100);
+    control.setAdjustableValue("steps per display", 1000);
     initialize();
   }
 }

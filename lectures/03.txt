@@ -11,8 +11,8 @@ Hamilton-Funktion
 H(q_i, p_i) = E_{kin} + E_{pot}
           ( = \sum_i{p_i^2/2m} + \sum_{i<j}{k/2 (q_i - q_j)^2} )
 
-\dot p_i = \d H/{\d q_i}
-\dot q_i = \d H/{\d p_i}
+\dot p_i = \partial H/{\partial q_i}
+\dot q_i = \partial H/{\partial p_i}
 ``
 
 Phasenraum: Darstellung in q_i, p_i
@@ -33,7 +33,7 @@ zum Beispiel:
 ``
 p_i^{k+1} = k_i^k + a_k F_i^k \delta
 q_i^{k+1} = q_i^k + b_k p_i^{k+1} \delta
-F_i^k     = \d {E_{pot}(q_i^k)} \ {\d q_i^k}
+F_i^k     = \partial {E_{pot}(q_i^k)} \ {\partial q_i^k}
 
 \Delta_t = M \delta   k=0 ... M-1
               ^ Zeitschritt fuer Zwischenrechnungen

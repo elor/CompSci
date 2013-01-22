@@ -7,6 +7,7 @@
 
 package exercize10;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
@@ -31,10 +32,10 @@ public class Oscillators implements Drawable, ODE {
   double[] state; // displacement
   ODESolver solver;
   private String bc;
-  private int lowMassId;
   private double forceOmega;
   private double forceAmplitude;
   private double frictionGamma;
+  private int lowMassId2;
 
   /**
    * Constructs a chain of coupled oscillators in the given mode and number of
@@ -57,7 +58,7 @@ public class Oscillators implements Drawable, ODE {
     this.state = new double[2 * (N + 2) + 1]; // includes the two ends of the
                                               // chain
     this.bc = bc;
-    this.lowMassId = lowMassId;
+    this.lowMassId2 = lowMassId*2;
 
     if (positioning.equals("mode")) {
       int correction = 0;
@@ -145,6 +146,11 @@ public class Oscillators implements Drawable, ODE {
     applyBoundaries(state);
 
     for (int i = 0, n = getNum2(); i < n; i += 2) {
+      if (i == lowMassId2) {
+        circle.color = Color.BLUE;
+      } else {
+        circle.color = Color.RED;
+      }
       circle.setXY(i / 2, state[i]);
       circle.draw(drawingPanel, g);
     }
@@ -170,7 +176,7 @@ public class Oscillators implements Drawable, ODE {
       rate[i] = state[i + 1];
       rate[i + 1] = (state[i - 2] + state[i + 2] - 2 * state[i]) - state[i + 1]
           * frictionGamma + force;
-      if (i == lowMassId) {
+      if (i == lowMassId2) {
         rate[i + 1] *= 4;
       }
     }
@@ -230,6 +236,13 @@ public class Oscillators implements Drawable, ODE {
    */
   public double getTime() {
     return state[getNum2()];
+  }
+
+  /**
+   * @return position of the blue ball
+   */
+  public double getBluePos() {
+    return state[lowMassId2];
   }
 }
 

@@ -126,7 +126,7 @@ Das erste qualitative neue Ergebnis, das sich aus der Numerik ergeben hat.
 9.7. laufende Wellen
 --------------------
 
-Wellengleichung \d^2u/\dt^2 = c^2 \d^2u/\dx^2
+Wellengleichung \partial^2u/\partial t^2 = c^2 \partial^2u/\partial x^2
 
 Bewegungsgleichung aus Kap. 9.1.
 f"ur N->\infty, a->0, Na=const

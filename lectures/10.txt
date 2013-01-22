@@ -102,7 +102,7 @@ y = 0 => Nullstelle x_0
 ``
 \vec g(\vec x) = \vec 0 % Taylor
 
-g_i(\vec x_{n+1} = g_i(\vec x_n) + \sum_{j=1}^d {{\partial g_i}\over{\d x_j}(\vec x_{n+1} - \vec x_n)}
+g_i(\vec x_{n+1} = g_i(\vec x_n) + \sum_{j=1}^d {{\partial g_i}\over{\partial x_j}(\vec x_{n+1} - \vec x_n)}
 = g_i + G_{ij}\xi_j =! 0
 
 \vec x_{n+1} = \vec x_n + \vec\xi
