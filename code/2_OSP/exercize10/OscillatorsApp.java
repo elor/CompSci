@@ -30,7 +30,7 @@ public class OscillatorsApp extends AbstractSimulation {
   }
 
   PlotFrame posFrame = new PlotFrame("Position", "Displacement", "Oscillators");
-  FFTFrame fftFrame = new FFTFrame("xlable", "ylabel", "title");
+  FFTFrame fftFrame = new FFTFrame("omega", "Amplitude", "title");
   Oscillators oscillators;
 
   double dt;

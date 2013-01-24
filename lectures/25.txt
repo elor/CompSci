@@ -1,0 +1,152 @@
+Thu Jan 24 09:18:46 CET 2013
+
+% Kurze Wiederholung
+
+Maxwell-Gleichung auf Gitter (Algorithmus):
+
+* Gitter aus W"urfeln
+1. \rho im Mittelpunkt des W"urfels
+2. mit (3): j auf Fl"achenmitten berechnen
+3. mit (2): E auf Fl"achenmitten und damit auch \rot{\vec B} auf Fl"achenmitten
+4. mit (1): B auf Ecken
+
+Dieser Algorithmus wurde 1966 von Yee (Elektroingenieur) entwickelt
+1988 von Fischer (Physiker) neu entdeckt
+
+Zeiten:
+1. zu t - \Delta_t/2
+2. zu t
+3. zu t + \Delta_t/2
+4. zu t + \Delta_t/2
+
+Mit dieser Aufteilung (Gitter und Zeiten) sind  alle Integralgleichungen auch diskret erf"ullt.
+
+MaxwellApp
+
+current: Strom in Zeiteinheit \Delta_t als elektrostatischer Dipol
+q < 0 am Startpunkt
+q > 0 am Zielpunkt
+
+Problem:
+* Anfangsbedingungen
+* Randbedingungen: einfache L"osung: feste R"ander, aber dann Reflektionen
+
+immer noch ein Problem, deshalb: damping
+
+stabil, wenn c \Delta_t <= \Delta_l/\sqrt{3}
+
+# 11. Integration
+## 11.1. klassische Methoden in 1 Dimension
+
+F = \int_a^b{f(x)dx}
+\Delta_x = {b-a}/n
+x_i = x_0 + i\Delta_x
+x_0 = a
+x_n = b
+f_i = f(x_i)
+
+### Rechteckn"aherung
+
+Es werden rechteckige Bereiche entlang der Kurve aufsummiert
+
+Oberkante:
+F_n = \sum_{i=0}^{n-1}{f_i\Delta_x} 
+oder Unterkante:
+F_n = \sum_{i=0}^{n-1}{f_{i+1/2}\Delta_x}
+
+Fehler: \BigOh{1/n}
+
+Der Fehler selbst wird also um einen festen Faktor verringert, bleibt aber in
+selber Gr"o"senordnung.
+
+### Trapezn"aherung
+
+F_n^{(T)} = (1/2 f_0 + \sum_{i=1}^{n-1}{f_i} + 1/2 f_n)\Delta_x + \BigOh{1/n^2}
+
+Man folgt der Kurve also mit Trapezen und summiert deren Fl"ache auf.
+
+
+Trick zur Einsparung der H"alfte der Rechenzeit:
+F_{2n}^{(T)} = 1/2 F_n + (\sum_{i=1}^n{f_{2i-1})\Delta_x
+
+### parabolische N"aherung
+
+F_2 = 1/3(f_0 + 4f_1 + f_2)\Delta_x
+
+Parabel von x_0 nach x_2 durch x_1
+
+Simpson-Regel
+F_n = 1/3(f_0 + 4 f_1 + 2f_2 + 4f_3 + f_4 + ... + 2f_{n-2} + 4 f_{n-1} +
+f_n)\Delta_x
+
+Trick zur Beschleunigung:
+
+F_{2n}^{(S)} = (4 F_{2n}^{(T)} - F_n^{(T)})/3
+
+NumericalIntegrationApp
+RectangularApproximation
+IntegralCalcApp
+FunctionDrawer
+
+relativer Fehler < Toleranz
+
+\abs{F_{2n} - F_n} < \epsilon
+Annahme, dass F_n -> F
+
+Extrapolation z.B. f"ur Trapez:
+
+F = F_n + C/n^2
+
+Romberg-Integration
+-> Integral (Java-Klasse)
+
+dF/dx = f
+
+ODE mit F(a) = 0
+
+z.B. mit Runge-Kutta
+
+z.B. \delta(x) = 1/\pi \lim_{epsilon->0}{\epsilon_{x^2-\epsilon^2}}
+\int = 1 (scheinbar erstmal nur f"ur RK oder so)
+
+### Einschub (Anhang D im Buch): Polynome und deren Benutzung zur Integration
+
+Horner 1819
+p(x) = \sum_{i=0}^n{a_ix^i} = a_0 + x(a_1 + x(a_2 + x(a_3 + ...)))
+PolynomialApp
+  add a
+  add p
+  subtract a
+  subtract p
+  derivative
+  integral
+  roots (Nullstellen)
+  deflate (eine Nullstelle entfernen) (Teile Polynom durch (x-x_0))
+
+z.B. Taylorreihe
+  orthogonale Polynome
+  z.B. Chebyshev
+       Tschebyschow
+    T_0 = 1
+    T_1 = x
+    T_n = 2xT_{n-1} - T_{n-2}
+
+    auf [-1,1}
+    T_n(\cos{\theta}) = \cos{n\theta}
+
+  Interpolation:
+    Lagrange-Polynome
+    p(x) = \sum_{i=0}^n{{\prod_{j \ineq i}{(x-x_j)}} \over {\prod_{j \ineq
+    i}{(x_i-x_j)} f_i}
+
+    p(x_i) = f_i
+
+    LagrangeInterpolatorApp
+
+
+  besser: kubische Splines
+    st"uckweise Interpolation mit stetiger 2. Ableitung
+    n=3
+  CubicSplineApp
+
+Thu Jan 24 10:22:53 CET 2013

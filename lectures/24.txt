@@ -104,11 +104,11 @@ z.B. x_{ret} = 1-2\t_{ret}
 
 ## 10.6. Maxwell-Gleichungen
 
-{\partial \vec B} \over {\partial t} = - 1/c \nabla \times \vec E
+{\partial \vec B} \over {\partial t} = - 1/c \nabla \times \vec E   (1)
 
-{\partial \vec E} \over {\partial t} = c \nabla \times \vec B - 4 \pi j
+{\partial \vec E} \over {\partial t} = c \nabla \times \vec B - 4 \pi j   (2)
 
-{\partial \rho} \over {\partial t} = - \nabla \cdot \vec j
+{\partial \rho} \over {\partial t} = - \nabla \cdot \vec j    (3)
 => Ladungserhaltung
 
 mit \nabla \cdot und \nabla \cdot(\nabla \times \vec a) = 0 und \int{dt}
