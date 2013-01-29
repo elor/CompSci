@@ -1,0 +1,170 @@
+
+Tue Jan 29 09:18:22 CET 2013
+
+### Fitting
+
+PolynomialFitApp
+PolynomialLeastSquares
+
+Funktion invertieten:
+aus f_i = f(x_i) 
+suchen wir x = f^{-1}(y)
+bestimmen kubische Splines f"ur x_i = f^{-1}(f_i)
+
+## 11.2. Monte-Carlo-Integration
+
+MonteCarloEstimatorApp
+
+Hit-or-Miss
+
+h - H"ohe des H"ullrechtecks
+
+(x_i, y_i) zuf"allig w"ahlen und pr"ufen, ob es innerhalb des gew"unschten Integrationsbereiches liegt.
+Z"ahlen, wie oft inerhalb oder au"serhalb (hit/miss)
+
+Integral F = R * hit / (hit + miss)
+R - Rechteckfl"ache
+
+besser:
+Berechnung des Mittelwertes
+
+F_n = (b-a)/n \sum_{i=1}^n{}f(x_i)
+    = (b-a) <f>
+
+jetzt: x_i gew"urfelt
+
+## 11.3. H"oherdimensionale Integrale
+
+d = 2
+
+F = \int_A{f(x,y)dxdy "uber Fl"ache A \subset
+\approx \sum_{i=0}^{n_i-1}\sum_{j=0}^{n_j-1){f_{ij} \Delta_x\Delta_y H(x_i, y_i)}
+
+H - Heaviside-Funktion
+    = 1, wenn (x_i, y_i) \in A
+    = 0 sonst
+
+n = n_x n_y (n_z) St"utzstellen
+
+Fehler \BigOh{1/n^{1/d}} f"ur Rechteck-Methode
+       \BigOh{1/n^{2/d}} f"ur Trapez-Methode
+       \BigOh{1/n^{4/d}} f"ur Simpson-Methode
+
+Monte-Carlo
+F_n = R/n \sum_{i=1}^n{f(x_i, y_i) H(x_i, y_i)} + \BigOh{1/n^{1/2}}
+
+(x_i, y_i) \in R
+
+=> Fehler ist unabh"angig von der Dimension.
+
+## 11.4. Fehleranalyse f"ur Monte-Carlo-Verfahren
+
+Varianz \tilde\sigma^2 = 1/{n-1} \sum_{i=1}^n{\abs{f(x_i) - <f>}^2}
+                \approx \sigma_^2 = <f^2> - <f>^2
+
+Fehler des Mittelwertes
+\sigma_M = \sigma/\sqrt{n-1} \approx \sigma/\sqrt{n}
+
+d.h. \abs{F_n - F} \leq \sigma_M    mit 68\% Wahrscheinlichkeit
+                   \leq 2 \sigma_M  mit 97\% Wahrscheinlichkeit
+
+wenn Messungen Gau"sverteilt sind und unabh"angig von einander sind.
+
+Offensichtliches Problem, wenn Messungen korreliert sind.
+
+L"osung: Abstand zwischen Messungen i und j vergr"o"sern.
+
+Ergebnisse zusammen fassen:
+
+f_I^{(m)} = 1/m \sum_{i=1}^m{f_{i+m(I-1)}}
+
+\sigma_{n/m} / \sqrt{n/m} muss unabh"angig von m werden.
+
+Dann ist die Gr"o"se der Bl"ocke m gro"s genug gew"ahlt.
+
+Normaler Weise w"ahlt man m empirisch.
+
+Wenn Wahrscheinlichkeitsverteilung nicht bekannt ist (nicht Gau"s folgt):
+Fehlerabsch"atzung Bootstrapping
+
+n Datenpunkte (x_i, y_i)
+=> N mal n Datenpunkte zuf"allig ausw"ahlen (einige kommen mehrfach vor, andere gar nicht)
+
+\sigma_G^2 = 1/{N-1} \sum_{j=1}^N{\abs{G_j - <G>}^2}
+
+f"ur beliebige Messgr"o"se G
+
+## 11.5. Wahrscheinlichkeitsverteilungen
+
+r_i gleichverteilt in [0, 1)
+
+### important sampling
+mehr St"utzstellen in wichtigen Bereichen 
+
+w"ahle r: \sum_{j=0}^{i-1}{p_j} \leq r < \sum_{j=0}^i{p_j} => finde i
+
+kontinuierlich:
+
+p_j -> p(x)dx mit p(x) als Wahrscheinlichkeitsdichte
+
+kumulative Wahrscheinlichkeitsverteilung
+P(x) = \int_{-\infty}^x{p(x')dx'} \equiv r
+
+=> inverse Transformation, um Zufallszahlen mit p(x) verteilt
+
+Rezept:
+1. zuf"alliges r w"ahlen
+2. l"ose P(x) = r nach x auf => x
+
+Gleichverteilte Zufallszahlen auf [a, b)
+
+p(x) -> P(x) = {x-a}/{b-a} \equiv r => x = a + (b-a)r
+
+Exponentialverteilung:
+p(x) = 1/\lambda \exp{x-\lambda}
+x \geq 0
+P(x) = 1-\exp{-x/\lambda} \equiv r
+x = -\lambda \log{1-r}
+\{r\} = \{1-r\}
+
+x = -\lambda \log{r}
+
+Gau"s: P ist nicht analytisch
+
+Trick: d=2: p(x,y)dxdy = 1/2\pi \exp{-{x^2+y^2}/2} dxdy
+
+mit \tan{\theta} = y/x
+und \rho = a^2/2
+
+dxdy = r dr d\theta
+d\rho/dr = r
+r = \sqrt{x^2 + y^2}, keine Zufallszahl
+
+P(\rho, \theta)d\rhod\theta = 1/{2\pi} \exp{-\rho}d\rhod\theta
+
+=> 
+x = \sqrt{2\rho}\cos{\theta}
+y = \sqrt{2\rho}\cos{\theta}
+Box-Muller (beide gleichverteilt)
+
+### Akzeptanz-Ablehnung
+
+Rechteck
+w"ahle r -> x \in [a, b)
+w"ahle r'-> y \in [0, h)
+
+y \leq p(x) -> x akzeptiert
+sonst: n"achstes x
+
+Verallgemeinerung
+
+h -> w(x)
+w(x) > p(x) \forall x \in [a, b)
+\int_a^b{w(x)dx} = A
+y \in [0, w(x))
+
+Methode bleibt die Selbe
+
+Das Ganze ist effizient, wenn w(x) - f(x) klein
+
+Tue Jan 29 10:26:13 CET 2013
