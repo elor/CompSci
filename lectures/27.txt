@@ -1,0 +1,73 @@
+
+Thu Jan 31 09:19:16 CET 2013
+
+Rejection Method Erl"auterung. Siehe Computerphysik.
+
+## 11.6. Importance Sampling
+
+F = \int_a^b{f(x)/p(x) dx}  mit bekanntem p(x) (normierte Dichte)
+
+F_n = 1/n \sum_{i=1}^n{f(x_i)/p(x_i) p(x_i)}
+
+x_i mit p(x) gew"ahlt
+=> 
+
+F_n = 1/n \sum_{i=1}^n{f(x_i)/p(x_i)}
+
+Ziel: \sigma kleiner
+
+## 11.7. Metropolis-Algorithmus
+statische Mechanik
+Boltzmann-Verteilung p(E) = \exp{-E/{k_B T}}
+
+<f> = \int{f(x)p(x)dx} / \int{p(x)dx}
+
+Idee: Zufallspfad so, dass {x_i} mit p(x) verteilt.
+
+"Ubergangswahrscheinlichkeit T_{ij} = T(x_i -> x_j)
+
+Hinreichend: detailed balance
+
+p(x_i) T_{ij} = p(x_j) T{ji}
+
+Die Formeln sind nicht eindeutig.
+Andere Formulierungen sind oftmals auch richtig.
+
+Beispiel:
+
+T_{ij} = min(1, p(x_j)/p(x_i))
+
+In d=1 w"ahle \delta_i \in [-\delta, \delta]
+
+Test x_t = x_i + \delta_i
+
+w = p(x_t) / p(x_i)
+
+Entscheidung "uber x_t:
+w >= 1: akzeptiert      x_{i+1} = x_t
+w < 1:  Zufallszahl r
+  r <= w: akzeptiert    x_{i+1} = x_t
+  r > w:  abgelehnt     x_{i+1} = x_i
+
+Man erreicht eine Absenkung der Energie, da das System Richtung niedriger Energie tendiert.
+Um "uber Barrieren zu kommen, erreicht man auch h"ohere Energien durch den Random Walk.
+
+Man beginnt "ublicher Weise in der N"ahe des Maximums, wenn man das Maximum halbwegs kennt.
+
+Problem:
+\sigma_M unrealistisch, weil x_i stark korreliert sind.
+
+in Kap. 7: Korrelationsfunktion
+C(j) = {<x_{i+j} x_i> - <x_i>^2} / {x_i^2> - <x_i>^2} \sim \exp{-t/\tau}
+
+t - Abstand zwischen den Messungen von x_i und x_{i+j}. H"aufig \sim j
+
+Abstand 2\tau oder 3\tau zwischen Messungen.
+oder
+Ergebnisse zusammen fassen.
+=> Kap. 11.3
+
+Schluss f"ur dieses Semester
+
+Thu Jan 31 09:50:25 CET 2013
+

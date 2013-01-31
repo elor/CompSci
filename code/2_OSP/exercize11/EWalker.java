@@ -53,7 +53,7 @@ public class EWalker {
     int x = x0;
     int y = y0;
 
-    for (int i = 0; i < maxsteps || maxsteps == -1; ++i) {
+    for (int i = 0; maxsteps == -1 || i < maxsteps; ++i) {
       if (field[x][y] != 0.0) {
         ++green[x0][y0][x][y];
         return field[x][y];

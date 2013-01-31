@@ -2,6 +2,7 @@ package exercize11;
 
 import org.opensourcephysics.controls.AbstractSimulation;
 import org.opensourcephysics.controls.SimulationControl;
+import org.opensourcephysics.controls.XML;
 import org.opensourcephysics.frames.Scalar2DFrame;
 
 /**
@@ -15,9 +16,10 @@ public class EWalkerApp extends AbstractSimulation {
   double[][] accumulatedPotField;
   double[][] potField;
   int[][] nField;
-  private int size;
+  int size;
 
   Scalar2DFrame frame = new Scalar2DFrame("Potential");
+  double[] v;
 
   /**
    * @param args
@@ -31,7 +33,7 @@ public class EWalkerApp extends AbstractSimulation {
     size = control.getInt("field size");
 
     potField = new double[size][size];
-    double[] v = new double[4];
+    v = new double[4];
     v[0] = control.getDouble("V north");
     v[1] = control.getDouble("V east");
     v[2] = control.getDouble("V south");
@@ -94,5 +96,9 @@ public class EWalkerApp extends AbstractSimulation {
 
     frame.setAll(potField, 0, size, 0, size);
     frame.repaint();
+  }
+
+  public static XML.ObjectLoader getLoader() {
+    return new GreenLoader();
   }
 }
