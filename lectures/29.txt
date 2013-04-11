@@ -1,0 +1,165 @@
+Thu Apr 11 11:15:44 CEST 2013
+
+## 12.4. Kritische Exponenten
+
+Ein geometrischer Phasen"ubergang liegt im Gegensatz zum temperaturgetriebenen thermodynamischen Phasen"ubergang vor.
+
+p != p_c: n_s(s) f"allt schnell ab
+
+p \approx p_c: n_s(s) f"allt langsam ab
+=> Cluster aller Gr"o"sen, d.h. aller L"angenskalen
+=> typische Beobachtung bei Phasen"uberg"angen
+
+\xi divergiert bei p_c
+Annahme: Das entspricht einem Potenzgesetz mit kritischem Exponenten \nu
+Erfahrung zeigt: Phasen"uberg"ange werden "ublicherweise durch Potenzgesetze dargestellt
+
+\xi(p) \sim \abs{p-p_c}^{-\nu}
+
+Es gibt ein \nu, allerdings sind zwei \nu (f"ur kleine und gro"se p) denkbar. In den meisten F"allen ist das System allerdings in p symmetrisch.
+
+Beispiele:
+
+d=2 : \nu = 4/3
+d=3 : \nu = 0.88..
+
+P_\infty(p) \sim (p-p_c)^\beta
+=> ein stetiger Phasen"ubergang liegt vor (weil stetige Funktion)
+
+d=2 : \beta = 5/36
+d=3 : \beta = 0.41..
+
+\beta wird gelegentlich auch als Ordnungsparameter bezeichnet, in "Ubereinstimmung mit Phasen"uberg"angen, in denen eine Ordnung in der h"oheren Phase auftritt.
+
+S(p) \sim \abs{p-p_c}^{-\gamma}
+
+d=2 : \gamma = 43/18
+d=3 : \gamma = 1.80..
+
+n_s(p=p_c) \sim s^{-\tau}
+
+d=2 : \tau = 187/91
+d=3 : \tau = 2.19..
+
+Problem: bei p \approx p_c: \xi \approx L : finite size-Effekte
+
+Qualitativ "falsches" Verhalten, wenn:
+L \approx \xi \sim \abs{p - p_c}^{-\nu}
+
+=> finite size-Effekte treten auf
+\abs{p - p_c} \sim L^{-1/\nu}
+
+F"ur L \approx \xi:
+P_\infty(p=p_c) \sim L^{-\beta/\nu}
+S(p=p_c) \sim L^{\gamma/\nu}
+
+Gr"o"se M := Anzahl der Teilchen ("Masse")
+
+M(p=p_c) \sim L^D
+
+Merke: Doppelt logarithmische Darstellung.
+
+D - fraktale Dimension, Massendimension
+
+### Skalengesetze
+2\beta + \gamma = \nu d
+d - Dimension
+
+
+### Universalit"at
+Exponenten sind invariant gegen"uber weiterer Modelleigenschaften. Dimension reicht.
+<=>
+Kritische Exponenten sind universell innerhalb ihrer Dimension
+
+=> selbe Universalit"atsklasse
+
+## 12.5. Renormierungsgruppe
+Kenneth Wilson
+
+Idee: Pl"atze werden zusammengefasst zu einem Superplatz bzw. Superzelle.
+
+Blockl"ange b, d.h. L -> L/b
+
+Skalierung aller L"angen um 1/b, z.B. \xi -> \xi/b
+
+n"otig: Abbildungsvorschrift f"ur leere/besetzte Pl"atze
+
+L"asst sich rekursiv ausf"uhren
+=> p_0, p_1, ... p_i ...
+
+Mit steigendem i steigt im Allgemeinen, wenn p > p_c und sinkt, wenn p < p_c.
+
+p_0 \approx 0: besetzte Pl"atze -> leerer Superplatz => p_r -> 0
+p_0 \approx 1: leere Pl"atze -> besetzter Superplatz => p_r -> 1
+
+=> triviale Fixpunkte des Renormierungsgruppenflusses (p_i(i))
+
+p_0 = p_c -> Cluster aller Gr"o"sen
+
+=> p_r = p_c
+=> nichttrivialer Fixpunkt
+
+RGApp
+
+### Renormierungsgruppentransformation
+
+p' = R(p) rekursiv
+
+N"aherung: Zellen werden unabh"angig behandelt.
+Somit gehen Verbindungen verloren bzw. neue entstehen.
+
+Beispiel:
+R(p) = p^4 + 4 p^3(1-p)^3 + 2 p^2(1-p)^2
+(Betrachtung der Besetzungswahrscheinlichkeiten der Felder einer Besetzungsvorschrift)
+
+z.B. p_0 = 0.5
+R(0.5) = 0.44 (0.44)
+R(0.44) = 0.35 (0.31)
+-> 0
+
+p_0 = 0.7
+p_1 = 0.83
+-> 1
+
+p_c => l"auft gegen 0
+
+Wo liegt der Fixpunkt von R?
+
+R(p\**) = R(p\**) 
+
+p\** = 0
+p\** = 1
+p\** = 0.61804..
+
+Abweichung wird unter Ber"ucksichtigung der N"aherung als sehr gering angesehen
+
+xi' = \xi / b
+
+\xi = A \abs{p - p_c}^{-\nu}
+
+A \abs{p' - p\**}^{-\nu} = A \abs{p - p\**}^{-\nu} / b (*)
+
+Taylor um p\**:
+
+p' = R(p) = R(p\**) + (p - p\**) \lambda + ...
+
+\lambda = dR/dp\|_{p=p\**}
+
+p' - p\** = R(p) - R(p\**) \approx \lambda (p - p\**)
+
+(*) =>
+
+b = \lambda^\nu
+
+
+=> 
+
+R(p) = -p^4 + 2p^2
+
+\lambda = -4p(1-p^2) \|_{p\**} \approx 1.528..
+
+\nu = \log{b}/\log{\lambda} = \log{2}/\log{\lambda} \approx 1.635..
+
+Erneut eine gute "Ubereinstimmung.
+
+Thu Apr 11 12:25:44 CEST 2013

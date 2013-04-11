@@ -1,0 +1,180 @@
+Tue Apr  9 11:18:15 CEST 2013
+
+# 12. Perkolation
+
+Pl"atzchenallegorie: Pl"atzchen auf dem Backblech kommen zu nah und kleben zusammen -> Phasen"ubergang.
+
+Phasen"ubergang vorhanden, wenn ein zusammenh"angender Pfad in eine Dimension vorhanden ist.
+Beispiel: Leitender Pfad.
+
+Bezeichnungen: Perkolations-Phasen"ubergang, Konnektivi"at, Swiss Cheese-Modell
+
+In der Regel mehrdimensionale Gitter
+-> Platzperkolation, Sitepercolation, Knotenperkolation
+
+### Modell: Platzperkolation
+
+Quadratgitter, Wahrscheinlichkeit p f"ur jeden Knoten
+
+Mit steigender Wahrscheinlichkeit existieren zunehmend perkolierende Cluster.
+Durch Entfernung einzelner Knoten k"onnen Pfade im Phasen"ubergang ausgel"oscht werden.
+Mit h"oherer Wahrscheinlichkeit (0.8) ver"andern kleinere Fluktuationen die Zahl der Pfade nicht mehr signifikant.
+
+Interessante Fragestellungen: Konnektivit"at, Kompaktheit, Ver"astelung
+
+Algorithmus:
+F"ur jede Zelle:
+  Ziehe Zufallszahl (0, 1]
+  r <= p: Platz wird besetzt
+
+Suche Phasen"ubergang f"ur p_c
+p_c - kritische Perkolation, Perkolationsschwelle
+perkolierender Cluster, unendlicher Cluster
+
+### Alternatives Modell: Kantenperkolation, Bindungsperkolation, bond percolation
+
+Statt der Pl"atze werden die Kanten untersucht, sonst "aquivalent
+
+Auch hier Phasen"ubergang, aber \bar{p_c} != p_c
+(der Querstrich ist Schreibers eigene Notation)
+
+Anschaulich: Aus einem Maschendraht werden Dr"ahte getrennt. Phasen"ubergang entspricht dann einer Trennung des Gitters in unabh"angige Teile.
+
+Watson & Leath 1947: "Connectivity of Chicken Wire"
+
+Anwendungen:
+"Olf"orderung (por"ose Felsschichten)
+Polymere
+Bauzeug
+granulare Materie
+
+Flory 1941: Polymeruntersuchungen
+Broadbent & Hammersley 19??: erstmalig Perkolation auf Gitter untersucht
+
+## 12.1 Perkolationsschwelle p_c
+
+PercolationApp
+LatticeFrame
+
+p_c \approx 0.59
+
+Kleine Gitter: Feynhardt-Zeiss-Effekte
+Einige Perkolationswahrscheinlichkeiten lassen sich manuell bestimmen.
+
+Variationen existieren f"ur offene und geschlossene Randbedingungen.
+
+Bestimmung des Phasen"uberganges durch Ensemblemittel (zwangsl"aufig):
+~50% der Realisierungen haben unendlichen Cluster? => Phasen"ubergang
+
+10 bis 20 Gitter reichen in der Regel
+
+p_c = 0.59274621(13)
+
+Rechenaufwand der Auswertung steigt polynomiell (mindestens kubisch) mit Breite des quadratischen Gitters.
+
+Dreiecksgitter:
+Perkolationsgrenze sinkt, da Zahl der N"achstnachbarn sinkt.
+p_c = 0.5 (Wert ist exakt)
+
+### Duales Gitter
+Kantengitter l"asst sich inverses versetztes Kantengitter "uberf"uhren
+
+Gr"o"sen:
+offene Randbedingungen: n -> n-1
+periodische Randbedingungen: n -> n
+
+Besetzungswahrscheinlichkeiten:
+p(dual) = 1-p(orig)
+=> \bar{p_c(orig)} = 0.5 = \bar{p_c(dual)}
+
+Dreiecksgitter, Platz-Perkolation: p_c = 0.5
+
+Quadratgitter ist nicht eindeutig "uberf"uhrbar
+
+### Kontinuums-Modell:
+Einheitsscheiben im Kasten L^2
+
+Bedeckung \phi = 1 - \exp{-\rho\pi R^2}
+
+\rho: Dichte der Scheiben
+
+\phi_c - kritische Bedeckung
+\phi_c = p_c / 4 (f"ur Quadratgitter)
+Es ist un"ublich, hierbei vom Gitter auszugehen
+
+M"ogliche Unterscheidung: D"urfen sich Scheiben "uberlagern?
+
+Untersuchung des K"ases (statt der L"ocher wie bisher):
+\psi_c = 1 - \phi_c
+
+## 12.2 Quantitative Analyse
+
+### P_\infty
+
+P_\infty(p) = {Anzahl der Pl"atze im Perkolationscluster} / {Anzahl "uberhaupt besetzter Pl"atze}
+
+p < p_c: P_\infty = 0, da es keinen unendlichen Cluster gibt
+
+P_\infty w"achst monoton bis p=1 => P_\infty = 1
+
+## n_s
+
+n_s(p) = {Anzahl der Cluster der Gr"o"se s} / {Anzahl der Pl"atze}
+
+Berechnung schlie"st unendliche Cluster aus
+s - Anzahl der Pl"atze im Cluster
+
+Eigentlich ist die r"aumliche Ausdehnung sinnvoller, aber n_s ist historisch gewachsen.
+
+### w_s
+
+w_s - Wahrscheinlichkeit, dass ein Platz zu einem Cluster bestimmter Gr"o"se s  geh"ort
+w_s = {s n_s} / {\sum_s{s n_s}}
+
+\sum_s{s n_s(p)} = p  f"ur p < p_c, da sonst der unendliche Cluster ausgeschlossen werden muss.
+
+### S
+
+S(p) = \sum_s{s w_s} = \sum_s{s^2 n_s} / \sum_s{s n_s}
+
+S(p) = mittlere Clustergr"o"se
+
+Auch hier unendlicher Cluster ausgeschlossen :-(
+
+Gyrationsradius^2 R_s^2 = 1/s \sum_{i=1}^s {{r_i - \bar{r}}^2}
+                                             ^^^^^^^^^^^^^
+                                       Abstand vom Schwerpunkt
+
+\bar{r} = 1/s \sum_{i=1}^s {r_i}
+
+R_s ist zun"achst auch Gr"o"se des einzelnen Clusters.
+
+Vorteil: aussagekr"aftiger
+Nachteil: R_s ist rational
+
+### Konnektivit"atsl"ange \xi^2
+
+\xi^2 = \sum_s{(s-1) w_s <R_s^2>} / \sum_s{(s-1) w_s}
+
+in der Regel:
+\approx \sum_s{s^2 n_s <R_s^2>} / \sum_s{s^2 n_s}
+
+Und schon wieder wird der unendliche Cluster ausgegrenzt.
+
+## 12.3 Newman-Ziff-Algorithmus
+
+Vergleichsweise effizienter Algorithmus zur Auffindung von Clustern
+
+n - Anzahl besetzter Pl"atze steigt von 0 bis L^2
+=> p steigt von 0/L^2 bis L^2/L^2 (0 bis 1)
+
+Sinnvoll: Im Vorfeld eine Reihenfolge der Besetzung ausw"urfeln und anschlie"send die ersten n Pl"atze besetzen.
+
+neuer Platz: neuer Cluster oder Teil eines alten Clusters oder Teil mehrerer alten Cluster
+
+Die alten Cluster werden dann zu einem zusammen gefasst.
+
+Entspricht effizienten Algorithmen zur Pr"ufung der Graphenkonnektivit"at.
+
+Tue Apr  9 12:28:30 CEST 2013
+

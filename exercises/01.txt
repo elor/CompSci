@@ -1,34 +1,3 @@
-Exercise 1:
-
 a)
-  Rmax = 23.122 (analytical: 22.935)
-
-b)
-  Larger to compensate for the height offset. Imagine a Ball that's thrown with \delta=45deg from pos=[<0, 0]. The angle flattens as it reaches 2m.
-
-  \delta_{max} = 35deg
-
-c) 
-  optimal angle, computed with modified prog: 30deg (C2=0.7)
-  -> lower angle, my dear Watson.
-
-  C2=0.1 => 35deg
-
-d)
-  Velocities aren't coupled, so they hit the floor with the same velocity at
-  the same time.
-
-e)
-  vx and vy are coupled, so drag slows second ball (vx != 0) in y direction.
-
-  Tests with given values:
-    falling ball: 1.68 s
-    thrown ball:  1.90 s
-
-f)
-  vx and vy aren't coupled anymore, hence the balls fall with the same vy.
-    falling ball: 2.13
-    thrown ball:  2.13
-
-YAY
-
+  \phi_c \approx 0.4655
+   
