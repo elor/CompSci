@@ -13,12 +13,34 @@ import org.opensourcephysics.display.DrawingPanel;
  * 
  */
 public class Disk implements Drawable {
-  double x; // x pos
-  double y; // y pos
   static double r = 0.5;
   static double r2 = r * r;
-  Disk parent;
+
+  /**
+   * get radius of all disks
+   * 
+   * @return Radius r
+   */
+  public static double getR() {
+    return Disk.r;
+  }
+
+  /**
+   * set radius for all disks
+   * 
+   * @param r
+   *          new radius
+   */
+  public static void setR(double r) {
+    Disk.r = r;
+    Disk.r2 = r * r;
+  }
+
   Color color = Color.black;
+  Disk parent;
+
+  double x; // x pos
+  double y; // y pos
 
   /**
    * constructor
@@ -31,20 +53,33 @@ public class Disk implements Drawable {
     this.y = y;
   }
 
+  @Override
+  public void draw(DrawingPanel panel, Graphics g) {
+    // TODO draw disk
+
+    g.setColor(getRoot().color);
+
+    int px = panel.xToPix(this.x - Disk.r);
+    int py = panel.yToPix(this.y + Disk.r);
+
+    int wx = panel.xToPix(x + Disk.r) - px;
+    int wy = panel.yToPix(y - Disk.r) - py;
+
+    g.fillArc(px, py, wx, wy, 0, 360);
+  }
+
   /**
-   * perform an overlap test
+   * traverses the tree recursively and returns the root associated with the
+   * current cluster
    * 
-   * @param disk
-   * @return whether the disks overlap ever so slightly
+   * @return
    */
-  public Boolean overlap(Disk disk) {
-    double x2 = disk.x - this.x;
-    double y2 = disk.y - this.y;
+  public Disk getRoot() {
+    if (this.parent == null) {
+      return this;
+    }
 
-    x2 *= x2;
-    y2 *= y2;
-
-    return x2 + y2 <= 4 * Disk.r2;
+    return this.parent.getRoot();
   }
 
   /**
@@ -65,17 +100,38 @@ public class Disk implements Drawable {
   }
 
   /**
-   * traverses the tree recursively and returns the root associated with the
-   * current cluster
+   * perform an overlap test
    * 
-   * @return
+   * @param disk
+   * @return whether the disks overlap ever so slightly
    */
-  public Disk getRoot() {
-    if (this.parent == null) {
-      return this;
-    }
+  public Boolean overlap(Disk disk) {
+    double x2 = disk.x - this.x;
+    double y2 = disk.y - this.y;
 
-    return this.parent.getRoot();
+    x2 *= x2;
+    y2 *= y2;
+
+    return x2 + y2 <= 4 * Disk.r2;
+  }
+
+  /**
+   * overlap without using a Disk instance
+   * 
+   * @param x
+   *          x pos of center
+   * @param y
+   *          y pos of center
+   * @return true if they overlap, false otherwise
+   */
+  public boolean overlap(double x, double y) {
+    double x2 = x - this.x;
+    double y2 = y - this.y;
+
+    x2 *= x2;
+    y2 *= y2;
+
+    return x2 + y2 <= 4 * Disk.r2;
   }
 
   /**
@@ -88,26 +144,22 @@ public class Disk implements Drawable {
   }
 
   /**
-   * set radius for all disks
+   * set the root
    * 
-   * @param r
-   *          new radius
+   * @param root
+   *          new root
    */
-  public static void setR(double r) {
-    Disk.r = r;
-    Disk.r2 = r * r;
+  public void setRoot(Disk root) {
+    if (this.getRoot() != root) {
+      this.parent = root;
+    }
   }
 
-  @Override
-  public void draw(DrawingPanel panel, Graphics g) {
-    // TODO draw disk
-
-    int px = panel.xToPix(this.x);
-    int py = panel.yToPix(this.y);
-
-    int wx = panel.xToPix(Disk.r);
-    int wy = panel.yToPix(Disk.r);
-
-    g.fillArc(px, py, wx, wy, 0, 360);
+  /**
+   * @return size of cluster, i.e. number of children
+   */
+  public int size() {
+    // TODO return true number of children
+    return 0;
   }
 }

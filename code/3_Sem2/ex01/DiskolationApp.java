@@ -26,15 +26,144 @@ import org.opensourcephysics.frames.PlotFrame;
  */
 public class DiskolationApp extends AbstractCalculation implements
     InteractiveMouseHandler {
-  PlotFrame diskPlot = new PlotFrame("Percolation", "x", "y");
+  /**
+   * main func
+   * 
+   * @param args
+   */
+  public static void main(String args[]) {
+    CalculationControl.createApp(new DiskolationApp());
+  }
+
+  List<Color> colors = new ArrayList<Color>();
+  PlotFrame diskPlot = new PlotFrame("x", "y", "Perkolation");
   List<Disk> disks = new ArrayList<Disk>();
-  Random random = new Random();
   double L;
+  int nextColor;
+
+  Random random = new Random();
 
   /**
    * Creates the PercolationApp and sets the colors for lattice.
    */
   public DiskolationApp() {
+    diskPlot.setInteractiveMouseHandler(this);
+    colors.add(Color.RED);
+    colors.add(Color.BLUE);
+    colors.add(Color.GREEN);
+    colors.add(Color.MAGENTA);
+    colors.add(Color.CYAN);
+    colors.add(Color.GRAY);
+    colors.add(Color.ORANGE);
+    colors.add(Color.PINK);
+    colors.add(Color.YELLOW);
+  }
+
+  /**
+   * Create some disks
+   */
+  public void calculate() {
+    L = control.getDouble("Lattice size");
+
+    diskPlot.setPreferredMinMax(-0.5, L + 0.5, -0.5, L + 0.5);
+
+    int numdisks = control.getInt("number of disks");
+    String type = control.getString("placement type");
+
+    double radius = control.getDouble("radius");
+
+    if (Disk.getR() <= radius) {
+      clearClusters();
+    }
+
+    Disk.setR(radius);
+
+    if (numdisks > 0) {
+      if (!(type.equals("grid") || type.equals("random") || type
+          .equals("nooverlap"))) {
+        return;
+      }
+
+      // occupy lattice sites with probability p
+      for (int i = 0; i < numdisks; i++) {
+        double x = -1;
+        double y = -1;
+        Boolean valid = false;
+
+        while (!valid) {
+          valid = true;
+          if (type.equals("grid")) {
+            x = random.nextInt((int) L + 1);
+            y = random.nextInt((int) L + 1);
+
+            for (Disk d : disks) {
+              if (d.isInside(x, y)) {
+                valid = false;
+                break;
+              }
+            }
+          } else if (type.equals("random")) {
+            x = random.nextDouble() * L;
+            y = random.nextDouble() * L;
+          } else if (type.equals("nooverlap")) {
+            x = random.nextDouble() * L;
+            y = random.nextDouble() * L;
+            for (Disk d : disks) {
+              if (d.overlap(x, y)) {
+                valid = false;
+                break;
+              }
+            }
+          }
+
+        }
+
+        Disk disk = new Disk(x, y);
+        disks.add(disk);
+        diskPlot.addDrawable(disk);
+      }
+    }
+
+    calculateClusters();
+
+    diskPlot.repaint(); // display lattice with colored cluster
+  }
+
+  /**
+   * calculate and apply clusters
+   */
+  public void calculateClusters() {
+    for (int i = 1; i < disks.size(); ++i) {
+      Disk disk = disks.get(i);
+      Disk root = disk.getRoot();
+      for (int j = 0; j < i; ++j) {
+        Disk d = disks.get(j);
+
+        if (disk.overlap(d)) {
+          if (root != disk) {
+            // TODO compare sizes
+            if (root.size() < d.getRoot().size()) {
+              root.setRoot(d.getRoot());
+            } else {
+              d.getRoot().setRoot(root);
+            }
+          } else {
+            disk.setRoot(d.getRoot());
+          }
+
+          root = disk.getRoot();
+        }
+      }
+    }
+  }
+
+  /**
+   * clear all cluster values
+   */
+  public void clearClusters() {
+    for (Disk d : this.disks) {
+      d.setRoot(null);
+    }
   }
 
   /**
@@ -47,11 +176,13 @@ public class DiskolationApp extends AbstractCalculation implements
   // cluster
   public void handleMouseAction(InteractivePanel panel, MouseEvent evt) {
     panel.handleMouseAction(panel, evt);
-    if (panel.getMouseAction() == InteractivePanel.MOUSE_PRESSED) {
+
+    if (panel.getMouseAction() == InteractivePanel.MOUSE_CLICKED) {
       Disk mouseDisk = null;
 
       double x = panel.getMouseX();
       double y = panel.getMouseY();
+
       for (Disk disk : this.disks) {
         if (disk.isInside(x, y)) {
           mouseDisk = disk;
@@ -62,64 +193,28 @@ public class DiskolationApp extends AbstractCalculation implements
       // test if a valid site was clicked (index non-negative),
       // and if site is occupied, but not yet cluster colored (value -1).
       if (mouseDisk != null) {
-        mouseDisk.setColor(Color.red); // color cluster to which site belongs
+        mouseDisk.setColor(colors.get(nextColor)); // color cluster to which
+                                                   // site belongs
+        if (++nextColor == colors.size()) {
+          nextColor = 0;
+        }
+
         diskPlot.repaint(); // display lattice with colored cluster
       }
     }
   }
 
-  /**
-   * Create some disks
-   */
-  public void calculate() {
-    L = control.getDouble("Lattice size");
-    int numdisks = control.getInt("number of disks");
-    String type = control.getString("placement type");
-
-    if (type != "grid" && type != "random" && type != "nooverlap") {
-      return;
-    }
+  public void reset() {
+    control.setValue("placement type", "random");
+    control.setValue("Lattice size", 10.0);
+    control.setValue("number of disks", 50);
+    control.setValue("radius", 0.5);
 
     // reset disks
     disks.clear();
     diskPlot.clearDrawables();
 
-    // occupy lattice sites with probability p
-    for (int i = 0; i < numdisks; i++) {
-      Disk disk = null;
-
-      if (type == "grid") {
-        disk = new Disk(random.nextInt((int) L), random.nextInt((int) L));
-      } else if (type == "random") {
-        disk = new Disk(random.nextDouble() * L, random.nextDouble() * L);
-      } else if (type == "nooverlap") {
-        // TODO implement
-      }
-
-      if (disk != null) {
-        disks.add(disk);
-        diskPlot.addDrawable(disk);
-      } else {
-      }
-    }
-
-    diskPlot.repaint(); // display lattice with colored cluster
-  }
-
-  public void reset() {
-    control.setValue("placement type", "grid");
-    control.setValue("Lattice size", 10.0);
-    control.setValue("number of disks", 10);
-    calculate();
-  }
-
-  /**
-   * main func
-   * 
-   * @param args
-   */
-  public static void main(String args[]) {
-    CalculationControl.createApp(new DiskolationApp());
+    nextColor = 0;
   }
 }
 

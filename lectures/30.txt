@@ -1,0 +1,157 @@
+Tue Apr 16 11:18:37 CEST 2013
+
+Wiederholung:
+(Transformation mit vertikalen Verbindungen -> 7 M"oglichkeiten)
+R(p) = ... = p => Fixpunkt
+
+R(p) = -p^4 + 2p^2
+
+R(p\**) = p\** \approx 0.618
+
+\lambda = dR/dp \|_{p=p\**} \approx 1.528
+
+\nu = \log{2} / \log{\lambda} \approx 1.635
+
+### vertikale oder horizontale Verbindungen
+(-> +2 M"oglichkeiten = 9)
+
+R(p) = p^4 - 4p^3 + 4p^2
+
+p\** = 0, p\** = 1, p\** = {3 \pm \sqrt{5}} / 2 \approx 0.382
+
+\lambda = 4p^3 - 12p^2 + 8p \|_{p\**} \approx 1.528
+=> entspricht \lambda bei vertikalen Verbindungen
+<=> \nu stimmt "uberein
+
+### vertikalen und horizontale Verbindungen
+
+R(p) = -3p^4 + 4p^3
+p\**=0, p\**=0, p\**={1 \pm \sqrt{13}} / 6 \approx 0.758
+\lambda = -12p^3 + 12p^2 \|_{p\**} \approx 1.642
+=> stimmt gut mit den beiden 1.528 "uberein
+
+### b=3
+q = 1-p
+R(p) = p^9 + 9 p^8q + 36p^7q^2 + 67 p^6q^3 + 59 p^5q^4 + 22p^4q^5 + 3 p^3q^6
+
+### b=\sqrt{3}
+Dreieck
+
+Trafo: mindestens zwei besetzte Pl"atze
+
+R(p) = p^3 + 3 p^2(1-p)
+
+p\**=0, p\**=1, p\**= 1/2
+
+\lambda = 6p(1-p)\|_{p\**} = 3/2
+\nu = \log{\sqrt{3}} / \log{3/2} \approx 1.3546
+
+p_c \approx p\** offensichtlich nicht notwendig
+
+Alternativen:
+p_c \approx \int_0^1{p {dR}/{dp} dp}
+oder
+p_c \approx p_{max}
+d.h. {d^2R}/{dp^2}\|_{p_c} = 0
+
+# 13. Fraktale
+
+## 13.1. Fraktale Dimension
+
+Masse M(R) \sim R^D
+R - ein Radius (z.B. Kreislinie, Kreisfl"ache, Kugel, ...)
+
+Massendichte \rho \sim M/{R^d}
+d - euklidische Dimension
+
+\rho \sim R^0 = const, wenn D = d
+=> Objekt ist kompakt
+
+\rho \sim R^{D-d} f"ur D < d
+=> fraktal
+
+Mandelbrot 1970ff
+"Fractals are curdled" -> Bild der geronnenen Milch in Kaffee
+
+bei p_c
+L"ocher in allen Gr"o"senordnungen
+l R -> Rb => \rho \sim (Rb)^{D-d} \sim R^{D-d}
+
+_skaleninvariant_
+_Selbst"ahnlichkeit_
+
+Perkolationscluster:
+nicht exakt erf"ullt, sondern zuf"alliges/statistisches Fraktal
+
+<M(R)> \sim R^D
+^ Mittelung "uber Realisierungen
+
+Leath-Algorithmus:
+Einzel-Cluster-Wachstum
+
+1) 1 Platz besetzt, bestimme Rand _g_ (f"ur _growth_)
+  _g_: ber"uhrte, unbesetzte Felder
+2) W"ahle Randplatz; w"ahle Zufallszahl r
+    r <= p: Platz besetzen
+    r > p: Platz bleibt leer: _x_
+3) Stopp, wenn Perkolationscluster geschaffen wurde
+
+SingleClusterApp
+
+m(R) im Ring um Keim,
+R <= L/2
+
+M(R) = \sum_{R\'=0}^R{m(R\')}
+
+plots:
+\log{\sum{m}} in Abh"angigkeit von \log{R} => D
+
+besser: \log{M} vs. \log{r}
+r - Abstand vom Schwerpunkt
+
+r_{CM} = 1/N \sum_i{r_i}
+
+N - Masse f"ur R->\infty
+
+Skalenrelation:
+M(L) \sim P_{\infty}(L)L^d
+f"ur L \sim \xi \sim (p-p_c)^{-\nu}
+
+L^d \sim (p-p_c)^\beta L^d
+L^D \sim L^{\beta/\nu} L^d
+
+D = d - \beta/\nu = 91/48 \approx 1.896
+
+_Fl"ache wird fast vollst"andig gef"ullt_
+
+## 13.2. Exakte Fraktale
+
+### Koch-Kurve
+
+* Einheitslinie
+* Mitte rausschneiden
+* Durch zwei Linien der L"ange 1/3 zu einem verbundenen Gebilde ersetzen
+* Rekursion "uber alle Linien
+
+KochApp
+
+### Box-Counting-Algorithmus
+
+Ma"sstab der L"ange l -> _Box_
+
+Beispiel: Linie in N Segmente der L"ange l zerlegen:
+
+N = 1/l
+
+Quadrat in N K"asten der L"ange l zerlegen:
+N = 1/l^2
+
+allgemein: N = 1/l^D
+
+D = \log{N} / \log{1/l}
+
+Kochkurve in N = 4^n Segmente der L"ange l = {1/3}^n
+
+=> D = {n \log{4}} / {n \log{3}} \approx 1.2619
+
+Tue Apr 16 12:18:59 CEST 2013
