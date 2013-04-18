@@ -162,4 +162,18 @@ public class Disk implements Drawable {
     // TODO return true number of children
     return 0;
   }
+
+  /**
+   * @return whether the disk is root
+   */
+  public boolean isRoot() {
+    return this.parent == null;
+  }
+
+  /**
+   * @return current color of the cluster the disk belongs to
+   */
+  public Color getColor() {
+    return this.getRoot().color;
+  }
 }

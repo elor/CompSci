@@ -26,13 +26,34 @@ import org.opensourcephysics.frames.PlotFrame;
  */
 public class DiskolationApp extends AbstractCalculation implements
     InteractiveMouseHandler {
+
+  static DiskolationApp disko = null;
+
   /**
-   * main func
+   * main
    * 
    * @param args
    */
   public static void main(String args[]) {
-    CalculationControl.createApp(new DiskolationApp());
+    CalculationControl sim = null;
+    disko = new DiskolationApp();
+    sim = CalculationControl.createApp(disko);
+    sim.addButton("paintitblack", "paint it black");
+    sim.addButton("colorify", "colorify");
+  }
+
+  /**
+   * 
+   */
+  public static void colorify() {
+    disko.colorAll();
+  }
+
+  /**
+   * 
+   */
+  public static void paintitblack() {
+    disko.clearColors();
   }
 
   List<Color> colors = new ArrayList<Color>();
@@ -57,6 +78,25 @@ public class DiskolationApp extends AbstractCalculation implements
     colors.add(Color.ORANGE);
     colors.add(Color.PINK);
     colors.add(Color.YELLOW);
+  }
+
+  double approxCoverage(int iterations) {
+    int hit = 0;
+    Random rand = new Random();
+
+    for (int i = 0; i < iterations; ++i) {
+      double x = rand.nextDouble() * L;
+      double y = rand.nextDouble() * L;
+
+      for (Disk d : disks) {
+        if (d.isInside(x, y)) {
+          ++hit;
+          break;
+        }
+      }
+    }
+
+    return (double) hit / (double) iterations;
   }
 
   /**
@@ -90,6 +130,7 @@ public class DiskolationApp extends AbstractCalculation implements
         double y = -1;
         Boolean valid = false;
 
+        int failsleft = 100000;
         while (!valid) {
           valid = true;
           if (type.equals("grid")) {
@@ -116,6 +157,19 @@ public class DiskolationApp extends AbstractCalculation implements
             }
           }
 
+          if (!valid) {
+            --failsleft;
+            if (failsleft <= 0) {
+              break;
+            }
+          }
+
+        }
+
+        if (!valid) {
+          // there's no valid configuration for a new disk
+          control.println("No valid space for a new disk left");
+          break;
         }
 
         Disk disk = new Disk(x, y);
@@ -124,15 +178,26 @@ public class DiskolationApp extends AbstractCalculation implements
       }
     }
 
-    calculateClusters();
+    extendClusters();
 
     diskPlot.repaint(); // display lattice with colored cluster
+
+    printInfo();
+  }
+
+  /**
+   * clear all cluster values
+   */
+  void clearClusters() {
+    for (Disk d : this.disks) {
+      d.setRoot(null);
+    }
   }
 
   /**
    * calculate and apply clusters
    */
-  public void calculateClusters() {
+  void extendClusters() {
     for (int i = 1; i < disks.size(); ++i) {
       Disk disk = disks.get(i);
       Disk root = disk.getRoot();
@@ -157,13 +222,12 @@ public class DiskolationApp extends AbstractCalculation implements
     }
   }
 
-  /**
-   * clear all cluster values
-   */
-  public void clearClusters() {
-    for (Disk d : this.disks) {
-      d.setRoot(null);
-    }
+  double getDensity() {
+    double r = Disk.getR();
+    int n = disks.size();
+
+    // calculate accumulated area of all disks divided by total area
+    return Math.PI * r * r * n / (L * L);
   }
 
   /**
@@ -202,6 +266,37 @@ public class DiskolationApp extends AbstractCalculation implements
         diskPlot.repaint(); // display lattice with colored cluster
       }
     }
+  }
+
+  void clearColors() {
+    for (Disk d : disks) {
+      if (d.isRoot()) {
+        d.setColor(Color.BLACK);
+      }
+    }
+    diskPlot.repaint();
+  }
+
+  void colorAll() {
+    for (Disk d : disks) {
+      if (d.isRoot() && d.getColor() == Color.BLACK) {
+        d.setColor(colors.get(nextColor));
+        if (++nextColor == colors.size()) {
+          nextColor = 0;
+        }
+      }
+    }
+
+    diskPlot.repaint();
+  }
+
+  void printInfo() {
+    double coverage = approxCoverage(100000);
+    double density = getDensity();
+    int num = disks.size();
+
+    control.println("Disks: " + num + ", Coverage: " + coverage + ", Density: "
+        + density);
   }
 
   public void reset() {

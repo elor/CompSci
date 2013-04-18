@@ -1,0 +1,102 @@
+Thu Apr 18 11:20:40 CEST 2013
+
+### quadratische Koch-Kurve
+
+D = \log{5} / \log{3} \approx 1.465
+
+### Sierpinski-Dreieck
+
+D = \log{3} / \log{2} \approx 1.585
+
+### Sierpinski-Teppich
+
+D = \log{8} / \log{3} \approx 1.893
+
+### Sierpinski-Schwamm
+
+Tetraeder
+Wurde nie von Sierpinski publiziert
+
+D = \log{4} / \log{2} = 2
+=> ganzzahlige Dimension, aber fraktales dreidimensionales Objekt
+
+Es gibt eine dichte orthogonale Projektion "uber eine Seitenmittenachse
+=> Bild ist in zwei Dimensionen kompakt
+Objekt ist allerdings komplett offen, wenn unendlich iteriert wurde
+_lichtdurchl"assig_
+
+### Mengerschwamm
+
+W"urfel
+
+D = \log{20} / \log{3} \approx 2.727
+
+Topologische Dimension aller (unendlichen) Objekte ist genau 1
+_Menge von Linien_
+
+## 13.3. Fraktales Wachstum
+
+Veranschaulichung von Krankheitsausbreitung anhand des Leath-Algorithmus'
+Nachbarzellen k"onnen auch zeitgleich ausgewertet werden.
+
+### 13.3.1. Eden-Modell (1958)
+
+Leath-Algorithmus mit p = 1
+
+Wachstum von Tumoren oder Bakterienkolonien
+
+### 13.3.2. Invasions-Perkolation
+
+* Alle Pl"atze erhalten eine Zufallszahl zugewiesen
+* linker Rand wird komplett besetzt
+* von allen unbesetzten Nachbarn wird der mit der niedrigsten Zahl besetzt
+* Iteration bis Perkolation
+
+Invasion (OSP)
+  linearSearch vs. binarySearch
+
+### 13.3.3. Zufallswanderer auf Perkolationscluster
+
+Beispiel: Diffusion auf ungeordneten Strukturen
+
+_Ameise-im-Labyrinth_-Modell
+
+* Ameise sitzt auf besetztem Platz
+* Ameise w"ahlt zuf"allig einen Nachbarplatz
+* Ameise bewegt sich dorthin, falls Platz besetzt
+* Ameise ruht sonst auf ihrem Platz (auch zeitlich)
+
+=> Diffusion auch auf der richtigen Zeitskala
+
+Auswertung (kurze Wiederholung):
+* <R^2(t)>  // Mittelung "uber Anfangspl"atze
+* <R^2>(p)> // Mittelung "uber Konfigurationen
+p = 1 => <R^2> = 2dD_st
+D_s - Diffusionskonstante
+
+was, wenn p_c < p < 1?
+
+<R^2> = 4D_s(p)t
+=> Wahrscheinlichkeitsabh"angigkeit
+
+Vermutung D_s(p) \sim (p - p_c)^{\mu_s}
+
+Leitf"ahigkeit \sigma von ungeordneten Materialien
+
+Einstein: Mobilit"at <v> / F \sim D = D_s
+<v> - Mittlere Teilchengeschwindigkeit
+F - "au"sere Kraft
+D - Diffusionskoeffizient
+D_s - Selbstdiffusionskoeffizient des Modelles
+
+D_s gilt auf Perkolationsclustern
+D auf Gesamtsystem (mit allen Clustern)
+
+D = P_\infty D_s
+
+(p - p_c)^mu \sim (p - p_c)^\beta (p - p_c)^{\mu_s}
+=> \mu = \beta + \mu_s
+
+Skalenrelationen, z.B. z = 2 + \mu_s/\nu = 2 + (\mu - \beta) \nu
+
+Thu Apr 18 12:20:59 CEST 2013
