@@ -1,0 +1,146 @@
+Tue Apr 23 11:18:41 CEST 2013
+
+_Zu Random Walk auf Perkolationscluster_
+
+L"asst sich auch exakt behandeln:
+
+Mastergleichung auf Perkolationscluster.
+_Myopische_ vs. _kurzsichtige_ Ameise
+
+
+### 13.3.4 DLA - Diffusion Limited Aggregation - Diffusionsbegrenztes Wachstum
+
+* Schneeflocken
+* Blitze
+* Gasentladungen
+* Bruchentwicklung (Geologie, Materialwissenschaften)
+* Bakterienkolonien
+
+H"aufig eingesetzt, wenig spezialisiert.
+
+Wie w"achs eine Schneeflocke?
+* Keim
+* Wassermolek"ule im Wasserdampf diffundieren
+* Anlagerung an Keim bei Kontakt
+* Dichte der Wassermolek"ule sinkt lokal
+* Diffusion f"ur weiteres Wachstum n"otig
+
+
+DLAApp
+
+1981 T.A. Witten & L.M. Sander
+
+Idee:
+* Keim
+* Random Walk von weit au"serhalb
+* Wanderung, bis Nachbarplatz erreicht, dann Einfrieren
+* Iteration
+
+Parameter:
+* startRadius
+  - Gro"s: Lange Random Walks
+  - Klein: Bias
+  - beispielsweise startradius = R_max + 2
+  - R_max = Ausdehnung des Clusters vom Keim ausgehend
+  - R_max in Relation zum Schwerpunkt benachteiligt schnell gewachsene "Aste
+* ringSize
+  - Bewegungsraum f"ur Abk"urzungen
+  - Ring um Startposition, in den anstatt vieler Wanderschritte gesprungen wird
+  - Zeit ist bei DLA uninteressant
+  - im Allgemeinen ein wenig kleiner als der Mindestabstand vom Cluster
+* maxRadius
+  - Abbruchkriterium
+  - z.B. 2*R_max
+
+Systeme sind im Allgemeinen selbst"ahnlich
+
+M"ogliche Darstellungen:
+* gesamter Baum (alle Zellen)
+* Nur die letzten x angelagerten Zellen -> Approximation des Randes
+
+Analytische Betrachtung m"oglich, aber nicht sinnvoll, weil enorm aufwendig.
+
+_Fluktuationsschw"achung_
+_Noise reduction_
+
+Erst die m-te Anlagerung wird ausgef"uhrt.
+Random Walks werden durchgef"uhrt. Erst, wenn ein Randplatz m mal angelagert wird, wird die Anlagerung auch ausgef"uhrt.
+Dadurch wachsen die Spitzen langsamer und die fraktale Dimension steigt.
+
+D_{\square} \approx 1.5 (gibt auch 1.61)
+D_{\triangle} \approx 1.71
+D_{Kont.} \approx 1.71 (Zufall, dass beinahe identisch)
+D_{3d-Kont.} \approx 2.5
+
+Keine Universalit"at, weil Anisotrop
+
+
+### Singularit"atsspektrum
+
+Fjorde -> Abschirmung
+
+Quantifizierung:
+Abschirmungsgrad \alpha
+
+Annahme kreisf"ormiger Cluster:
+
+Wahrscheinlichkeit, dass ein Teilchen an bestimmter Stelle i auftrifft:
+P \propto 1/R
+
+DLA-Cluster P_i \propto 1/{R^{\alpha_i}}
+
+Kreis: \alpha_i = 1
+Fjord: \alpha_max
+Spitze: \alpha_min
+=> Quantitative Beschreibung
+
+H"aufigkeit f"ur \alpha-Werte aus [\alpha, \alpha + \delta\alpha]
+(kontinuierliches Histogramm)
+N(\alpha) \propto R^{f(\alpha)}
+
+DLA im 2d-Kontinuum:
+
+Diagramm f "uber a
+Halbkreisartige Kurve von 0.6 bis 9 (\alpha) und maximum bei 1.71
+(charakteristischer Wert)
+
+Multifraktalit"at:
+Universelle Kurve, falls MOdelle in wesentlichen Merkmalen "ubereinstimmen.
+
+
+verbesserte DLA
+ein Schritt mit gro"ser Reichweite
+Meakin 1985
+Rechenzeit \log{R}^2 statt R^2
+
+statt Kreis Quadrat benutzen
+aber Randpl"atze nicht "aquivalent
+
+
+Begriff: _Coarse Graining_
+Vergr"oberung der Betrachtungsweise und Durchf"uhren eines Zufallsschrittes
+auf dem gr"oberen Gitter.
+
+CCA (Cluster-Cluster Aggregation)
+
+Einzelne Cluster werden bewegt und aggregieren, wenn sich beide Cluster
+ber"uhren.
+
+### 13.3.5 Laplace'sches Wachstum
+
+-> Laplace-Gleichung
+Diffusionsgleichung
+
+D \nabla^2 f = {\partial f}/{\partial t}
+
+Hier: {\partial f}/{\partial t} = 0
+
+Wachstumswahrscheinlichkeit P
+\nabla^2 P = 0
+
+Kapitel 10: Gleichung gel"ost durch einen Random Walker
+Jetzt: Gegenrichtung
+
+siehe Kapitel 10
+
+Tue Apr 23 12:21:17 CEST 2013
