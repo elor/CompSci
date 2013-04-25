@@ -1,0 +1,161 @@
+Thu Apr 25 11:17:50 CEST 2013
+
+### Laplacesches Wachstum
+
+1.  Ladung in Ursprung setzen V=0
+    Rand: V=1 (Kreis mit R)
+2.  Relaxationsmethode, um V_i an allen Pl"atzen i zu bestimmen
+3.  Zufallszahlen r_i - breakdown coefficients (inhomogenes Wachstum)
+4.  r_i V_i^a
+    a ist ein Wachstumsparameter
+    a = 1 ist eine nette Wahl
+    a = 1/4 erzeugt eine gute Darstellung von Blitzen
+5.  max r_i V_i^a mit i \in Rand
+    => Clusterwachstum
+    => hier passiert der Breakdown
+    => V_i = 0
+6.  Relaxation, aber nur f"ur alle 0 < V_i < 1.0
+    (alle Zellen ohne Rand und Cluster)
+7.  Iteration ab 4.
+
+a = 1/4 : Blitze
+  fraktal: M(b) \sim b^D
+    b - box size
+
+a = 1/3 und a = 1/6: D h"angt von a ab
+
+### 13.3.6. Oberfl"achenwachstum
+
+_selbstaffin_ statt _selbst"ahnlich_
+
+<=> Skalierung ist anisotrop
+
+Querschnitt: Linie L
+
+Untersuchte Gr"o"sen:
+* mittlere H"ohe
+* RMS-Rauheit
+
+\bar{h} = 1/N_s \sum_{i=1}^{N_s} h_i
+
+w^2 = 1/N_s \sum_{i=1}^{N_s}{(h_i - \bar{h})^2}
+
+Rauheit w(L,t) \sim t^\beta
+
+beschreibt Korrelationen in verikaler Richtung
+
+gro"se Zeiten: Gleichgewicht (steady state)
+
+w(L, t>>1) \sim L^\alpha
+
+\alpha - Rauheitsexponent
+
+anisotrope Skalierung:
+L -> Lb
+h -> hb^\alpha
+
+Eden-Modell:
+1. Randplatz zuf"allig w"ahlen und besetzen
+2. Iteration
+
+Diagramme:
+\log{w} "uber log{t}
+Gerade von Ursprung in den ersten Sektor
+in Abh"angigkeit von \beta: Linien gerade nach rechts
+
+"Ubergang (A):
+
+\log{w/L^\alpha} "uber \log{t}
+parallele Gerade von log{w\L^\alpha} >= 0 in ersten Sektor
+bei bestimmter H"ohe konstante Gerade
+
+"Ubergang (B):
+
+\log{w/L^\alpha} "uber \log{t/L^z}
+wie das erste Diagramm, aber unabh"angig von \beta
+
+Hinweis:
+Die Knicke sind in der Untersuchung nat"urlich abgeflacht
+
+
+Skalenrelation w \approx L^\alpha f(t / {L^{\alpha/\beta}})
+
+crossover t_c: Zeiten, bei denen der Knick im ersten Diagramm statt findet
+
+\beta = 1/3, \alpha = 1/2
+
+f(x) = A x*\beta f"ur x << 1
+f(x) = const f"ur x >> 1
+
+Diagramm, welches darlegt, dass das dritte Diagramm tats"achlich von \beta unabh"angig ist.
+
+\xi \sim t^{1/z} f"ur x << 1
+\xi \sim L f"ur x >> 1
+
+Fluktuationen erkennbar (und notwendig sowie unvermeidbar, wie vorher gezeigt)
+
+### random deposition methods
+
+1. Zuf"allige Position auf der Grundlinie w"ahlen
+2. Teilchen von oben auf die Oberfl"ache fallen lassen
+3. anhand von Nachbarschaftsregeln f"ur jede Zelle, die das Teilchen durchschreitet, entscheiden, ob das Teilchen weiter f"allt oder liegen bleibt
+4. Iteration
+
+*random deposition* (einfachste Regeln)
+Bleibt liegen, wenn Zelle darunter besetzt.
+
+h_i Poisson-Verteilung
+\bar{h} \sim t
+\beta = 1/2
+\alpha = 0
+
+*ballistic deposition*
+
+Bleibt zus"atzlich liegen, wenn Zelle links oder rechts besetzt
+=> Festkleben
+=> "Uberh"ange und Poren
+
+Abwandlung: Es k"onnen auch l"angere vertikale Stangen fallen
+
+Auch diagonale Grundlinien m"oglich, aber dennoch vertikale Deposition
+=> Poren sind tiefer und wachsen nur schwer zusammen
+
+## 13.4. Fraktale im Chaos
+
+Wiederholung logistische Abbildung
+x_{n+1} = 4 r x_N (1-x_n)
+r > r_\infty = 0.8925... chaotisches Verhalten
+
+seltsamer Attraktor f"ur chaotische Bahnen
+
+box-counting 
+Gesamtanzahl Boxen l^d
+Gesucht: Anzahl der Boxen, in denen ein St"uck der Trajektorie zu finden ist
+
+N(l) \sim l^{-D} f"ur l -> 0
+
+D - gesuchte fraktale Dimension
+
+F"ur logistische Abbildung liegen alle Werte zwischen 0 und 1
+=> einfachere Betrachtung
+
+Zu kleine Boxen: Aufl"osungsprobleme, Speicherprobleme
+Zu gro"se Boxen: keine Aussagekraft, beschr"ankter Bereich
+
+Bei komplexeren Problemen steigen die Datenmengen noch schneller
+=> schwierige Auswertung
+
+*Korrelationsdimension* D_c
+
+betrachten N Punkte der Bahn
+
+N_i(r) : Anzahl der Punkte im Abstand <= r von Punkt i
+
+Korrelationsfunktion:
+C(r) \equiv 1/N \sum_i{N_i(r)/{N-1}} \sim r
+
+C(r \approx 0) = 0, weil Abstand der Punkte endlich
+C(r gro"s) -> 1, weil Bahn lokalisiert (zwischen 0 und 1)
+
+Thu Apr 25 12:27:25 CEST 2013
+

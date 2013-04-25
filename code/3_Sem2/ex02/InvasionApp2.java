@@ -1,25 +1,34 @@
 package ex02;
 
 //import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
 
 import org.opensourcephysics.controls.AbstractSimulation;
 import org.opensourcephysics.controls.SimulationControl;
+import org.opensourcephysics.frames.PlotFrame;
 import org.opensourcephysics.frames.Scalar2DFrame;
 
 /**
  * @author elor
  * 
  */
-public class InvasionApp extends AbstractSimulation {
+public class InvasionApp2 extends AbstractSimulation {
   /**
    * main
    * 
    * @param args
    */
   public static void main(String args[]) {
-    SimulationControl.createApp(new InvasionApp());
+    SimulationControl.createApp(new InvasionApp2());
+  }
+
+  /**
+   * 
+   */
+  public InvasionApp2() {
   }
 
   PriorityQueue<Pair> border = new PriorityQueue<Pair>();
@@ -28,6 +37,11 @@ public class InvasionApp extends AbstractSimulation {
   Boolean visited[] = null;
   int w = 0; // width
   Scalar2DFrame probFrame = new Scalar2DFrame("Probabilities");
+  PlotFrame dimPlot = new PlotFrame("log(L)", "log(M)", "The Amazing Plot");
+
+  List<Double> rhoList = new ArrayList<Double>();
+  int maxH;
+  double stepH;
 
   /**
    * @param j
@@ -53,10 +67,18 @@ public class InvasionApp extends AbstractSimulation {
 
   @Override
   protected void doStep() {
-    int steps = control.getInt("steps per display");
-    // abort on empty list
+    int steps = control.getInt("simulations per size");
 
-    for (; steps > 0; --steps) {
+    if (h > maxH) {
+      control.calculationDone("max height reached");
+      return;
+    }
+
+    resize();
+
+    // abort on empty list
+    double M = 0;
+    for (int j = 0; j < steps; ++j) {
 
       int n = 0; // number of occupied cells in center square
       refurbish();
@@ -90,15 +112,20 @@ public class InvasionApp extends AbstractSimulation {
           // control.println("right end reached");
           break;
         }
+
       }
 
-      // plot
+      // lattice plot
       probFrame.setAll(p);
 
-      // print
-      double rho = (double) n / (double) (h * h);
-      control.println("central density: " + rho);
+      M += n;
     }
+
+    M /= steps;
+    dimPlot.append(0, Math.log(h), Math.log(M));
+
+    // set next size
+    h = (int) Math.floor(h * stepH);
   }
 
   /**
@@ -120,7 +147,6 @@ public class InvasionApp extends AbstractSimulation {
       addBorder(j);
     }
 
-    probFrame.setAll(p);
   }
 
   int getId(int x, int y) {
@@ -141,22 +167,28 @@ public class InvasionApp extends AbstractSimulation {
 
   @Override
   public void initialize() {
-    h = control.getInt("height");
+    h = control.getInt("start height");
+    maxH = control.getInt("end height");
+    stepH = control.getDouble("height step factor");
+
+    probFrame.setZRange(false, -1.0, 1.0);
+    probFrame.setSize(800, 400);
+
+    dimPlot.clearData();
+  }
+
+  void resize() {
     w = 2 * h;
     p = new double[h * w];
     visited = new Boolean[h * w];
-
-    // arrays are filled in doStep
-
-    probFrame.clearData();
-    probFrame.setZRange(false, -1.0, 1.0);
     probFrame.resizeGrid(w, h);
-    probFrame.setSize(800, 400);
   }
 
   @Override
   public void reset() {
-    control.setValue("height", 1234);
-    control.setAdjustableValue("steps per display", 1);
+    control.setValue("start height", 20);
+    control.setValue("end height", 1000);
+    control.setValue("height step factor", 1.2);
+    control.setAdjustableValue("simulations per size", 20);
   }
 }
