@@ -13,7 +13,6 @@ package ex03;
  * @author Jan Tobochnik, Wolfgang Christian, Harvey Gould
  * @version 1.0  revised 06/21/05
  */
-@SuppressWarnings("javadoc")
 public class SingleCluster {
   public byte site[][];
   public int[] xs, ys, pxs, pys;

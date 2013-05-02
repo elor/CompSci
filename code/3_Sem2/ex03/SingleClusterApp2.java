@@ -18,56 +18,67 @@ import java.awt.Color;
  * @author Jan Tobochnik, Wolfgang Christian, Harvey Gould
  * @version 1.0 revised 06/21/05
  */
-public class SingleClusterApp extends AbstractSimulation {
+public class SingleClusterApp2 extends AbstractSimulation {
   SingleCluster cluster = new SingleCluster();
   LatticeFrame latticeFrame = new LatticeFrame("Percolation cluster");
-  Scalar2DFrame bild = new Scalar2DFrame("x", "y", "Zahl der Ameisen");
-  double[][] antcount = new double[cluster.L + 2][cluster.L + 2];
+  PlotFrame r2Plot = new PlotFrame("t", "<R^2>", "mean squared distance");
+  PlotFrame r2LogPlot = new PlotFrame("log(t)", "log(<R^2>)", "mean squared distance");
 
-  int steps;
   Ant ants[];
+  int steps;
 
   public void initialize() {
     latticeFrame.setIndexedColor(0, Color.BLACK); // not occupied or tested
     latticeFrame.setIndexedColor(1, Color.BLUE); // occupied
     latticeFrame.setIndexedColor(2, Color.GREEN); // perimeter or growth site
     latticeFrame.setIndexedColor(-1, Color.YELLOW); // permanently not occupied
+
+    r2Plot.clearData();
+    r2LogPlot.clearData();
+
     cluster.L = control.getInt("L");
     cluster.p = control.getDouble("p");
-    cluster.initialize();
-    latticeFrame.setAll(cluster.site);
 
+    steps = 0;
+  }
+
+  /**
+   * 
+   */
+  void createCluster() {
+    cluster.initialize();
     while (cluster.perimeterNumber != 0) {
       cluster.step();
     }
     latticeFrame.setAll(cluster.site);
-
-    steps = 0;
 
     ants = new Ant[control.getInt("number of ants")];
 
     for (int i = 0; i < ants.length; ++i) {
       ants[i] = new Ant(cluster);
     }
-
-    bild.clearData();
-    bild.setZRange(false, 0, 10);
-
-    for (int i = 0; i < cluster.L + 2; ++i) {
-      for (int j = 0; j < cluster.L + 2; ++j) {
-        antcount[i][j] = (cluster.site[i][j] == 1 ? -1 : -2);
-      }
-    }
   }
 
   public void doStep() {
-    for (int i = 0; i < ants.length; ++i) {
-      antcount[ants[i].x][ants[i].y]--;
-      ants[i].step();
-      antcount[ants[i].x][ants[i].y]++;
+    createCluster();
+
+    int maxstep = control.getInt("max number of steps");
+
+    for (int t = 0; t < maxstep; ++t) {
+      double R2 = 0.0;
+      for (int i = 0; i < ants.length; ++i) {
+        ants[i].step();
+        R2 += ants[i].getR2();
+      }
+
+      R2 /= ants.length;
+      r2Plot.append(0, t, R2);
+      r2LogPlot.append(0, Math.log(t), Math.log(R2));
     }
 
-    bild.setAll(antcount);
+    if (++steps > 20) {
+      control.calculationDone("averaged over 20 clusters");
+    }
   }
 
   public void reset() {
@@ -84,7 +95,7 @@ public class SingleClusterApp extends AbstractSimulation {
    * @param args
    */
   public static void main(String[] args) {
-    SimulationControl.createApp(new SingleClusterApp());
+    SimulationControl.createApp(new SingleClusterApp2());
   }
 }
 
