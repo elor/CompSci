@@ -1,0 +1,142 @@
+Tue May  7 12:19:32 CEST 2013
+
+# 14. Komplexe Systeme
+
+## 14.1. Zellul"are Automaten
+
+### von Neumann & Ulam 1948
+
+Wollten damit biologische Systeme (Zellen) simulieren
+
+Ort, Zeit und Zust"ande werden diskretisiert (Gitter, Einheitszeitschritt, endliche Menge)
+
+Ausschlie"slich lokale Nachbarschaft
+gleichzeitige Aktualisierung
+
+OSP: OneDimensionalAutomatonApp
+periodische Randbedingung
+boolescher ZA
+
+>>> - bitshift (3 >)
+<< - bitshift (2 <)
+& - bitwise and
+| - bitwise or
+^ - bitwise xor
+
+nette Regeln:
+90
+129
+150
+
+Hier: insgesamt 256 boolesche Automaten mit n"achsten Nachbarn
+
+Wolfram 1984: Katalog
+
+### allgemeiner
+
+2z+1 Nachbarn
+
+viele ZA, also m"ogliche Einschr"ankungen
+* Symmetrie
+* 000 -> 0
+* nur abh"angig von Summe, nicht Reihenfolge
+
+4 Kategorien (f"ur gro"se Zeiten):
+i.   homogen
+ii.  separate stabile oder periodische Regionen
+iii. chaotische aperiodische Muster
+iv.  komplexe, lokale Strukturen (d"urfen aussterben)
+     Z=1 -> tauchen nie auf
+     Z=2 -> nur zwei mal
+
+andere Regelnotation:
+
+Summe = ... 3, 2, 1, 0
+=>
+Regel ... b3, b2, b1, b0
+
+f"ur z=1:
+i.   Regel 8 - Regel 1000_2
+ii.  Regel 4 - 0100_2
+iii. 10 - 1010_2
+
+f"ur z=2:
+iv.  20 - 010100_2
+iv.  52 - 110100_2
+
+### ZA in 2 Dimensionen
+
+z.B. auf NN beschr"ankt:
+2^9 = 512 Konfigurationen
+
+Conway's Game of Life
+
+LifeApp
+
+Summe = 2 oder 3: 1->1, sonst ->0
+
+summe = 3: 0 -> 1
+
+sonst 0,1 -> 0
+
+### Verkehrsmodelle
+
+General Motors:
+Kontinuumsmodelle, Differentialgleichungen
+
+ZAs: bedeutend einfacher und flexibler
+
+### Nagel-Schreckenberg:
+Uni Duisburg
+
+x_i Platz von Wagen i
+v_i Geschwindigkeit von Wagen i
+
+4 Regeln:
+
+1. v_i -> v_i + 1, falls v_i < v_{max}
+2. v_i -> d-1, falls v_i >= d (Abstand zum Vordermann)
+3. v_i -> v_i - 1 (Tr"odelfaktor)
+4. x_i(t+1) = x_i(t) + v_i
+
+FreewayApp
+
+1 Spur mit Randbedingungen
+
+Verschiedene Erweiterungen
+* Mehrspurige Stra"sen
+* Spurwechsel
+* Ein- / Ausfahrten
+* Unterschiedliche Maximalgeschwindigkeiten (LKWs)
+* 
+
+Beobachtungen:
+* Fluss (Wagen pro Zeiteinheit)
+* Geschwindigkeitshistogramme
+* Staul"ange und -ausbreitung
+
+www.autobahn-nrw.de
+
+## 14.2. Selbstorganisierte Kritikalit"at
+
+Seltene Ereignisse Folge intrinsischer Dynamik
+
+* Erdbeben
+* Lawinen
+* B"orsencrash
+* Untergang des R"omischen Reiches
+
+System "kritisch":
+Anzahl der Ereignisse N(s) \sim s^{-\alpha}
+
+s - St"arke (Energie im Erdbeben, Schneemenge in Lawine, ...)
+
+Potenzgesetz ist skaleninvariant (nur Vorfaktor)
+
+### Gegenbeispiel Gau"s
+
+N(s) \ sim \exp{-{s/{s_o}}^2}
+
+SandpileApp
+
+Tue May  7 12:19:29 CEST 2013
