@@ -1,0 +1,156 @@
+Tue May 14 11:16:32 CEST 2013
+
+SandpileApp
+
+* Waehle Platz auf Gitter
+* erh"ohe Wert um 1
+* wenn Wert == 4: Umkippen
+  Nachbarn: +1
+  Selbst: 0
+* offene Randbedingungen
+
+\alpha = 1.0
+
+statistisches Gleichgewicht
+(nur statistisch station"ar)
+
+Lawinen aller Skalen
+
+kritische H"ohe: 4
+
+(eigentlich: F"ur Vergleich mit Experiment nicht H"ohe, sondern Steigung relevant)
+_Simulation passt schon ganz gut_
+
+_selbstorganisiert_:
+Es werden keine "au"seren Parameter angepasst
+
+Erdbeben: N(E) \sim E^{-b}
+b \approx 1
+Gutenberg-Richter
+
+gilt bei weltweiter Erdbebenanalyse
+
+Bak-Tang-Wiesenfeld-Modell:
+
+Kraft F_{ij} anfangs zuf"allige, kleine Werte
+      ^^^^^^ Spannung zwischen tektonischen Platten
+
+\delta F wird langsam erh"oht 
+\delta F = 10^{-3} \forall (i,j)
+
+F_{ij} > F_c = 4 => F_{ij} -> F_{ij} - F_c
+und auf 4 n"achste Nachbarn verteilt
+
+F kaskadiert
+
+_Waldbr"ande_
+
+Gitter, periodische Randbedingungen
+anfangs B"aume mit Wahrscheinlichkeit p
+Feuer mit Wahrscheinlichkeit p
+
+Platz leer => Baum w"achst mit Wahrscheinlichkeit g (growth)
+Feuer breitet sich auf N"achstnachbarn aus
+Platz wird leer, wenn es im vorigen Schritt gebrannt hat
+
+Anzahl Pl"atze s_b
+Anzahl brennende B"aume s_f
+"Selbstmittelung" <=> Ergodenhypothese
+
+weitere Beispiele im Buch
+* Alterungsprozesse
+* Immunsysteme
+* B"orsencrashs
+* Fu"sg"angerbewegungen
+  Evakuierungssimulationen
+  "Uberraschendes Ergebnis:
+  Oftmals ist es g"unstiger, Hindernisse in den Weg zu bauen
+  S"aule vor Ausgang => Gedr"ange vor Ausgang wird gebrochen
+
+## 14.3. Neuronale Netze
+
+* Mustererkennung
+* manchmal Steuerung
+
+HopfieldApp
+### Hopfield-Modell
+
+N Neuronen S_i = +- 1 (Feuern / nicht feuern) Zustand i
+S^{\alpha} = { S_i^{\alpha}} Zustand \alpha des Netzes
+
+St"arke der i-j-Verbindung
+w_ij = \sum_{\alpha = 1}^M{S_i^{\alpha}S_j^{\alpha}}
+
+Dynamik: w"ahle zuf"alliges i
+S_i = {+1 wenn \sum_{j \ineq i}{w_{ij}S_j} > 0
+       -1 sonst
+
+(Input der anderen Neuronen wird aufsummiert)
+
+anfangs: Muster speichern
+zuf"allige S_i w"ahlen
+Hopfield versucht, iterativ ihm bekannte Muster wieder herzustellen
+
+_Hamming_-Abstand h: Anzahl der falschen Bits
+
+h(t) sollte abnehmen
+auch interessant: h vs. Neuronen und h vs. Erinnerungen
+
+viele Neuronen => Erkennungsrate steigt (theoretisch)
+viele Erinnerungen => Erkennungsrate wird drastisch schlechter
+
+Dimensionalit"at ist aktuell irrelevant
+Lokalit"at der Verbindungen ist praktisch ebenfalls irrelevant
+
+## 14.4. Wachsende Netze
+Netz = Knoten und Verbindungen (Graph)
+
+kurze Beispielserie:
+zyklisch vs. azyklisch
+gerichtet vs. ungerichtet
+gewichtet vs. ungewichtet
+
+### Erd"os-Reny-Modell
+N Knoten
+n Verbindungen
+
+p = n \over {N(N-1_/2}
+Wahrscheinlichkeit f"ur Verbindung
+Es k"onnen unterschiedliche Teilnetze entstehen
+
+gesucht: D(l): Anteil der Knoten mit l Verbindungen
+
+N gro"s => D(l) -> Poisson
+
+Vergleich mit Perkolation, aber: Nur Verkn"upfungen werden interessant, nicht die Orte
+
+Riesencluster:
+* umfasst mindestens 10% (beliebig) aller Knoten
+* 3 (beliebig) mal gr"o"ser als der n"achstgr"o"ste Cluster
+
+Struktur: Cluster-Koeffizient C(N)
+(Transitivit"at)
+Anzahl Dreiecke / (Anzahl m"oglicher Tripel / 3)
+
+Je Knoten in abh"angigkeit von l
+= l! / (2!(l-2)!) = 0, 1, 3, 6...
+                l = 1, 2, 3, 4...
+
+### Small-World-Network
+
+Jeder ist mit jedem "uber nicht mehr als 6 Ecken bekannt
+1920er: empirisch durch Paketversand best"atigt
+
+\bar{L} \sim \log{N}
+
+Watts-Strogatz-Modell:
+
+* anfangs Gitter mit n"achste-Nachbar-Verbindungen
+* Verbindung wird mit Wahrscheinlichkeit p gebrochen und neu zwischen beliebige Knoten gesetzt
+
+\bar{L} \sim \log{N} f"ur gro"se p
+\bar{L} \sim N f"ur kleine p
+
+N p_c^{1/d} \approx 1
+
+Tue May 14 12:20:35 CEST 2013
