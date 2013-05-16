@@ -1,28 +1,25 @@
-Einleitung
-==========
+# Einleitung
 
-zwei wichtige Buecher:
-  Numerical Recipes for C (1992)
+_zwei wichtige Buecher_
+Numerical Recipes for C (1992)
+An Introduction to Computer Simulation Methods (2006)
 
-  An Introduction to Computer Simulation Methods (2006)
-
-Herausforderungen
------------------
+## Herausforderungen
 
 Fehlerquellen
-  simple Bugs
-  falsche Annahmen
-  falsche Datenwerte
+* simple Bugs
+* falsche Annahmen
+* falsche Datenwerte
 
--> Verifizierung (des Modelles)
-   Validierung (des Programmes hinsichtlich des Programmes)
-   Plausibilitaetspruefungen (des Programmes anhand von Daten)
-    je mehr, desto besser
-   (in der Reihenfolge)
+_Verifizierung des Modelles_
+*  Validierung (des Programmes hinsichtlich des Programmes)
+*  Plausibilitaetspruefungen (des Programmes anhand von Daten)
+   je mehr, desto besser
+(in der Reihenfolge)
 
 
-Aufbau der Vorlesung
-====================
+# Aufbau der Vorlesung
+
 1 Einleitung
 1.1 Herausforderungen
 1.2 Kategorien der Computergestuetzten Physik
@@ -36,4 +33,6 @@ Aufbau der Vorlesung
 1.3 Programme
   * Open Source Physics Library (OSP, Java)
   * JFrame GUI (erweiterte Version, siehe Buch)
+
+...
 

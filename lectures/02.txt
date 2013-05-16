@@ -1,53 +1,47 @@
 Di 16. Okt 09:18:28 CEST 2012
 
-Computer-Experiment
-===================
+# Computer-Experiment
 
+Entwicklungsprozess:
 Physikalisches System
-  -> Modell (idealisierte Form)
-    -> Algorithmus
-      -> Daten
-        -> Vergleich mit Realitaet
+-> Modell (idealisierte Form)
+-> Algorithmus
+-> Daten
+-> Vergleich mit Realitaet
 
-_Simulationen ersetzen nicht das Denken_
+*Simulationen ersetzen nicht das Denken*
 
 (Geschichten zu Programmiersprachen und FORTRAN/Java im Allgemeinen)
 
 Java Stichwoerter
-  Encapsulation
-  Inheritance
-  Polymorphismus/Interfaces
+* Encapsulation
+* Inheritance
+* Polymorphismus/Interfaces
 
 Hinweis:
-  Erstes Programm nur Programmentwurf
-    entspricht separatem API-Entwurf und Klassenkonzept
+*Erstes Programm nur Programmentwurf*
 
-Inhalte aus erstem Buchkapitel
-------------------------------
+## Inhalte aus erstem Buchkapitel
 * Physikalischer Hintergrund
 * Modell und Algorithmus
 * Probleme (aus Buch), Loesungen, Vergleich mit bekannten Loesungen/Ergebnissen
-    Kontrolle von Erhaltungsgroessen
-    Symmetrieerhaltung
-    Ist Ergebnis sinnvoll?
-    statistische Fehler (Konvergenz gegeben und sinnvoll?)
+  Kontrolle von Erhaltungsgroessen
+  Symmetrieerhaltung
+  Ist Ergebnis sinnvoll?
+  statistische Fehler (Konvergenz gegeben und sinnvoll?)
 * abgeschlossenes Bild
-    insgesamt Kohaerent
-    schoenes Gesamtbild aus Einzelergebnissen bilden
+  insgesamt Kohaerent
+  schoenes Gesamtbild aus Einzelergebnissen bilden
 * Varianten durchspielen
 
-2. Einfache Beispiele
-=====================
-2.1. Freier Fall
-----------------
+# 2. Einfache Beispiele
+## 2.1. Freier Fall
 ### Physikalischer Hintergrund
 
 Kugel im Gravitationsfeld ohne Reibung
 
-``
 F_g = -m*g
 0 < g = 9.81 m/s^2
-``
 
 ### Modell
 
@@ -55,37 +49,30 @@ Newtonsche Bewegungsgleichung
 
 F=m \ddot y
 
-analytische Loesung moeglich:
+analytische L"osung m"oglich:
 
-``
 y(t) = y(0) + v(0)*t - 1/2 gt^2
 v(t) = v(0) - gt
-``
 
 y(0), v(0) sind Anfangsbedingungen
 
 numerischer Ansatz:
 
-``
 dy/dt = v(t)
 dv/dt = -g
-``
 
-Naeherung durch finite Differenzen:
-``
+N"aherung durch finite Differenzen:
+
 (y(t+\Delta_t) - y(t)) / \Delta_t = v(t)
 (v(t+\Delta_t) - v(t)) / \Delta_t = g
-``
 
 ### Algorithmus
-Aufloesen nach Euler-Algorithmus-vertraeglichen Variablen
-``
+Aufl"osen nach Euler-Algorithmus-vertr"aglichen Variablen
+
 v(t+\Delta_t) = v(t) - g \Delta_t
 y(t+\Delta_t) = y(t) - v(t) \Delta_t
-``
 
-2.2. Programmierung
--------------------
+## 2.2. Programmierung
 
 ### Anwendungen in OSP bzw. Buch
 
@@ -94,48 +81,39 @@ y(t+\Delta_t) = y(t) - v(t) \Delta_t
 * FallingParticleCalcApp
 * FallingParticlePlotApp
 
-2.3. Harmonischer Oszillator
-----------------------------
+## 2.3. Harmonischer Oszillator
 
 ### Physikalischer Hintergrund
 
-``
 F = -ky
-``
 
 k - Federkonstante
 
 ### Modell
 
-``
 \dot y = v
 \dot v = -k/m y
-``
 
-analytische Loesung
+analytische L"osung
 
-``
-y(t) = A cos(\omega_0 t) + B sin(\omega_0 t)
-``
+y(t) = A \cos{\omega_0 t} + B \sin{\omega_0 t}
 
-A=y(0)
-B=v(0)
-=> erfuellt beide Differentialgleichungen
+A = y(0)
+B = v(0)
+=> erf"ullt beide Differentialgleichungen
 
-allerdings existieren auch andere analytische Loesungen, welche aequivalent
-und in einander ueberfuehrbar sind. Dafuer ist die Ueberfuehrbarkeit der
+Allerdings existieren auch andere analytische L"osungen, welche "aquivalent
+und in einander "uberf"uhrbar sind. Daf"ur ist die "Uberf"uhrbarkeit der
 trigonometrischen Funktionen verantwortlich.
 
-``
 \omega_0^2 = k/m
-``
 
 \omega_0 - Eigenfrequenz
 
 ### Algorithmus
 
 Euler-Algorithmus aus 2.2, welcher allerdings nur bedingt zu empfehlen ist.
-Eine kleine Aenderung hinsichtlich besserer Konvergenz ist notwendig:
+Eine kleine "Anderung hinsichtlich besserer Konvergenz ist notwendig:
 
 Wir vertauschen die Berechnungsreihenfolge: Erst v, dann y
 => Euler-Cromer-Algorithmus
@@ -145,16 +123,12 @@ v(t + \Delta_t) = v(t) - k/m y(t) \Delta_t
 y(t + \Delta_t) = y(t) + v(t + \Delta_t) \Delta_t
 ``
 
-3. Allgemeine numerische Loesungen der Newtonschen Bewegungsgleichungen
-=========================================================================
+# 3. Allgemeine numerische Loesungen der Newtonschen Bewegungsgleichungen
 
-``
 \dot y = v(t)
 \dot v = a(t) = F(t) / m
-``
 
-3.1. Loesungsverfahren
-----------------------
+## 3.1. Loesungsverfahren
 
 ### Euler-Algorithmus
 
@@ -172,95 +146,87 @@ neues y aus neuem v
 
 Erhaltung der Gesamtenergie (hier: harmonischer Oszillator)
 
-``
 E_{tot} = m/2 v^2 + k/2 y^2
-``
 
-nur fuer konservative (oftmals auch reversible) Systeme
+Nur f"ur konservative (oftmals auch reversible) Systeme
 
 ### Taylor-Entwicklung in \Delta_t
 
 ``
 t_n := n \Delta_t
 
-v_{n+1} = v_n + a_n \Delta_t + \BigO(\Delta_t^2)                       (i)
-x_{n+1} = x_n + v_n \Delta_t + 1/2 a_n \Delta_t^2 + \BigO(\Delta_t^3)  (ii)
+v_{n+1} = v_n + a_n \Delta_t + \BigO{\Delta_t^2}                       (i)
+x_{n+1} = x_n + v_n \Delta_t + 1/2 a_n \Delta_t^2 + \BigO(\Delta_t^3}  (ii)
 ``
 
-Euler: ausschliesslich \BigO(n)-Terme beruecksichtigt
-  => lokaler Fehler \BigO(\Delta_t^2)
-N = 1/\Delta_t Schritte
-  => globaler Fehler bis zum Ende der Simulation ist \BigO(\Delta_t)
+Euler: ausschlie"slich \BigO{n}-Terme ber"ucksichtigt
+=> lokaler Fehler \BigO{\Delta_t^2}
+N = 1 / \Delta_t Schritte
+=> globaler Fehler bis zum Ende der Simulation ist \BigO(\Delta_t)
 
-==> Eulerverfahren ist ein Verfahren erster Ordnung
+=> Eulerverfahren ist ein Verfahren erster Ordnung
 
 Euler-Cromer ist auch ein Verfahren erster Ordnung
 
 ### Mittelpunkt-Algorithmus
 
-``
 x_{n+1} = x_n + (v_{n+1} + v_n) / 2 \Delta_t
-``
 
-(i) => `x_{n+1} = x_n + v_n \Delta_t + 1/2 a_n \Delta_t^2 + \BigO(\Delta_t^3)`
-==> Zweite Ordnung bezueglich des Ortes
-    erste Ordnung bezueglich der Geschwindigkeit
+(i) =>
+x_{n+1} = x_n + v_n \Delta_t + 1/2 a_n \Delta_t^2 + \BigO{\Delta_t^3}
+=> Zweite Ordnung bez"uglich des Ortes
+    erste Ordnung bez"uglich der Geschwindigkeit
 
 ### Halbschritt-Algorithmus
 
-``
 v_{n+1/2} = v_{n-1/2} + a_n \Delta_t
 x_{n+1} = x_n + v_{n+1/2} \Delta_t
-``
 
 Nachteile
 Nicht selbststartend (v_{-1/2} existiert nicht)
-=> erster Schritt muss z.B. ueber Euler-Algorithmus berechnet werden
-  `v_{1/2} = v_0 + a_0 \Delta_t/2`
+=> erster Schritt muss z.B. "uber Euler-Algorithmus berechnet werden
+v_{1/2} = v_0 + a_0 \Delta_t/2
 
 ### Euler-Richardson-Algorithmus
 
 Idee: Kombination von Vollschritt und Halbschritt, so dass alle 
-\BigO(\Delta_t^2)-Terme verschwinden
+\BigO{\Delta_t^2}-Terme verschwinden
   Buch: Anhang 3a
 
-``
 a_n = F(x_n, v_n, t_n)/m
 v_{n+1/2} = v_n + a_n \Delta_t/2
 x_{n+1/2} = x_n + v_v \Delta_t/2
 a_{n+1/2} = F(x_{n+1/2}, v_{n+1/2}, t_{n+1/2})/m
 
-x_{n+1} = x_n + v_{n+1/2} \Delta_t + \BigO(\Delta_t^3)
-v_{n+1} = v_n + a_{n+1/2} \Delta_t + \BigO(\Delta_t^3)
-``
+x_{n+1} = x_n + v_{n+1/2} \Delta_t + \BigO{\Delta_t^3}
+v_{n+1} = v_n + a_{n+1/2} \Delta_t + \BigO{\Delta_t^3}
 
 gesamtes Verfahren hat globalen Fehler zweiter Ordnung
 ==> Algorithmus zweiter Ordnung
 
-Diese Vorgehensweise der Kombination verschiedener Verfahren zur Ausloeschung
+Diese Vorgehensweise der Kombination verschiedener Verfahren zur Ausl"oschung
 ungewollter Terme ist angeblich typisch.
 Hier haben wir die Vollschritte sowie die Halbschritte berechnet, so dass wir
-die Differenz zwischen n und n+1/2 nutzen koennen, um die SChrittweite steuern
-zu koennen.
-Somit koennen wir in diesem Verfahren eine adaptive Schrittweitenkontrolle
-einfuehren und somit Konvergenz und Rechenzeit verbessern.
+die Differenz zwischen n und n+1/2 nutzen k"onnen, um die Schrittweite zu steuern.
+Somit k"onnen wir in diesem Verfahren eine adaptive Schrittweitenkontrolle
+einf"uhren und somit Konvergenz und Rechenzeit verbessern.
 Auf den ersten Blick machen wir doppelt so viele Berechnungen, jedoch geht
 hier der Halbschritt nicht in die Konvergenz ein, was der eigentliche Vorteil
 des Verfahrens ist.
-Somit gewinnen wir sehr viel fuer die gewuenschte Genauigkeit.
+Somit gewinnen wir sehr viel f"ur die gew"unschte Genauigkeit.
 
 ### Verlet-Algorithmus (Leap-Frog)
 
 Idee: Umgekehrte Taylorentwicklung
 
-`x_{n-1} = x_n - v_n \Delta_t + 1/2 a_n \Delta_t^2 + \BigO(\Delta_t^3) (iii)`
+x_{n-1} = x_n - v_n \Delta_t + 1/2 a_n \Delta_t^2 + \BigO(\Delta_t^3) (iii)
 (iii) entspricht also (ii) rueckwaerts. Wir addieren beide:
 
-`x_{n+1} = 2x_n - x_{n-1} + a_n \Delta_t^2 + \BigO(\Delta_t^4)`
+x_{n+1} = 2x_n - x_{n-1} + a_n \Delta_t^2 + \BigO(\Delta_t^4)
 Wir verlieren die Terme dritter Ordnung und behalten Terme vierter Ordnung.
 
 Wir koennen auch beide subtrahieren:
-`v_n = (x_{n+1} - x_{n-1})/(2 \Delta_t) + \BigO(\Delta_t^3)`
+v_n = (x_{n+1} - x_{n-1})/(2 \Delta_t) + \BigO{\Delta_t^3}
 
 Somit erhalten wir ein Verfahren, das dritter Ordnung im Ort und zweiter
 Ordnung in der Geschwindigkeit ist, welches ebenfalls nicht selbststartend
@@ -268,13 +234,11 @@ ist.
 
 ### Velocity-Verlet-Algorithmus
 
-``
 x_{n+1} = x_n + v_n \Delta_t + 1/2 a_n \Delta_t^2
 v_{n+1} = v_n + (a_{n+1} + a_n)/2 * \Delta_t
-``
 
-Es tauchen nur ganzzahlige n auf, so dass der Algorithmus selbststartend ist
-Untersuchungen zeigen, dass die Energieerhaltung aus numerischen Gruenden
+Es tauchen nur ganzzahlige n auf, so dass der Algorithmus selbststartend ist.
+Untersuchungen zeigen, dass die Energieerhaltung aus numerischen Gr"unden
 besser funktioniert.
 
 ### Runge-Kutta-Algorithmus
@@ -284,56 +248,55 @@ besser funktioniert.
 RK N-ter Ordnung mit beinahe beliebigen ganzzahligen n
 RK ist ein verallgemeinerter Euler-Richardson-Algorithmus
 
-Hier kombiniert man N Schritte beliebiger Laenge per Addition und Subtraktion
+Hier kombiniert man N Schritte beliebiger L"ange per Addition und Subtraktion
 der entsprechenden Gleichungen mit beliebigem Gewicht.
-Gewichte in der Kombination, dass Terme mit \BigO(\Delta_t^i) verschwinden.
+Gewichte in der Kombination, dass Terme mit \BigO{\Delta_t^i} verschwinden.
 
 Euler-Richardson ist somit RK 2. Ordnung.
 
 Standard: RK 4. Ordnung (siehe Buch)
 
 Besonders: Der Halbschritt taucht doppelt auf, jedoch mit unterschiedlicher
-Gewichtung (_ueberraschend_)
+Gewichtung (_"uberraschend_)
 
-Nicht selbstverstaendlich: *Fehlerkontrolle*
+Nicht selbstverst"andlich: *Fehlerkontrolle*
 Man rechnet mir Zeitschrittweite t und mit halber Zeitschrittweite und
-vergleicht beide mit einander.
-In RK erhoeht man oftmals die Ordnung und vergleicht Ergebnisse
-unterschiedlicher Ordnung (auch in OSP: RK45 in numerics-Package)
+vergleicht beide miteinander.
+In RK erh"oht man oftmals die Ordnung und vergleicht Ergebnisse unterschiedlicher Ordnung (auch in OSP: RK45 in numerics-Package)
 
-*RK45*
+_RK45_
 Fehlerkontrolle per Vergleich der Ergebnisse 4. und 5. Ordnung
 
 ### Adaptive Algorithmen
 
-*ODEMultiStepSolver* (ODE: Ordinary Differential Equation)
+_ODEMultiStepSolver_ (ODE: Ordinary Differential Equation)
 Dynamische Zeitschrittweite
-Zielzeitschritt muss entsprechend ueberprueft werden, ist hier zum Glueck
+Zielzeitschritt muss entsprechend "uberprueft werden, ist hier zum Glueck
 schon implementiert.
 
 ### Richardson-Extrapolation
 
 Taylorentwicklung in beide Zeitrichtungen auch in der Geschwindigkeit.
-Kombination zu Verfahren vierter Ordnung, mit dem man hoehere Ordnungen
+Kombination zu Verfahren vierter Ordnung, mit dem man h"ohere Ordnungen
 rekursiv berechnen kann.
 
-### Praediktor-Korrektor-Verfahren
+### Pr"adiktor-Korrektor-Verfahren
 
-Idee: Eine erste Loesung wird vorausberechnet fuer x_{n+1} und ueberprueft und
+Idee: Eine erste Loesung wird vorausberechnet f"ur x_{n+1}, "uberpr"uft und
 ggf. korrigiert.
 Heutzutage der anspruchsvollste Standard-Algorithmus bei Simulationspaketen.
 
-einfachste Darstellund eines PK-Verfahrens:
-``
-\tilde x_{n+1} = x_{n-1} + 2 v_n \Delta_t
-\tilde a_{n+1} = F(\tilde x_{n+1}) / m
-v_{n+1} = v_n + (a_n + \tilde a_{n+1})/2 \Delta_t
+einfachste Darstellung eines PK-Verfahrens:
+
+\tilde{x}_{n+1} = x_{n-1} + 2 v_n \Delta_t
+\tilde{a}_{n+1} = F(\tilde{x}_{n+1}) / m
+v_{n+1} = v_n + (a_n + \tilde{a}_{n+1})/2 \Delta_t
 x_{n+1} = x_n + (v_{n+1} + v_n)/2 \Delta_t
-NEUBERECHNUNG: \tilde a_{n+1}, v_{n+1} und x{n+1}, bis wir zufrieden sind
-Erst danach: \tilde x_{n+2} usw.
-``
+NEUBERECHNUNG: \tilde{a}_{n+1}, v_{n+1} und x{n+1}, bis wir zufrieden sind
+Erst danach: \tilde{x}_{n+2} usw.
+
 Vorteil:
-Zusaetzliche Konvergenz, so dass das Programm die Zahl der Iterationsschritte
+Zus"atzliche Konvergenz, so dass das Programm die Zahl der Iterationsschritte
 an die notwendige Genauigkeit anpasst.
 
 Oftmals wird dieses Verfahren bei anspruchsvollen Simulationen genutzt,

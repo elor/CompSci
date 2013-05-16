@@ -1,0 +1,138 @@
+Thu May 16 11:19:08 CEST 2013
+
+### Barabasi-Albert-Modell
+
+Preferential Attachment
+
+Modell ist small world network
+
+\bar{L} \sim \log{N}
+
+Modellierung von sozialen Netzwerken mit bevorzugten Bindungen
+=> Clusterbildung
+
+Neuer Knoten erh"alt Verkn"upfungen mit Wahrscheinlichkeit \sim l_i
+l_i - Anzahl der Verbindungen (Links) des i-ten Knotens
+
+OSP: PreferentialAttachment
+
+D(l) \sim l^{-\alpha}
+
+## 14.5. Genetische Algorithmen
+
+Bestandteile:
+* genetischer Code (Genotyp) (Bitfolge)
+* Ausf"uhrung des genetischen Codes (Phenotyp) (Spinfolge im Ising-System)
+
+Genetischer Algorithmus:
+* zuf"allige "Anderung des Genotyps
+* Auswahlkriterium des Phenotyps: Fitness
+
+Anzahl G von Genotypen (Gr"o"se der Population)
+n = Generation = Zeit
+
+Mutationen: "Anderung eines Bits
+
+Sexuelle Reproduktion:
+Rekombination und Kreuzung
+=> Mischung von Teilen der Bitfolgen der Eltern
+
+Fitness:
+Abh"angig von Wechselwirkung mit Umgebung
+
+### Beispiel: Ising-Modell
+
+Gitter mit N = L^2 Spins S_i = \pm 1
+
+E = \sum_{i,j}^{n.N.}{J_{ij}S_iS_j}
+
+J_{ij} = \pm 1
+
+E_{min} = -2N
+E_{max} = 2N
+
+Fitness:
+2N-E
+
+=> minimalste Energie hat h"ochste Fitness (ist sinnvoll)
+
+\sim Wahrscheinlichkeit der Auswahl einer Bitfolge
+
+GeneticApp
+GenePool
+recombine()
+mutate()
+Phenotype
+
+Ferromagnet J_{ij} \equiv 1
+Antiferromagnet J_{ij} \equiv -1
+Spinglas J_{ij} \equiv \pm 1 zuf"allig
+
+_Frustration_
+Zellen haben entgegengesetzte J_{ij} ihrer Nachbarn, so dass sie mehrere M"oglichkeiten haben, die geringste Energie zu bilden
+
+
+Auch hier: Zellul"arer Automat, da nur diskrete Werte m"oglich sind und eine zeitgleiche Aktualisierung erfolgt.
+
+## 14.6. Modelle der Meinungsbildung
+
+Beispiel: Wahlergebnisse
+W"ahler anfangs \O(i) = \pm 1
+O - Opinion
+
+Gitter: zuf"alliger Platz (W"ahler) i
+zuf"alliger Nachbar j von i
+O(i)
+=> Konsens stellt sich unweigerlich ein
+
+Zeit bis zum Konsens \sim N\log{N}
+
+Erweiterung:
+Netzwerk mit preferential attachment.
+"Andert sich was?
+
+### Sznajd-Modell
+Gitter, anfangs O{i} = \pm 1
+i zuf"allig, j-ter Nachbar zuf"allig
+
+wenn O{i} = O{j}, dann alle 6 Nachbarn "uberzeugt
+
+=> peer pressure
+
+mehr Werte f"ur O(i): nicht unbedingt Konsens
+
+Auch hier naheliegend, ein PA-Netzwerk zu untersuchen
+
+### Minority Game
+
+N Spieler
+Aktionen 0, 1
+
+Strategie in Abh"angigkeit der letzten m Iterationen
+
+Beispiel:
+m=2
+2^m = 4 m"ogliche Vergangenheiten
+  Information "uber die Aktion, die von der Minderheit gew"ahlt wurde
+2^4 m"ogliche Strategien
+
+anfangs: jeder Spieler w"ahlt mindestesn 2 Strategien zuf"allig aus
+
+Leistung der Spieler wird um 1 erh"oht, wenn Strategie zur Minderheit beitr"agt
+
+beste Strategie ausf"uhren, Leistung erh"oht (oder nicht)
+
+bestes m"ogliches Ergebnis:
+Minderheit (N-1)/2
+m"oglichst gro"s
+
+N_1(k) Anzahl der Aktionen 1 in Iteration k
+
+\sigma^2 = \sum_{k}{(N_1(k) - <N_1>)^2}
+nehmen ab mit wachsender Effizienz
+
+Phasen"uberg"ange zwischen Kooperativem Verhalten und individuellem Verhalten
+
+Skalierung: universelle Kurve \sigma^2/N in Abh. von 2^m/N
+
+Thu May 16 12:21:24 CEST 2013
