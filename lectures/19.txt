@@ -30,8 +30,7 @@ Dieser hydrodynamische Effekt wurde so nie vorher gesehen und ist deshalb histor
 In drei Dimensionen ist das aber kein Problem, da D konvergiert (C(t) \sim t^{-3/2})
 
 
-8.7. Nachbarschaft
-------------------
+## 8.7. Nachbarschaft
 
 Zum Beispiel LJ-Potential: r_c = 2.3 \sigma oder 2.5 \sigma
 
@@ -59,8 +58,7 @@ H"aufig Multiskalenmodelle
 
 Anwendung: komplexe Fl"ussigkeiten, Glas"ubergang, dynamische Gleichgewichte (Nichtgleichgewichte), Bruchbildung
 
-8.8. Erg"anzungen
------------------
+## 8.8. Erg"anzungen
 
 ### 8.8.1. Heisenberg-Modell
 

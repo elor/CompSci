@@ -1,13 +1,11 @@
 Tue Jan  8 09:21:32 CET 2013
 
-9. Normalschwingungen und Wellen
-================================
+# 9. Normalschwingungen und Wellen
 
 Normalschwingungen: eher stehende Wellen
 Wellen (hier): bewegt sich fort
 
-9.1. gekoppelte Oszillatoren
-----------------------------
+## 9.1. gekoppelte Oszillatoren
 
 Bedingungen: d=1, N Teilchen, Masse m, Federkonstante k, Abstand a, fester Rand
 betrachten: Auslenkung u_j(t)
@@ -71,8 +69,7 @@ Oscillators
 OscillatorsMode
 OscillatorsApp
 
-9.2. numerische L"osungen, z.B. f"ur nichtlinieare Kr"afte
-----------------------------------------------------------
+## 9.2. numerische L"osungen, z.B. f"ur nichtlinieare Kr"afte
 
 Oscillators
 
@@ -99,8 +96,7 @@ D"ampfung: -\gamma v_j
 
 Die Normalmoden bleiben bei externen Kr"aften erhalten, so dass sich die Energie auf verschiedene Normalmoden verteilen muss.
 
-9.3. Fourierreihen
-------------------
+## 9.3. Fourierreihen
 
 Fouriersynthese:
 Entwickeln von f(t), periodisch in t mit Periodenl"ange T.

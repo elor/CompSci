@@ -1,14 +1,12 @@
 Thu Dec  6 09:17:19 CET 2012
 
-7.6. Methode der kleinsten Quadrate
------------------------------------
+## 7.6. Methode der kleinsten Quadrate
 
 Lineare Regression
-Fit `y = f(x) = m x + b` an (x_i, y_i) anpassen
+Fit y = f(x) = m x + b an (x_i, y_i) anpassen
 i = 1..n
 y_i haben Ungenauigkeit
 
-``
 d_i = y_i - f(x_i)
     = y_i - m x_i - b
 n gro"s: Gau"s-Verteilung
@@ -16,23 +14,19 @@ n gro"s: Gau"s-Verteilung
 
 m = {<xy> - <x><y>}\over{\sigma_x^2}
 b = <y> - m <x>
-``
 
 ==> im Allgemeinen in jeder Datenbank vorhanden
 
-``
 \sigma_m = 1/\sqrt{n} \Delta/\sigma_x
 \sigma_b = \sigma_m \sqrt{<x^2>}
 
 \Delta^2 = 1/{n-2}\sum_{i=1}^n{d_i^2}
-``
 
 wenn y_i unterschiedliche \sigma_i
-``
+
 Gewichte w_i = 1/\sigma_i^2
 \Chi^2 = \sum_{i=1}^n{w_i d_i^2}
 <y> = {\sum_{i=1}^n{w_i y_i}}\over{\sum_{i=1}^n{w_I}}
-``
 
 Das ist in der Regel nicht in jeder Datenbank vorhanden.
 Man kennt ohnehin die Ungenauigkeiten nicht, weshalb man davon ausgeht, dass sie gleich sind.
@@ -52,16 +46,13 @@ Dirac:
   Alternative: Fischer's F-Test
 
 allgemein:
-``
 y = f(a_1..a_m, x)  an (x_i, y_i)
 d_i = y_i - f(x_i)  f"ur viele Messungen
 f_i = f(a_1..a_m, x_i)
 y_i: Mittelwert f_i, Breite \sigma_i
 p(y_i) = 1/{\sqrt{2\pi}\sigma_i} \exp{-d_i^2/{2\sigma_i^2}}
-``
 
 Likelihood-Methode:
-``
 \L(a_1..a_m) = \prod_{i=1}^n{1/{\sqrt{2\pi}\sigma_i}\exp{-1/2 \Chi^2}}
 \Chi^2 = \sum_i=1^n{d_i^2/\sigma_i^2}
 
@@ -69,7 +60,6 @@ Maximum von \L -> wahrscheinlichste a_k
 
 \partial\L/\partial a_k = 0 => \partial\Chi^2/\partial a_k = 0  f"ur k=1..m
 => -2 \sum_{i=1}^n{d_i/\sigma_i \partial f_i/\partial a_k} = 0
-``
 
 Auch bei quadratischen Fits: _Multiple Lineare Regression_
 _linear_, da das a linear ist. Die Potenz von x ist uninteressant.
@@ -100,17 +90,16 @@ A + B -> 0
 
 \dot A = \dot B = -kAB
 
-F"ur Fit `1/A(t) - 1/A(0)` in Abh. von t
+F"ur Fit 1/A(t) - 1/A(0) in Abh. von t
 Doppelt logarithmisch auftragen.
 zuf"allige Anfangsverteilungen
 -> N"achster-Nachbar-Abstand r
-`P(r, t=0) = 2A\exp{-2A(r-1)}`
+P(r, t=0) = 2A\exp{-2A(r-1)}
 
 Interessante Gr"o"se:
 D(t): Anzahl der Pl"atze, die von einem Random Walker besucht werden.
 
-7.8. Variationsmethoden
------------------------
+## 7.8. Variationsmethoden
 
 ### 7.8.1. Fermat'sches Prinzip
 geometrische Optik von vor einigen hundert Jahren.
@@ -127,11 +116,10 @@ FermatApp
 * n_1 \sin{\theta_1} = n_2 \sin{\theta_2}
 
 ### 7.8.2. Prinzip der kleinsten Wirkung
-``
 L = E_{kin} - E_{pot}
 S = \int_{t_0}^{t_f}{L dt}  minimal => Weg im 2. Newtonschen Gesetz (f"ur konservative Kr"afte)
-``
-Diskretisierung `S \approx \sum_{i=1}^{n-1}{L(t_i)\Delta t}`
+
+Diskretisierung S \approx \sum_{i=1}^{n-1}{L(t_i)\Delta t}
 
 Gesucht: Weg von x(t_0) nach x(t_f)
 

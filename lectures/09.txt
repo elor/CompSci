@@ -1,52 +1,40 @@
 Tue Nov 13 09:20:23 CET 2012
 
-6.2. Universelle Eigenschaften
-------------------------------
+## 6.2. Universelle Eigenschaften
 
 ### Feigenbaumkonstante
-``
 b_k \approx r_\infty - C \delta^{-k}
 \delta - Feigenbaumkonstante
        = 4.6692...
 
 \delta = lim_{k->\infty} \delta_k
 \delta_k = {b_k - b_{k-1}} \over {b_{k+1} - b_k}
-``
 
 ### Symmetrie um x = 1/2
-``
-s_m = r, wenn ein Fixpunkt x* \equiv 1/2
-``
+s_m = r, wenn ein Fixpunkt x\** \equiv 1/2
 
 superstabile Trajektorien mit Periode 2^{m-1}
-``
 f^{(2^{m-1})}(1/2) = 1/2
 
 z.B. m=2:
 f^{(2)} => 8r^2(1-r)-1=0
 s_2 = (1+\sqrt{5})/4 (interessanter Fixpunkt)
 und s_2 = 1/2 (uninteressanter Fixpunkt)
-``
 
 Weitere Werte f"ur s_m f"ur verschiedene m stehen im Buch.
 
 Bestimmen wir das \delta_m wie \delta_k oben:
-``
 \delta_m = {s_m - s_{m-1}} \over {s_{m+1} - s_m} -> \delta
-``
 
 \delta_m ist konvergenter als \delta_k, da superstabile Trajektorien zu Grunde liegen.
 
 ### Abst"ande der Fixpunkte von 1/2
 Abst"ande f(s_m) - 1/2: d_k (komisch, dass nicht d_m)
-``
 d_k = x_k^{*} -1/2
-``
+
 Die d_k alternieren im Vorzeichen.
-``
 \alpha = lim_{k->\infty} -d_k/d_{k+1}
        = 2.5029...
-``
 
 \alpha ist eine weitere universelle Konstante
 
@@ -56,18 +44,16 @@ ich denke mal "siehe Buch:
 ### andere Abbildungen
 
 z.B.
-``
 f = x e^{r(1-x)}
   x_0 > 0
   r beliebig
-``
+
 Anwendung beispielsweise in der Ausbreitung von Krankheiten.
 
-``
 f = r \sin{\pi x}
   r \elem (0, 1]
   x \elem [0, 1]
-``
+
 Auch hier taucht auf:
 * Bifurkationen
 * \alpha
@@ -77,10 +63,9 @@ wie bei logistischer Abbildung (deshalb _universell_)
 
 "Der Weg ins Chaos is universell" mit den Bifurkationen.
 Universell f"ur eine sehr gro"se Klasse von Abbildungen, n"amlich Abbildungen mit quadratischem Maximum:
-``
+
 f'(xmax) = 0
 f''(xmax) < 0
-``
 
 Analogie auch f"ur nichtdiskrete Systeme:
 
@@ -98,14 +83,13 @@ v sehr gro"s: Turbulente Str"omung, chaotisch
 chemische Reaktionen (chaotisches Verhalten nur bei bestimmten Parametern)
 auch hier Periodenverdopplung
 
-6.3. Quantitative Beschreibung des Chaos
-----------------------------------------
+## 6.3. Quantitative Beschreibung des Chaos
 
 Untersuchen empfindliche Abh"angigkeit von den Anfangswerten x_0
-``
+
 \abs{\Delta x_n} = \abs{\Delta x_0} \exp{\lambda n}
 \lambda - Lyapunov-Exponent f"ur n->\infty
-``
+
 
 Ganz monoton klappt das Ganze nicht, da es manchmal Spr"unge gibt (durch Beschr"ankung auf endliches Interval)
 
@@ -114,22 +98,20 @@ F"ur viele verschiedene x_0 muss gefittet und gemittelt werden.
 Au"serdem "uberspringt der rechte Term 1 und verl"asst somit das Intervall.
 
 besser:
-``
 \lambda = lim_{n->\infty}{1/n \ln{{\abs{\Delta x_n}}\over{\abs{\Delta x_0}}}}
         = lim_{n->\infty}{1/n \sum_{i=0}^{n-1}{\ln{\abs{{\Delta x_{i+1}}\over{\Delta x_i}}}}}
-``
 
 Interpretation: Jedes x_i wird als neuer Startwert genommen und betrachtet, wie stark ein einzelner Schritt abweicht.
 
 Infinitesimale "Uberlegung:
-``
+
 \Delta x -> dx
 
 \lambda = lim_{n->\infty}{1/n \sum_{i=0}^{n-1}{\ln{\abs{f'(x_i)}}}}
 
 f'(x_i) = 4r(1-2x_i)
 -> f"ur beliebige Startwerte von x_i l"asst sich der Lyapunov-Exponent bestimmen, jedoch sollte man das Einschwingverhalten vernachl"assigen.
-``
+
 
 \lambda = 0:
   Trajektorie divergiert algebraisch
@@ -141,8 +123,7 @@ f'(x_i) = 4r(1-2x_i)
 Auch im Chaos kann man Vorhersagen treffen, jedoch sind die Vorhersagen durch minimale Abweichungen ungenau.
 Ebenso erzeugen kleinste St"orungen gro"se Abweichungen, wodurch Vorhersagen erschwert werden.
 
-6.4. Kontrolle des Chaos
-------------------------
+## 6.4. Kontrolle des Chaos
 
 Idee: F"ur beliebige r (im chaotischen Bereich) gibt es (\infty viele) Trajektorien, die instabil sind.
 Suche eine x_0, so dass Trajektorie periodisch wird.
@@ -152,7 +133,7 @@ Kontrolle "uber diese St"orung.
 
 _akademischer_ Algorithmus:
 * instabile periodische Trajektorie
-  `f^{(p)}(x^*) = x^*`
+  f^{(p)}(x\**) = x\**
   Trajektorie ist beispielsweise x(1), x(2), ... x(n), ... x(p)
   periodisch, aber instabil
 * tats"achliche chaotische Trajektorie verfolgen:
@@ -163,14 +144,10 @@ _akademischer_ Algorithmus:
   Somit wird das periodische Verhalten erzwungen.
 
 Methode: Taylorentwicklung von f(x_n) und x(i) um r_0
-``
 x_{n+1} - x(i+1) = \partial f/\partial x\right|_x(i) \left[ x_n - x(i) \right] + \partial f/\partial r\right|_{r_0} \Delta r = 0 (soll 0 werden)
-``
 
 Anpassung:
-``
 r = r_0 + \Delta r
 \Delta r = -r_0 {1 - 2x(i)} \over {x(i)} {x_n - x(i)} \over {1 - x(i)}
-``
 
 Tue Nov 13 10:28:00 CET 2012

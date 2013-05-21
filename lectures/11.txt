@@ -17,7 +17,6 @@ Allgemein beschreibt es die Schicht einer Fl"ussigkeit, die von unten geheizt wi
 Name: Rayleigh-Benard-Zelle
 
 Gleichungen:
-``
 \dot x = -\sigma x + \sigma y
 \dot y = -x z + r x - y
 \dot z = x y - bx
@@ -25,12 +24,10 @@ Gleichungen:
 x - Flussgeschwindigkeit auf dem Kreis
 y - Temperaturdifferenz zwischen Aufw"arts- und Abw"artsbewegung
 z - Temperaturabweichung vom Gleichgewicht
-  Internet: \"proportional zur Abweichung des vertikalen Temperaturprofiles von seinem Gleichgewichtswert\"
+  Internet: _proportional zur Abweichung des vertikalen Temperaturprofiles von seinem Gleichgewichtswert_
 r - Radius der Zirkulation
-``
 
-6.8. Pendel mit D"ampfung und oszillierender Kraft
---------------------------------------------------
+## 6.8. Pendel mit D"ampfung und oszillierender Kraft
 
 Modellbeschreibung (eigentlich ein Bild)
 * Pendel mit \theta
@@ -38,9 +35,7 @@ Modellbeschreibung (eigentlich ein Bild)
 * treibende Kraft: Aufh"angung bewegt sich mit 2A\cos{\omega t}
 
 => 
-``
 \ddot \theta = \gamma \dot \theta - (\omega_0^2 + 2A\cos{\omega t})\sin{\theta}
-``
 Entspricht nicht exakt dem Vorgehen in Kapitel 6, da wir bisher diskrete Systeme untersucht haben.
 
 * A=0: stabiler Attraktor x=0, v=0
@@ -68,17 +63,15 @@ Fragestellungen:
 * Wie sieht das Einzugsgebiet aus?
 * Gibt es zusammenh"angende Gebiete?
 * Ist der Rand glatt?
-* Es gibt den instabilen Attraktor, bei dem das Pendel rotiert ("sehr spezielle Eigenheit")
+* Es gibt den instabilen Attraktor, bei dem das Pendel rotiert (_sehr spezielle Eigenheit_)
 
 
 ### Kreis-Abbildung
 Simuliert das getriebene, ged"ampfte Pendel durch eine diskrete Abbildung (siehe oben)
 
-``
 \theta_{n+1} = (\theta_n + \Omega - {K}\over{2\pi} \sin{2\pi\theta_n}) \mod 1
 \Omega = {\omega_0} \over {\omega}
 {K}\over{2\pi} \sim A (Kontrollparameter)
-``
 
 mod 1, um das "Uberschwingen darstellen zu k"onnen
 
@@ -87,9 +80,7 @@ K - Kopplung (beinhaltet St"arke der Anregung)
 
 
 #### Winding Number/Windungszahl:
-``
 W = \lim_{m->\infty}{1/m \sum_{n=1}^m{\Delta\theta_n}}
-``
 
 W z"ahlt das "Uberschlagen des Pendels ab
 W konvergiert immer. Es ist unter Anderem ein Ma"s f"ur die Frequenz.
@@ -100,10 +91,8 @@ W konvergiert immer. Es ist unter Anderem ein Ma"s f"ur die Frequenz.
   Variiert man das K, so tauchen f"ur einen Bereich von rationalen \Omega-Werten Plateaus von W-Werten auf. Bezeichnung: _Mode-Locking_.
   In einem W-K-\Omega-Plot ergeben sich ebenfalls Plateaus in der K-\Omega-Zone. Name: Arnold-Zungen.
 * K = 1: nur periodische Trajektorien, W(\Omega): Teufelstreppe
-* 
 
-6.9. Hamilton'sches Chaos
--------------------------
+## 6.9. Hamilton'sches Chaos
 
 Hamilton-Funktion H = \sum_i{{p_i^2}\over{2m_i} + V(\left{q_i\right})
 
@@ -122,30 +111,25 @@ Beispiel: Rotator, periodisch angesto"sen
 * Schwerkraft
 * periodischer Kraftsto"s k/L (realisiert "uber \delta-Funktion
 
-``
 H = {p_\theta^2}\over{2I} + k \cos{\theta \sum_n{\delta(t-n\tau)}}
 
 \dot p_\theta = k \sin{\theta} \sum_n{\delta(t-n\tau)}
 \dot \theta = p_\theta / I
-``
 
 Von Interesse: Punkte im Phasenraum f"ur periodische Zeiten T = n * \tau + 0^+
-% 0^+: abweichende kleine Ver"anderung
+0^+ - abweichende kleine Ver"anderung
 
 ### Standardabbildung
-``
 \theta_{n+1} = {\theta_n + p_n} \mod {2\pi}
 p_{n+1} = p_n + k \sin{\theta_{n+1}}
 
 \tau/T = 1
-``
 
 Doppelpendel:
 * \theta_1, \theta_2, m_1 = m_2 = m, l_1 = l_2 = L
 * Darstellung in x-y-Ebene
 * reibungsfrei
 
-``
 x_1 = L\sin{\theta_1}
 x_2 = x_1 + L\sin{\theta_2}
 y_1 = 2L-L\cos{\theta_1}  % y_2 = 0, y_1 = L: Pendel h"angt durch
@@ -158,7 +142,6 @@ q_2 = \theta_2
 
 p_1 = mL^2 \left[2\dot\theta_1 + \dot\theta_2\cos{\theta_1-\theta_2}\right]
 p_2 = mL^2 \left[\dot\theta_2 + \dot\theta_1\cos{\theta_1 - \theta_2}\right]
-``
 
 % Betrachtung einer Phasenraumfolie
 % Man sieht ein gemischtes System: ein Punkt f"uhrt zum Chaos, ein Anderer zu

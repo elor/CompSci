@@ -34,10 +34,9 @@ E_{tot} erhalten?
 E(t): Gerade anpassen -> Drift
 Daumenregel: akzeptabel, wenn von Ordnung e-4
 
-nat"urlich auch Fluktuationen als Rauschen (gegeben durch Energievarianz)
+Nat"urlich auch Fluktuationen als Rauschen (gegeben durch Energievarianz)
 
-8.4. Berechnung der Mittelwerte
--------------------------------
+## 8.4. Berechnung der Mittelwerte
 
 ### Temperatur T
 k_B T = 1/{d (N-1)} \sum_{i=1}^N{m_i \bar{\vec{v_i}^2}}

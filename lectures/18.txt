@@ -14,8 +14,7 @@ LJ-Potentiale zwischen Substrat- und Auflageatomen
 
 Haftreibung und so weiter. Einfach mal programmieren und staunen (mit Parametern spielen)
 
-8.5. Harte Kugeln
------------------
+## 8.5. Harte Kugeln
 
 u(r) =  \infty f"ur r < \sigma
         r >= \sigma
@@ -93,8 +92,7 @@ t_c = t/{2 n_c /N}
 Mittlere freie Wegl"ange:
 l = \sqrt{\bar{v^2}} t_c
 
-8.6. dynamische Eigenschaften
------------------------------
+## 8.6. dynamische Eigenschaften
 
 \vec{r_i(t)} - \vec{r_i(0)} \sim t (ohne Kr"afte)
 im Mittel: = 0

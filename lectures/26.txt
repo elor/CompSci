@@ -6,7 +6,7 @@ Tue Jan 29 09:18:22 CET 2013
 PolynomialFitApp
 PolynomialLeastSquares
 
-Funktion invertieten:
+Funktion invertieren:
 aus f_i = f(x_i) 
 suchen wir x = f^{-1}(y)
 bestimmen kubische Splines f"ur x_i = f^{-1}(f_i)

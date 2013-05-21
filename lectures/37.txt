@@ -1,0 +1,146 @@
+Tue May 21 11:21:21 CEST 2013
+
+## 14.7. Gittergasmodelle f"ur inkompressible Fl"ussigkeiten
+
+statt Navier-Stokes-Gleichung im Kontinuum
+
+hier: Zellul"arer Automat
+Dreiecksgitter
+
+m = const
+Geschwindigkeit \abs{v} = const
+6 Richtungen (zeitgleich)
+  bestimmte Entwicklungsregeln
+  bis zu 6 Teilchen auf Gitterplatz
+Ruhe
+  ein Teilchen liegt lokal in Ruhe
+Barriere
+  Teilchen wird zur"uck geworfen
+
+Impulserhaltung
+
+Freie Bewegung zwischen Gitterpl"atzen
+Sto"sregeln
+  mikroskopisch nicht genau
+  makroskopisches Verhalten stimmt
+
+=> 8 bit pro Zelle notwendig
+
+# 15. Monte-Carlo-Simulationen
+
+Monte Carlo: Das erste Mal im Atombombenprojekt in WWII (Codename Monte Carlo) eingesetzt.
+
+Standardverfahren der Mechanik
+Fl"ussigkeiten, Gase, Wachstum, ... alles halt
+
+## 15.1. Mikrokanonisches Ensemble
+
+N = const
+V = const
+E = const
+- Makrozustand
+
+Konfigurationen (Anzahl \Omega) - Mikrozust"ande
+
+Wahrscheinlichkeit P_S = 1/\Omega
+
+Beispiel: 4 Spins ohne Wechselwirkung
+
+E = -\mu B \sum_i{s_i}
+s_i = \pm 1
+
+Quasi-Ergoden-hypothese
+
+Ensemble-Mittel <A> = \sum_{S=1}^\Omega{A_S P_S}
+statt Zeitmittel
+
+Gr"o"sere Systeme nicht mehr abz"ahlbar
+
+Creutzalgorithmus
+(Gitter-Eich-Theorie)
+
+Monte-Carlo mit zus"atzlichem Freiheitsgrad (_D"amon_, erlaubt Energietransfer)
+
+IdealDemonApp
+  ideales Gas, N Teilchen, Masse m_i, E = 1/2 \sum_i{m_i v_i^2}
+
+1. zuf"allig Teilchen i w"ahlen und v_i "andern
+    nur Geschwindigkeit v_I muss neu bestimmt werden (kein Ort)
+2. \Delta E berechnen
+3. \Delta E \leq 0: akzeptiere, E_d + \Delta E
+4. \Delta E \gt 0: akzeptiere, aber E_d - \Delta E, wenn E_d > \Delta E
+
+1/2 m<v_i^2> = 1/2 k_BT
+
+Gleichverteilungssatz
+E = 3/2 N k_B T
+    ^ dimension
+
+N - Teilchenzahl
+3N - Freiheitsgrade
+
+E_d - Energie des D"amons
+\log{P(E_d)} \sim -E_d
+
+Boltmann-Verteilung
+P(E_d) \sim \exp{-E_d/{k_BT}}
+
+Idee: D"amon nimmt Energie aus System auf und gibt sie bei Bedarf wieder ab. Somit ist der D"amon ein weiterer Freiheitsgrad, der in direktem Zusammenhang mit der Temperatur steht.
+
+### Kanonisches Ensemble
+In der Natur ist das aber anders:
+Umgebung = W"armebad
+
+=> NVT, T = const
+
+betrachte D"amon = System
+
+P(E_d) ist Wahrscheinlichkeitsverteilung W(E_S) f"ur Mikrozust"ande S im k.Ens.
+^^^^^^ Boltzmann
+
+P_S = 1/Z \exp{-\beta E_S}
+
+\beta = 1/{k_BT} (Abk"urzung)
+Z - Zustandssumme, partition function
+Z = \sum_S{\exp{-\beta E_S}}
+
+Freie Energie F = - k_BT \log{Z}
+(_Helmholtz-Potential_, liefert alle thermodynamischen Eigenschaften "uber Ableitungen)
+
+Im Gleichgewicht ist F minimal
+
+allgemein: System mit vielen Freiheitsgraden
+
+K_BT = <E_d> = \int_0^\infty{E_d \exp{-E_d/k_BT} d Ed} / \int_0^\infty{\exp{-E_d/k_BT} d Ed}
+
+d.h. D"amon = Thermometer
+
+E_d kontinnuierlich
+\infty => keine Grenze f"ur E_d
+
+## 15.2. Ising-Modell
+
+E = -J \sum_{i,j}^{n.N.}{s_i s_j} - B \sum_{i=1}^N{s_i}
+
+\mu = 1 zur Vereinfachung
+B - externes Magnetfeld
+J - Austauschwechselwirkung
+J > 0 => Ferromagnet
+J < 0 => Antiferromagnet
+
+s_i, s_j = \pm 1
+
+Magnetisierung M = \sum_i{s_i}
+magnetische Suszeptibilit"at \chi = \partial <M> / \partial B \|_{B=0}
+
+T > T_Curie : <M> = 0 ungeordnetes System
+IsingDemon d=1, periodische Randbedingungen
+
+Dynamik:
+Spin-Flip
+Zeit: Monte-Carlo-Zyklen
+= N * Monte-Carlo-Schritt
+(Gesamtes System kann ein Mal ge"andert werden)
+=> unabh"angig von der Systemgr"o"se
+
+Tue May 21 12:59:24 CEST 2013

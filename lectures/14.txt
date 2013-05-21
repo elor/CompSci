@@ -1,7 +1,7 @@
 Tue Dec  4 09:20:03 CET 2012
 
 Diffusionskonstante anhand des Zufallswanderers erkl"art:
-``
+
 P(i , N) = 1/2 [P(i+1, N-1) + P(i-1, N-1)]
   ^   ^
  Ort  Zeit
@@ -17,18 +17,16 @@ P(x, t) = 1/2 [P(x+a, t-\tau) + P(x-a, t-\tau)]       |  -P(x, t-\tau)
 1/\tau P(x, t) - P(x, t-\tau) = {a^2}/{2\tau} [P(x+a, t-\tau) - 2P(x, t-\tau) + P(x-a, t-\tau)] / a^2
 
 \tau -> 0, a -> 0
-D = a^2/{2\tau} -- Selbstdiffusionskonstante, endlich.
+D = a^2/{2\tau}
+D - Selbstdiffusionskonstante, endlich.
 
 \partial P/\partial t = D \partial^2P/\partial x^2
 Diffusionsgleichung
-``
 
 3 Dimensionen:
-``
 \partial P/\partial T = D\nabla^2P    - v \partial P/\partial r
           ^^^^^^^^^^    ^^^^^^^^^^^
           Diffusion        Drift
-``
 
 Im Buch: Anhang 7
 
@@ -47,7 +45,7 @@ Stichwort: Mastergleichung
   Wir betrachten die Bewegung der Anregungen und damit den Transport in solchen gest"orten Halbleitern.
   In einfachster Variante l"asst es sich abz"ahlen.
   Bestimmung von Abklingzeiten, Anzahl der Schritte.
-  `\tau = 1/2D x_0 (L-x_0)` f"ur 2 Fallen an 1 und L
+  \tau = 1/2D x_0 (L-x_0) f"ur 2 Fallen an 1 und L
 * persistent random walk
   Richtung mit \alpha erhalten
   1-\alpha umgekehrt
@@ -70,8 +68,7 @@ Stichwort: Mastergleichung
   f(a) = C 1/a^{1+\alpha}   mit \alpha <= 2 ("ublicherweise)
     => Levy-Flight
  
-7.4. Verteilungen
------------------
+## 7.4. Verteilungen
 
 ### Zentraler Grenzwertsatz
 
@@ -96,26 +93,24 @@ zentrale Momente:
 Median: \m_{1/2}: p(x < \mu_{1/2} = p(x > \mu_{1/2})
 Wahrscheinlichster Wert: (nicht Mittelwert): p(x = \mu_max) > p(x != \mu_max)
 FWHM: Full Width at Half Maximum (_Halbe Breite_ im Laborslang)
-``
+
 \sigma = 1/2 FWHM   f"ur Lorentz-Verteilung
 1.177\sigma = 1/2FWHM   f"ur gau"s
-``
 
 
 ### Gesetz der gro"sen Zahlen
 (n soll gro"s sein)
-``
+
 y = y_n = 1/n \sum_{i=1}^nx_i   neue Zufallsvariable
       Wichtig: Die Messungen der x_i sind unabh"angig.
 
 p(y) Gau"sverteilung mit \sigma_y \approx \sigma_x/\sqrt{n}
   wenn: p(x) besitzt 1. und 2. Moment
   \sigma_y^2 = <y^2> - <y>^2
-``
 
 Gegenbeispiel:
 Lorentz-Verteilung
-Breit-Wigner-Verteilung   `p(x) = 1/\pi s/{s^2 + (x-t)^2}`
+Breit-Wigner-Verteilung   p(x) = 1/\pi s/{s^2 + (x-t)^2}
 Cauchy-Verteilung
 (alle drei das selbe)
 

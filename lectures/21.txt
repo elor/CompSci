@@ -63,8 +63,7 @@ q_0 = 2\pi/L
       F.T.
 Gauss ---> Gauss
 
-9.4. Fouriertransformation in d=2
----------------------------------
+## 9.4. Fouriertransformation in d=2
 
 f(x,y) = \sum_{n=-N/2}^{N/2-1}\sum_{m=-N/2}^{N/2-1}{c_{nm}\exp{iq_nx}\exp{iq_my}}
 
@@ -77,8 +76,7 @@ FFT2DcalculationApp
 
 Gauss2D ---> Gauss2D
 
-9.5. Fourier-Integrale f"ur nichtperiodische Funktionen
--------------------------------------------------------
+## 9.5. Fourier-Integrale f"ur nichtperiodische Funktionen
 
 g(\omega) = \int_{-\infty}^{\infty}{f(t)\exp{-i \omega t}dt}
 
@@ -89,8 +87,7 @@ Manchmal werden die Vorfaktoren auch auf beide Integrale verteilt. Auch hier hab
 Numerisch werden auch hier wieder St"u"tzstellen eingesetzt.
 Die Zahl der St"utzstellen steigt linear mit der Periodenl"ange.
 
-9.6. Leistungsspektrum
-----------------------
+## 9.6. Leistungsspektrum
 
 Idee: Ein elektrisches Signal wird hinsichtlich seiner Leistung charakterisiert.
 
@@ -123,8 +120,7 @@ Erwartung: Nichtlineare Oszillatoren werden ergodisch, da durch die Nichtlineari
 Qualitativ: F"ur bestimmte (sehr kleine) \alpha ist das System nichtergodisch.
 Das erste qualitative neue Ergebnis, das sich aus der Numerik ergeben hat.
 
-9.7. laufende Wellen
---------------------
+## 9.7. laufende Wellen
 
 Wellengleichung \partial^2u/\partial t^2 = c^2 \partial^2u/\partial x^2
 

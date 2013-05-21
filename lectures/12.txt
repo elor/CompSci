@@ -1,13 +1,11 @@
 Tue Nov 27 09:20:19 CET 2012
 
-7 Zufallsprozesse
-=================
+# 7 Zufallsprozesse
 
 % Zitat von Von Neumann
 % -> Arithmetische Methoden k"onnen keine Zufallszahlen generieren
 
-7.1. Zufallszahlenfolgen
-------------------------
+## 7.1. Zufallszahlenfolgen
 
 => Es gibt nur Pseudozufallszahlen, sofern ein deterministisches System diese generiert.
 
@@ -26,13 +24,11 @@ Somit verbleiben ausschlie"slich die statistischen Tests zur stichprobenartigen 
 
 ### 7.1.1. Linear Congruential Method (LCM)
 
-``
 x_0 != 0
 x_n = {a x_{n-1} + c} \mod m
 r_n = x_n/m \in [0, 1)
 
 m - Maximale Periode
-``
 
 simples Beispiel:
 a=3, c=4, m=32, x_0 = 1 => Periode 8
@@ -50,19 +46,14 @@ a=16807, m=2^31-1 => IBM-SURAND, minimal standard (auch schlecht, aber besser al
 Basieren auf Bitmanipulationen.
 
 einfachstes Beispiel:
-``
 x_n = x_{n-p} \xor x_{n-q}
-``
 
 angeblich gute Werte f"ur (p, q): (31, 3), (250, 103; aka. R250), (512, 168)
 eigentlich sollte der Generator sehr effizient sein, aber wir m"ussen die letzten Zahlen speichern und vor Allem vorher durch einen anderen RNG initialisieren.
 
 allgemeiner:
-``
 x_n = c_1 x_{n-1} \xor ... \xor c_i x_{n-i}
-
 c_i = 0,1; treffen also nur einen Auswahl
-``
 
 Tanswrthe 1965
 als TRNG in einigen Bibliotheken vorhanden
@@ -88,7 +79,6 @@ Nachteile:
   Ausgleich per Post Processing m"oglich
   optische Generatoren (auchu als PCI-Karte)
 * Marsaglia-Methode: multiply with carry
-  ``
   x_0 = 123456
   x_1 = 123 + 456 * 672
       = 306555
@@ -97,41 +87,34 @@ Nachteile:
       = 373266
       -> 266
   ...
-  ``
   Periode 335999
   anderes Beispiel:
   a = 30903
   m = 2^{16}
   Periode: > 2^{29}
 
-
 ### 7.1.3. Tests
 
 a) Periodizit"at
 b) Gleichm"a"sigkeit
 Histogramm
-  m T"opfe, mit m_i Zufallszahlen, so dass `\sum_{i=1}^m{m_i} = N
+  m T"opfe, mit m_i Zufallszahlen, so dass \sum_{i=1}^m{m_i} = N
     erwartete Wahrscheinlichkeit:
-    ``
     P_i = \int_{a_i}^{b_i}{p(x)dx} (= b_i - a_i = 1/M)
     d.h. Np_i im Mittel im i-ten Topf, aber nur im Mittel!
-    ``
   "ubliche Annahme: Normalverteilung (eigentlich Binomialverteilung, aber gro"se Zahlen)
     m_i fluktuieren um Np_i mit \sigma = \sqrt{Np_i}
 
 c) \Chi^2-Test misst Abweichung von der gew"unschten Verteilung
-  ``
   \Chi^2 = \sum_{i=1}^M{{(m_i - Np_i)^2}\over{Np_i}}
-  ``
   "Ubereinstimmung beurteilt nach Signifikanzniveau \alpha und ist abh"angig von der Zahl der Freiheitsgrade \nu
     hier: \nu = M - 1 (eine Nebenbedingung)
   \Chi^2-Verteilung:
-  ``
   P_{\Chi^2,\nu} = {(\Chi^2)^{\nu/2-1}\exp{-\Chi^2/2}}\over{2^{\nu/2}\Gamma(\nu/2)}
   \Gamma(x+1) = x\Gamma(x)
   \Gamma(1) = 1
   \Gamma(1/2) = \sqrt{\pi}
-  ``
+
   \int_{\Chi^2(\alpha)}^{\infty}{\P_{Chi^2}d\Chi^2} (= Q(\Chi^2 | \nu)) = \alpha
     Maximum bei \Chi^2 = \nu-2
     Standardabweichung \sqrt{2\nu}
@@ -150,8 +133,6 @@ f) Korrelationen ausrechnen
   wie Spektraltest, aber mit weiter entfernten Paaren
 
 g) Autokorrelationsfunktionen
- ``
  C(k) = {<x_{i+k}x_i> - <x_i>^2} \over {<x_i^2> - <x_i>^2}
- ``
 
 Tue Nov 27 10:33:23 CET 2012

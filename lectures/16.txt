@@ -1,7 +1,6 @@
 Tue Dec 11 09:34:12 CET 2012
 
-7.9. Polymere
--------------
+## 7.9. Polymere
 
 self-avoiding random walk (SAW)
 
@@ -10,13 +9,13 @@ Gitter <R^2> \sim N^{2\nu}
 \nu=0.75 in 2D
 \nu \approx 0.5874.. in 3D
 
-"excluded volume"
+_excluded volume_
 
 SAW in 2D: beliebiges (x_0, y_0_ = (0, 0)
 1. Schritt: (x_1, y_1) = (1, 0)
 n"achster Schritt: 3 M"oglichkeiten (u.U. < 3)
 
-wenn Selbstwechselwirkung (d.h. schon besetzter Platz soll wieder erreicht werden vom Zufallspfad), dann neuer Pfad
+Wenn Selbstwechselwirkung (d.h. schon besetzter Platz soll wieder erreicht werden vom Zufallspfad), dann neuer Pfad
 
 Z(N) \approx \exp{-aN}
 ^
@@ -26,15 +25,15 @@ in 2D: im Mittel effektiv 2.63385 M"oglichkeiten
 
 Erfolgsrate: Zustandssumme Z(N) -> C_0 * 2.6385^N N^{\gamma-1}    (De Gennes)
 
-Diamantgitter: N=100  3%
+Diamantgitter: N=100  3\%
 
 K"afigeffekt: Man landet in einem vollst"andig umschlossenen Punkt auf dem Gitter, so dass keine weiteren Schritte m"oglich sind
 
-Andere (st"arkere) Einschr"ankung: Keine geraden Linien (nur +=90 \deg erlaubt)
+Andere (st"arkere) Einschr"ankung: Keine geraden Linien (nur \pm 90 \deg erlaubt)
 Meist zwei M"oglichkeiten des Random Walks im n"achsten Schritt
 Manchmal muss man dazu den Pfad umdrehen, da nur ein Schritt m"oglich ist.
 Es gibt aber auch hier doppelte Sackgassen.
-Erfolgsrate von "uber 90%
+Erfolgsrate von "uber 90\%
 
 Ganz zum Abschluss noch ein Ausflug in die Dynamik:
 
@@ -45,15 +44,13 @@ _Das ist die einfachste Variante, die Bewegung von Ketten zu simulieren; Hier be
 Mit dieser Simulation kann man auch die Verkn"auelung einer Kette (zB DNA) simulieren.
 Sinnvoller Weise m"ussen wir Parameter einf"uhren, die die Kette quantifizieren (zB Wechselwirkungsenergien)
 
-8. Dynamik von Vielteilchensystemen
-===================================
+# 8. Dynamik von Vielteilchensystemen
 
 Beschreibung einzelner Molek"ule durch Newtonsche Gesetze.
 
 Begriff: Molekulardynamik (MD)
 
-8.1. Intermolekulare Potentiale
--------------------------------
+## 8.1. Intermolekulare Potentiale
 
 Im Allgemeinen betrachten wir Molek"ule als Kugel.
 In Ausnahmef"allen werden einzelne Molek"ulteile oder Atome als Kugel angenommen.
@@ -79,8 +76,7 @@ t \sim 10..10^4
 Schwache Anziehung (Ladungen, van der Waals-Potential) und Starke Absto"sung (Pauli-Prinzip)
 Die steile Kurve mit r^{-12} ist so nicht begr"undbar, hat sich jedoch bew"ahrt.
 
-8.2. Numerischer Algorithmus
-----------------------------
+## 8.2. Numerischer Algorithmus
 
 Erhaltungss"atze gelten
 Umkehrbarkeit gilt
@@ -101,8 +97,7 @@ d.h. u=0 f"ur r > L/2
 
 In OSP: PBC.position() und PBC.separation()
 
-8.3. MD-Programm
-----------------
+## 8.3. MD-Programm
 
 2D
 Startwerte f"ur vorgegebenes T
