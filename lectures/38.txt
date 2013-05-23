@@ -1,0 +1,274 @@
+Thu May 23 11:18:39 CEST 2013
+
+Energie"anderungen sind von Nachbarschaftsbedingungen abh"angig
+=> \pm 8 J, \pm 4J, 0
+
+erstmal E_d = 0, 4J, 8J, ...
+f"ur B = 0
+
+x = 4J/{k_BT}
+
+<E_d/{k_BT}> = {0 + x \exp{-x} + 2x\exp{-2x} + ...} / {1 + \exp{-x} + \exp{-2x} + ...}
+
+= x / \exp{x-1}
+
+x einsetzen => 
+
+k_BT / J = 4 / \log{1 + 4J/<E_d>}
+
+\abs{J} << E_d => <E_d>/J
+
+
+f"ur B \neq 0:
+E_d = 0, 2B, 4J \pm 2B, ...
+
+- f"ur J = mB x = 2B/{k_BT} ...
+- f"ur 4J/{2B} irrational: E_d kontinuierlich
+  <E_d> = k_BT
+- f"ur 4J/{2B} = m/n rational
+  k_BT/J = {4/m} / \log{1+{4J/m}/<E_d>}
+  interessant: Formel h"angt nicht von n ab
+
+Vorteile des D"amons
+* Zufallszahlen m"ussen nicht sehr gut sein
+* keine Berechnung der Exponentialfunktion (bei gro"sen D"amonenergien)
+  alles recht simpel
+* d \geq 1: sequentielles Update m"oglich
+  ungew"ohnliches Konzept, weil MC-Simulation ohne Zufallszahlen
+
+Nachteile:
+* Arbeit im mikrokanonischen Ensemble trotz Temperatur
+  Frage: Wie erstellt man das passende Anfangssystem
+  Observable sind temperaturabh"angig
+  Idee: unterschiedliche Anfangsbedingungen abtasten und E(T) / T(E) ermitteln
+
+Verallgemeinerung (siehe Buch):
+_Anwendung f"ur W"armefluss_
+* eindimensionales Isingmodell
+* f"ur gew"ohnlich mit DGL behandelt
+* mehrere D"amonen
+* Steady State-Simulation
+* 1 D"amon pro Gitterplatz
+
+Beispiel:
+i = 0 => Energie immer erh"ohen, d.h. antiparallel s_0 \neq s_1
+i = N-1 => Energie immer erniedrigen, d.h. parallel s_{N-1} = s_{N-2}
+=> W"armefluss
+
+Untersuchung: Temperatur in Abh"angigkeit von Gitterplatz i
+
+k_BT/J = 4 / \log{1+{4J}/{<E_{d_i}>}}
+
+=> Temperaturgradient zur weiteren Untersuchung
+
+MamyDemonsApp
+
+Untersuchung nur in Mitte der Kette sinnvoll, da R"ander stark von Einfluss dominiert
+
+Energiefluss = Anzahl updates pro MC-Zyklus
+W"armefluss Q = Energiefluss / N
+
+Q = -\kappa {\partial T} / {\partial x}
+
+\kappa - thermische Leitf"ahigkeit
+
+## 15.3. Metropolis-Algorithmus
+
+kanonisches Ensemble NVT
+
+<A> \approx A_m = \sum_{s=1}^m{A_s \exp{-\beta E_s} / \sum_{s=1}^m{\exp{-\beta E_s}}
+
+Problem der Exponentialfunktion:
+besonders niedrige Energien werden benachteiligt.
+
+Importance Sampling:
+
+= \sum_{s=1}^m{A_s}
+
+' => s werden entsprechend der Boltzmannverteilung ausgew"ahlt
+
+z.B. Ising
+
+* anfangs s_0 beliebig w"ahlen
+* Versuche Spin-Flips {s_i} -> {s_j}
+* \Delta E = E_j - E_i
+* \Delta E \leq 0 => akzeptiere {s_j}
+* \Delta E > 0 => w = \exp{-\beta \Delta E}
+* r zuf"allig (0, 1]
+* r \leq w => akzeptiere
+* sonst: behalte {s_i}
+* <A> um A_s erh"oht
+
+Dynamik des "Ubergangs von {s_i} -> {s_j}
+mit Wahrscheinlichkeit W(i->j} = min(1, \exp{-\beta \Delta E}
+
+ungew"ohnlich:
+Nur das Verh"altnis der Boltzmannfaktoren geht ein, nicht die Normierung.
+
+Alternative Dynamik m"oglich:
+W(i->j) \exp{-\beta \Delta E} = W(j->i)\exp{\beta \Delta E}
+
+Bezeichnung daf"ur: Detailed Balance - Detailliertes Gleichgewicht
+Detailed: gilt auf mikroskopischer Ebene
+
+BoltzmannApp
+z.B. ideales Gas, N Teilchen ohne WW
+<E>(T)
+=> 
+c_v = {\partial<E>} / {\partial T}
+spezifische W"arme
+
+<(\Delta E)^2> = <E^2> - <E>^2
+c_v = <(\Delta E)^2> / {k_BT^2}
+
+c_v = {\partial <E>} / {\partial T} = {\partial <E>} / {\partial\beta}(-1/{k_BT^2}
+=> lineare Antwort auf Temperatur"anderung
+
+<E> = 1/Z \sum_s{E_s\exp{-\beta E_s}} = \partial / {\partial\beta} \log{Z}
+
+{\partial<E>} / {\partial\beta} = -1/Z^2 {\partial Z} / {\partial\beta} \sum_s{E_s\exp{-\beta E_s}} - 1/Z \sum_s{E_s^2\exp{-\beta E_s}}
+
+= <E>^2 - <E^2>   Fluktuationen
+
+\chi = \{partial <M>} / {\partial B} = 1/{k_BT} (<M^2> - <M>^2)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^            ^^^^^^^^^^^^^^^
+              Lineare Antwort                    Fluktuationen
+
+E_s = E_s\|_{B=0} - B M_s
+
+<M> = 1/Z \sum_s{M_s \exp{-\beta E_s}}
+
+{\partial E_s} / {\partial B} = -M_s
+{\partial Z} / {\partial B} = \sum_s{\beta M_s \exp{-\beta E_s}}
+<M> = 1/\beta {\partial \log{Z}} / {\partial B}
+{\partial <M>} / {\partial B} = -1/Z^2 {\partial Z} / {\partial B} \sum_s M_s \exp{-\beta E_s} + 1/Z \sum_s{\beta M_s^2 \exp{-\beta E_s}}
+
+= -\beta <M>^2 + \beta <M^2>
+
+## 15.4. Ising-Modell, Metropolis-Algorithmus
+
+d = 1
+zuf"allige Spinflips
+
+IsingApp (d=2)
+
+Boltzmannfaktor w braucht Exponentialfunktion
+w(\Delta E) begrenzte Werte
+=> Lookup-Table
+
+2x2-Isingmodell
+=> 16 Zust"ande
+
+Wunderbar abz"ahlbar.
+
+Z = 2\exp{8 \beta J} + 12 + 2\exp{-8 \beta J}
+
+
+<E> = - 1/Z (2*8\exp{8 \beta J} - 2*8\exp{-8 \beta J})
+
+
+Einschub zu Korrelationen
+Energien benachbarter Zust"ande sind "ahnlich => zeitliche Korrelation
+
+suche statistisch unabh"angige Messungen f"ur <A>
+
+Autokorrelation C_A(t) = {<A(t+t_0) A(t_0)> - <A>^2} / { <A^2> - <A>^2}
+
+Im Gleichgewicht sollte C_A nicht von t_0 abh"angen
+
+F"ur gro"se t sind A(t) und A(0) unkorreliert.
+Frage: Was ist ein gro"ses t?
+
+t->\infty:
+<A(t+t_0) A(t_0)> -> <A(t+t_0)><A(t_0)> = <A(t)>^2
+=> C_A(t) -> 0
+
+typischer Ansatz:
+C_A(t) = \exp{-t/\tau_A}
+Korrelationszeit
+(eigentlich: Dekorrelationszeit, aber was soll's)
+
+IsingAutoCorrelatorApp
+
+\int_0^\infty{C_A(t) dt} = \int_0^\infty{\exp{-t/\tau_A} dt} = - \tau_A\exp{-\Tau_A/t} \|_0^\infty = \tau_A
+\tau_A = \sum_{t=1}^\infty{C(t)}
+erhebliche numerische Vereinfachung.
+Problem: C(t) schwankt irgendwann um 0.
+In der Regel summiert man nur bis zur ersten Nullstelle
+
+auch interessant:
+Stimmen Korrelationszeiten f"ur Energie und Magnetisierung "uberein?
+Wie verhalten sie sich zur Relaxationszeit?
+
+Sequentielles Update:
+* spart Rechenzeit (bleibt superlinear)
+* Korrelationszeit steigt
+  Zust"ande sind "ahnlicher
+
+Genauigkeit \sigma_m = \sigma / \sqrt{n}
+
+Standardabweichung des Mittelwertes
+
+\sigma_2 = <E^2> - <E>^2 untersch"atzt Fehler wegen Korrelationen
+
+Messungen zusammenfassen
+
+E_i^{(2)} = (E_{2i-1} + E_{2i}) / 2
+
+=> \sigma_m^{(2)} = \sigma^{(1)} / \sqrt{n/2}
+
+? = \sigma_m^{(1)} ?
+ja => freuen
+nein => \sigma^{(4)} oder \sigma^{(8)} betrachten, anschlie"send freuen
+
+L = 8
+T \approx T_c = 2 / \log{1 + \sqrt{2}} \approx 2.269
+
+L = 16
+E/N = -1.45306 bei T_c
+
+## 15.5. Phasen"ubergang im Ising-Modell
+
+Spin-Korrelationsfunktion
+
+C(r) = <s_i s_j> - <s_i><s_j>
+
+r - Abstand zwischen i und j
+Erwartung: Exponentieller Abfall
+C(r) \approx \exp{-r/\xi}
+
+Ferromagnet, N -> \infty, B =0
+
+m(T=0) = \pm 1
+(m = M / N)
+
+T > 0 => \abs{m} < 1
+T -> T_c => m -> 0
+
+stetiger Phasen"ubergang (im Gegensatz zu Phasen"ubergang 1. Ordnung und deren Unstetigkeiten)
+
+Ordnungsparameter: m(T) \sim (T_c - T)^\beta
+
+\chi \sim \abs{T - T_c}^{-\gamma}
+c_v \sim \abs{T - T_c}^{-\alpha}
+  auf beiden Seiten des Phasen"ubergangs herrscht der selbe Exponent
+
+Dom"anen
+\xi \sim \abs{T - T_c}^{-\nu}
+
+T >> T_c: \xi \approx 1
+
+finite-size-scaling: (L signifikant, wenn \xi \approx L)
+
+T_c(L) - T_c(\infty) \sim L^{-1/\nu}
+m \sim L^{-\beta/\nu}
+c_v \sim L^{\alpha/\nu}
+\chi \sim L^{\gamma/\nu}
+
+Problem: \alpha = 0 f"ur d = 2
+\nu = 1
+\beta = 1/8
+\gamma = 7/4
+c_v \approx 0.4995
+
+Thu May 23 13:09:30 CEST 2013
