@@ -1,0 +1,109 @@
+Tue May 28 11:20:41 CEST 2013
+
+Zu Phasen"ubergang im Isingmodell
+
+Dreiecksgitter
+
+kritische Temperatur:
+k_B T_c / J = 3.641
+\nu = 1
+
+d = 3 analytisch nicht l"osbar (Unl"osbarkeitsbeweis Istrail 2000)
+
+k_B T_c / J = 4.5108
+\beta = 0.32
+\gamma = 1.24
+\nu = 0.63
+
+_Critical Slowing Down_
+
+Die Verlangsamung der Simulation in der N"ahe des Phasen"ubergangs
+
+\tau \sim \xi^z
+\tau \sim L^z bei T_c
+
+z = 2.167 in 2 Dim.
+
+\tau, z h"angen von Dynamik ab
+z.B. Spin-Flip-Dynamik
+
+_Dynamik_: m"ogliche "Anderungen bei Metropolis-Algorithmus
+
+CPU-Zeit \sim L^2 f"ur n Konfigurationen, d.h. bei T_c: CPU-Zeit \sim L^{2+z}
+
+bei lokaler Dynamik f"ur n Konfigurationen
+
+
+m"ogliche Optimierung: mehrere Spinflips gleichzeitig, aber gezielt
+ausgesuchte Spins, da sonst Verschlechterung
+
+f Spins gleichzeitig drehen, aber f Spins nicht zuf"allig, sondern geschickt
+im Cluster aussuchen
+
+_Wolff-Dynamik_ (single-cluster flip)
+-> globale Dynamik
+Bindungsperkolation p = 1 - \exp{2J/{k_B T}}
+
+definiert Cluster, der geflippt wird, auf vorgegebenem Ising-Tr"ager, auf dem
+verschiedene Cluster vorhanden sind
+
+p_c entspricht T_c
+
+Wolff-Dynamik erh"alt detailliertes Gleichgewicht
+richtig f"ur statische Eigenschaften
+falsch f"ur dynamische Eigenschaften (zu viele Schritte werden zeitgleich
+ausgef"uhrt)
+
+
+mittlere Clustergr"o"se S = \sum_s{s n_s} \sim L^{\gamma/\nu}
+
+CPU-Zeit \tau = \tau_{cf} S / L^2
+
+\tau \sim L^z \sim L^{z_{cf}} L^{\gamma/\nu} L^{-d}
+
+z = z_{cf} + \gamma/\nu - d mit z_{cf} \approx 0.5 => z \approx 0.25
+
+
+Swendsen-Wang-Algorithmus
+* betrachte alle Paare mit parallelen Spins
+* Bindung mit Wahrscheinlichkeit p
+  => mehrere Cluster
+* Alle Cluster werden mit Wahrscheinlichkeit 0.5 umgekippt
+
+auch Invasionsalgorithmus wurde schon zur Wahl der Cluster genutzt
+
+
+Problem: Akzeptanz p_i = \min{1,  \exp{-\Delta E / {k_BT}}}
+sehr klein f"ur kleine Temperaturen
+
+L"osung: der n-fache Weg
+Gewicht Q = \sum_{i=1}^{N-1}{p_i}
+
+w"ahle r zuf"allig aus [0, Q)
+=> j, so dass \sum_{k=0}^{j-1}{p_k} <= r < \sum_{k=0}^j{p_k}
+
+Spin j mit Wahrscheinlichkeit 1 gedreht
+
+Klasseneinteilung, beispielsweise Ising in 2 Dimensionen:
+nur 10 m"ogliche Werte von \Delta E, d.h. von p_i
+j innerhalb der Klasse zuf"allig w"ahlen
+d.h. j \in (1, 2, ..., n_\alpha)
+
+\sum_{\alpha=0}^9{n_\alpha} = N
+\sum_{\alpha=0}^9{n_\alpha p_\alpha} = Q
+
+Zeit \tau, bis Flip j auftritt:
+
+w"aghle r' aus [0, 1):
+\tau \approx -N/Q \log{r} f"ur Q << N
+
+wichtig f"ur dynamische Eigenschaften
+
+
+Anwendungen des Ising-Modells
+Ising mit externem Magnetfeld B
+h = \beta \mu B
+
+Demn"achst merken wir, dass ein Phasen"ubergang erster Ordnung vorliegt
+
+Tue May 28 12:13:16 CEST 2013
