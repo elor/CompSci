@@ -55,8 +55,6 @@ public class Disk implements Drawable {
 
   @Override
   public void draw(DrawingPanel panel, Graphics g) {
-    // TODO draw disk
-
     g.setColor(getRoot().color);
 
     int px = panel.xToPix(this.x - Disk.r);
@@ -159,7 +157,7 @@ public class Disk implements Drawable {
    * @return size of cluster, i.e. number of children
    */
   public int size() {
-    // TODO return true number of children
+    // todo return true number of children
     return 0;
   }
 

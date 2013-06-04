@@ -43,7 +43,7 @@ public class GreenLoader implements XML.ObjectLoader {
     control.setValue("field size", model.size);
     control.setValue("max steps per walk", model.maxsteps);
     
-    // TODO write green array
+    // todo write green array
   }
 
   /**
@@ -67,7 +67,7 @@ public class GreenLoader implements XML.ObjectLoader {
     mcontrol.setValue("field size", control.getDouble("field size"));
     mcontrol.setValue("max steps per walk", control.getDouble("max steps per walk"));
     
-    // TODO load more stuff
+    // todo load more stuff
     
 //    model.md.initialConfiguration = control.getString("initial_configuration");
 //    model.md.state = (double[]) control.getObject("state");

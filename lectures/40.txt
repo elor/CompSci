@@ -1,0 +1,135 @@
+Thu May 30 11:23:06 CEST 2013
+
+zu Ising:
+anfangs B=0, suchen Gleichgewicht
+dann B_{n+1} = B_n + \Delta_B \Delta_B = 0.2/{\beta\mu}
+
+volles Metropolis-Programm: Relaxieren, Bestimmung makroskopischer physikalischer Gr"o"sen
+
+m - effektive Magnetisierung (M/N)
+
+Diagramm: m "uber B
+linearer Anstieg von (0,0), asymptotisch zu m=1
+Abbruch der Simulation sinnvoll bei m \approx 0.95
+
+dann B_{n+1} = B_n - \Delta_B
+Hysterese:
+System l"auft auf ver"anderter Kurve zur"uck (z.B. leicht h"oher)
+dann erneute Umkehr
+=> Symmetrisch zu zweiter Kurve
+=> Schleife bildet sich, Nullpunkt wird umgangen
+
+=> Magnetisierung h"angt von Vorgeschichte ab
+
+m(B=0) : spontane Magnetisierung
+
+=> Phasen"ubergang erster Ordnung, weil unstetig
+
+
+m(B) hat zwei Werte:
+* absolutes Minimum der freien Energie: Gleichgewichtszustand
+* relatives Minimum der freien Energie: Metastabile Zustand
+
+schwierig: Nahe Phasen"ubergang abs. und rel. unterscheiden
+schwierig: Unterscheiden, ob Phasen"ubergang stetig oder unstetig
+_Man kann das beliebig lange simulieren_
+
+T > T_c: Kein Problem, weil ungeordnet und nicht weiter dr"uber nachdenken. (alles stetig)
+unterhalb: unstetig, also auch gewisse Schwierigkeit
+
+interessante Simulation:
+M"oglichkeit, diesen Phasen"ubergang mal zu untersuchen, indem sie anfangs (in blau als Beispiel), B = 0.3 w"ahlen und T = 4/9 T_c (nicht zu nah am Phasen"ubergang).
+Relaxieren in Gleichgewicht, bis der Grundzustand erreicht wurde.
+Anschlie"send B = -0.3 setzen.
+Unterschied zu vorher: Dort ist man in kleine Schritten zum n"achsten Wert gegangen
+Fachbegriff: Quenching (Abschrecken, Schlagartige "Anderung)
+=> System landet direkt im metastabilen Zustand
+
+\pm 0.3 => auf Hysteresekurve schauen, ob es in der Mitte des anderen Armes der Kurve ist. Hier wurden die Daten g"unstig gew"ahlt.
+
+Natur will in absolutes Minimum
+* Es entsteht ein Nukleationskeim
+* Keim w"achst (meistens nicht, Fluktuationen bzw. Verschwinden)
+  _Nukleationszeit_ - Zeit, die ein System braucht, um einen Nukleationskeim wachsen zu lassen
+
+Man unterscheidet:
+* homogene Nukleation
+  spontane thermische Fluktuation
+* heterogene Nukleation
+  lokalen Cluster als St"orstelle flippen (insert flipper theme song here)
+
+### Ising-Antiferromagnet
+
+1. Untergitter
+  mod(x,2) + mod(y,2) == 1
+2. Untergitter
+  mod(x,2) + mod(y,2) != 1
+
+Betrachten versetzte Magnetisierung
+_staggered magnetisation_
+
+M_s = \sum_{i \in 1.UG}{s_i} - \sum_{i \in 2.UG}{s_i}
+
+=> typische Untersuchungen m"oglich
+
+Man erh"alt einen Knick in \chi (Suszeptibilit"at)
+
+T_N \approx 2.269; _Neel-Temperatur_
+Keine Divergenz von \chi
+
+
+_Glauber-Dynamik_
+f"ur Ising-Modell bei T = 0
+"ubliche Methode
+w"ahle i: Flip -> \Delta E
+\Delta E > 0: akzeptieren
+\Delta E < 0: verwerfen
+\Delta E = 0: 50/50
+
+Bei Ising nicht so oft, da T = 0 nicht so spannend
+
+
+_Gittergas_
+s_i = \pm 1 entspricht A/B-Atom in Legierung oder besetzter/unbesetzter Platz
+Phasentrennung: Ordnungs-Unordnungs-Phasen"ubergang
+Beispiel: \beta-Messing
+Herstellung: Oberhalb von 7XX K Gleichgewicht, anschlie"send schnell abschrecken (Quenching)
+
+Bisherige Simulation funktioniert nicht, weil Atomzahl nicht gleich bleibt.
+=> _Kawasaki-Dynamik_
+2 benachbarte Spins tauschen -> \Delta E -> Metropolis
+
+parallele Nachbarn bringen keinen Unterschied
+=> Liste von \Delta E f"ur \up-\down und \down-\up-Paare
+
+<E> in Abh"angigkeit von T
+stetig f"ur kleine Dichten (von besetzten Pl"atzen bzw. von A-Atomen)
+unstetig f"ur gro"se Dichten
+
+Selbstdiffusion 1/{2dt} <R^2(t)> -> D f"ur t -> \infty
+^ auch parallele Nachbarn f"ur t ber"ucksichtigen
+
+Quenching:
+_Spinodale Entmischung_
+z.B. bin"are Legierung (AB): starkes Abschrecken
+Dom"anenausdehnnung R_D \sim t^{1/3} f"ur Dim d \geq 2
+
+Spin-Austausch langsam (viel Buchhaltung oder Nachbarsuche)
+
+Leerstelle als Katalysator: Leerstelle _wandert_ durch System.
+_vacancy-mediated dynamics_
+
+Abh"angigkeit des Dom"anenwachstums:
+R_D \sim 2/{2 + <E>/N}   (1)
+
+Cluster von N_D \up-Spins im \down-Spin-See
+
+E \approx -2N_D + 2R_D
+                   ^^^ Rand
+
+=> E / N_D \approx -2 + 2R_D/N_D
+                        ^^^^^^^^ \BigOh{R_D^2}
+=> (1)
+
+Thu May 30 12:19:55 CEST 2013
+

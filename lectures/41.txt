@@ -1,0 +1,119 @@
+Tue Jun  4 11:21:19 CEST 2013
+
+## 15.6. Ising-"ahnliche Modelle
+
+### x-y-Modell
+
+* Quadratgitter
+* \vec{s_i} in Ebene, normiert
+* E = -J \sum_{i,j}^{n.N.}{\vec{s_i} \vec{s_j}}
+  = -J \sum_{i,j}^{n.N.}{cos{\Theta_j - \Theta_j}}
+* <M> = 0 \forall T
+* C(r) \sim r^{-\alpha} f"ur T < T_{KT}
+* C(r) \sim \exp{-r} f"ur T > T_{KT}
+
+KT - Kosterlitz-Thouless
+
+unterhalb der KT-Temperatur T_{KT} haben wir eine Linie von kritischen Punkten
+
+<\Theta^2>  in Abh"angigeit von N \sim \log{N}
+
+\Theta - Winkel zwischen \vec{s_i} und \vec{M}
+
+_Richtung ist nicht so anschaulich. Also definiert man sich eine Vortizit"at_
+Vorticity: Anzahl der Wirbel / L^2
+in Abh"angigkeit von T
+
+Paare von \oplus und \ominus f"ur T < T_{KT}
+freie Wirbel f"r T > T_{KT}
+
+4 Spins (n.N.)
+4 Winkel (n.N.) \in [-\pi, \pi) der N"achstnachbarn zu einander
+
+\sum{\angle} -> 3 m"ogliche Werte:
+2\pi <=> \oplus
+0
+-2\pi <=> \ominus
+
+KT-Theorie \chi \sim \exp{b / {({T - T_{KT}} / T_{KT})^\nu}}
+
+Nenner ist skaliert => _reduzierte Temperatur_
+
+\nu = 0.5 f"ur kleine Systeme
+\nu = 0.7 empirisch
+
+_Das hei"st, es ist keine sch"one Methode, um Simulationen nachzuvollziehen_
+
+### Heisenberg-Modell
+Quadratgitter \vec{s_i} in 3 Dimensionen
+\norm{\vec{s_i}}
+E = -J \sum_{i,j}^{n.N.}{\vec{s_i} \vec{s_j}}
+
+### Ising-Spin-Glas
+
+J_{i,j} \in {-1,1} zuf"allig
+Frustrations-Effekte
+
+### Potts-Modell
+
+E = -J \sum_{i,j}^{n.N.}{\delta_{s_i,s_j}}
+
+\delta - Kronecker-Delta
+
+q Werte f"ur s_i
+q = 2 => Ising
+
+## 15.7. Klassische Fl"ussigkeiten
+
+E = E_{kin}(\{v_i\}) + E_{pot}(\{x_i\})
+v_i und x_i entkoppelt
+
+statistische Mechanik: v_i tragen 1/2 k_B T pro FHG zu <E> bei
+
+radiale Paarverteilungsfunktion g(r)
+
+E_{pot}/N = \rho/2 \int{g(r) u(r) dr}
+
+\rho - Dichte
+u(r) - Paarwechselwirkung
+
+Zustandsgleichung (bekannt als Beziehung zwischen Druck und Volumen)
+\beta P / \rho = 1 - {\beta\rho / 2d} \int{g(r) r du/dr dr}
+
+### 15.7.1. Harte Kugeln
+
+Historisch erste Anwendung des Metropolis-Algorithmus\'
+
+u(r) = \inft f"ur r < \sigma
+       0 f"ur r \geq sigma
+
+<E_{pot}> = 0
+\inft taucht nicht auf, da sich die Kugeln nicht "uberlappen k"onnen
+
+\beta P / \rho = 1 + 2\pi/3 \rho \sigma^3 g(\sigma) f"ur d = 3
+                 1 + pi/2 \rho \sigma^2 g(\sigma) f"ur d = 2
+                 1 + \rho \sigma g(\sigma)
+
+Monte-Carlo:
+* w"ahle Kugel i zuf"allig
+* w"ahle \Delta_x \in [-\delta, \delta]
+* w"ahle \Delta_y \in [-\delta, \delta]
+* w"ahle \Delta_z \in [-\delta, \delta]
+* wenn "Uberlapp mit anderer Kugel: abgelehnt
+* sonst: akzeptiert
+
+numerisch sinnvoll: kleine Zellen zur einfacheren Auswertung
+
+bestimmme g(r)
+
+P aus g(r) f"ur r -> \sigma (g(r) durch Parabel anpassen)
+
+### 15.7.2. Lenard-Jones-Potential
+
+d = 2 Dimensionen
+TVN fest: Boltzmann-Verteilung
+Metropolis:
+* wie oben laufen lassen
+* akzeptieren/ablehnen nach Metropolis
+
+Tue Jun  4 12:19:01 CEST 2013
