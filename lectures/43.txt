@@ -1,0 +1,107 @@
+Tue Jun 11 11:23:58 CEST 2013
+
+# 16. Quantensysteme
+
+Ort und Impuls nicht gleichzeitig messbar
+Wahrscheinlichkeitsamplitude
+Wellenfunktion \Psi(x, t) \in \C
+Wahrscheinlichkeitsdichte \abs{\Psi}^2
+
+\int_{-\infty}^\infty{\abs{\Psi}^2 dx} = 1
+
+zeitabh"angige Schr"odingergleichung
+i\hbar \partial\Psi / {\partial t} = - \hbar^2 / 2m \partial^2\Psi/{\partial x^2} + V \Psi
+
+oft \hbar \equiv m \equiv 1
+Observable A beschrieben durch \^A
+Messung: Erwartungswert
+<A> = \int{\Psi\**\^A\Psi dx}
+
+Ort: \^x = x
+Impuls \^p = -i\hbar\partial/{\partial x}
+kinetische Energie \^E_{kin} = \^p^/2m
+
+Masse \^m = m
+
+## 16.1. zeitunabh"angige L"osung
+
+(V zeitunabh"angig)
+
+Ansatz: \Psi(x,t) = \phi(x)\exp{-iEt/\hbar}
+                           ^^^^^^^^^^^^^^^
+                   komplexe Darstellung einer Welle
+
+zeitunabh"angige Schr"odingergleichung
+
+-\hbar/2m \partial^2\phi/{\partial x^2} + V\phi = E \phi
+
+Hamilton-Operator
+\^H = -\hbar^2/2m \partial^2/{\partial x^2} + V
+
+Eigengleichung \^H\phi = E\phi
+Eigenwert E: Energie
+
+L"osungen \phi_n, E_n
+
+Niedrigste Energie: Grundzustand
+H"ohere Energien: angeregte Zust"ande
+
+allgemein: \Psi = \sum_n{c_n \phi_n \exp{-iE_nt/\hbar}
+
+Eine solche Linearkombination bezeichnet man auch als Wellenpaket
+
+Orthogonalit"at der Eigenfunktionen ist gegeben
+
+c_n = \int_{-\infty}^\infty{\psi_n\**(x) \Psi(x, t=0) dx}
+
+entspricht der Wahrscheinlichkeitsamplitude, dass die Messung den Wert E_n ergibt.
+
+Projektion von \Psi auf \phi_n
+
+OSP:
+SchroedingerApp
+ComplexPlotFrameApp
+Complex2DFrameApp
+
+Anmerkung:
+endlich tiefer Potentialtopf
+typischerweise gebundene Zust"ande mit Energie \"innerhalb\" des Topfes (r"aumlich fixierte gebundene Teilchen)
+\"uber\" dem Topf: freie Zust"ande (wandern dr"uber hinweg)
+
+unendlicher Topf:
+ausschlie"slich gebundene Zust"ande
+
+EigenStateApp
+BoxEigenState
+  getEigenstate
+BoxSuperpositionApp
+
+Eigenwerte der Energien in unendlichem Potentialtopf:
+E_n = n^2 \pi^2\hbar^2/{2m} (1-indiziert)
+
+\phi_n(x) = 1/\sqrt{2}\cos{n\pi x}  n = 1, 3, 5, ...
+          = 1/\sqrt{2}\sin{n\pi x}  n = 2, 4, 6, ...
+
+Numerische Darstellung:
+
+-\hbar^2/{2m}\partial^2/{\partial x^2} \Phi(x) + V(x) \Phi(x) = E \Phi(x)
+
+\partial^2/{\partial x^2} \Phi(x) = -(E -V(x)) \Phi(x) 2m/\hbar^2
+
+d\Phi/dx = \Phi\'
+
+d\Phi\'/dx = -2m/\hbar^2 (E - V(x))\Phi
+
+dx / dx = 1
+
+AB:
+\Phi(0) = 0
+\Phi\'(0) = 1
+
+ortsdiskrete Aufl"osung
+
+Anschlie"send wird das Gleichungssystem im Ort (per RK45) geloest und die Anschlussbedingung auf der rechten Seite geprueft.
+Danach wird beispielsweise per Metropolis oder wie bei Phillip manuell iteriert.
+
+Tue Jun 11 12:50:33 CEST 2013
+

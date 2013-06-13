@@ -1,0 +1,139 @@
+Thu Jun 13 11:17:28 CEST 2013
+
+Bezug zum "Ubungsblatt: Potentialstufe mit H"ohe V_0
+
+analytische L"osung
+\phi = \exp{-ikx} = \exp{i 2\pi x / \lambda}
+E = \hbar^2 / {2m} k^2 + V_0
+
+k - Wellenvektor
+\lambda - Wellenl"ange
+
+\phi = \exp{\kappa x} exponentieller Anstieg
+\phi = \exp{-\kappa x} exponentieller Abfall
+
+V_0 - E = \hbar^2 / {2m} \kappa^2
+
+\kappa - Eindringtiefe
+
+Anstieg ist unphysikalisch, Abfall ist schon realistischer
+
+Bei Unklarheiten siehe Quantenmechanik-Hefter
+
+Bei ausreichender Energie (> V_0) wird die Wellenl"ange schlicht reduziert
+Ansonsten dringt das Teilchen in die Wand ein und wird reflektiert
+H"ohere Stufe <=> geringere Eindringtiefe
+
+Zur "Ubung (7c mit a=5, V_0 = 1):
+_Stufe in rechter H"alfte_
+E_2 = 0.1505
+E_3 = 0.5857
+E_4 = 1.1195
+
+E = 0.15 zwei Knoten
+E = 0.16 drei Knoten
+=> suche bin"ar, so dass \phi(+a) = 0
+
+\phi_{gerade}(a) > 0 => E zu klein
+\phi_{gerade}(a) < 0 => E zu gro"s
+\phi_{ungerade}(a) > 0 => E zu gro"s
+\phi_{ungerade}(a) < 0 => E zu klein
+
+_Stufe in der Mitte_
+symmetrisch: V(x) = V(-x)
+gerade Parit"at \phi(x) = \phi(-x), \phi(0) = 1, \phi'(0) = 0
+ungerade Parit"at \phi(x) = -\phi(-x), \phi(0) = 0, \phi'(0) = -1
+
+_parabelf"ormiges Potential_
+
+V(x) = 1/2 x^2
+
+Energien sind "aquidistant
+\phi_0 Gau"sfunktion
+\phi_n Gau"sfunktion * Hermite-Polynom
+
+E_0 > 0 Grundzustand, Nullpunktsschwingung
+
+Auch hier wieder ein Eindringen in die Parabel
+
+_lineares Potential_
+V(x) = \abs{x}
+
+Beschreibung von Quarkonium (gebundene Quark-Antiquark-Systeme)
+
+Begriff: Revival
+
+_endlich tiefer Potentialtopf_
+
+analytische L"osungen von vorhin (stufe/unendlich?) gelten auch hier
+
+_Potentialberg_
+
+Wellenl"osungen, aber keine gebundenen Zust"ande
+interessant: Tunnelung durch den Berg und Aufenthaltswahrscheinlichkeit darin
+Welle - exponentielles Abklingen - Welle
+
+C_{60}-Molek"ule sind bereits komplett getunnelt
+
+## 16.2. Zeitabh"angige Schr"odingergleichung
+
+Diffusionsgleichung \partial/{\partial t} P = D \partial^2 P / {\partial x^2}
+t_n = t_0 + n\Delta_t
+x_s = x_0 + s\Delta_x
+
+naheliegend: _explizite Methode_
+
+= D/{\Delta_x^2} \left[ P(x_{s+1}, t_n) - 2P(x_s, t_n) + P(x_{s-1}, t_n) \right]
+
+Problem: numerisch instabil und Ableitungen divergieren von tats"achlicher
+L"osung
+
+_implizite Methode_
+= D/{\Delta_x^2} \left[ P(x_{s+1}, t_{n+1}) - 2P(x_s, t_{n+1}) + P(x_{s-1}, t_{n+1}) \right]
+
+=> lineares Gleichungssystem => h"oherer Aufwand, aber daf"ur stabil
+
+TDHalfStepApp
+
+Visscher et al.
+
+R = Re \Psi
+I = Im \Psi
+
+\partial R / {\partial t} = \^H I
+\partial I /{\partial t} = -\^H R
+
+R(x, t+\Delta_t) = R(x, t) + \^H I(x, t+\Delta_t/2)\Delta_t
+I(x, t+3/2\Delta_t) = I(x, t+\Delta_t/2) + \^H R(x, t+\Delta_t)\Delta_t
+
+anfangs:
+R(x, 0)
+I(x, \Delta_t/2) = I(x, 0) - \^H R(x, 0)\Delta_t/2
+
+\abs{\Psi(x, t)}^2 = R(x, t)^2 + I(x, t + \Delta_t/2) I(x, t - \Delta_t/2)
+
+Gau"ssches Wellenpaket
+
+\Psi(x,0) = 1/\sqrt[4]{2\pi w^2} \exp{-(x-x_0)^2/{4w^2}} \exp{-ik_0(x-x_0)}
+
+w - Breite
+
+p_0 = \hbar k_0   Impuls
+
+k_0   Wellenvektor
+
+<v> = \hbar k_0/m = p_0/m
+
+Wellenpakete laufen breit (h"angt ausschlie"slich von Zeit ab, linear)
+Schmale Pakete laufen schneller breit
+Breite Pakete laufen langsamer
+
+Anschlussbedingungen:
+\phi ist stetig
+Ableitungen sind an der Anschlussstelle gleich
+
+k_p = i\sqrt{{2m(V-E)} / \hbar^2}
+=> Potential hat Einfluss auf Welleneigenschaften
+
+Thu Jun 13 12:47:27 CEST 2013
+
