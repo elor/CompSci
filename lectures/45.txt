@@ -1,0 +1,128 @@
+Thu Jun 20 11:22:39 CEST 2013
+
+## 16.3. Impulsraum-Darstellung
+
+\Phi(p,t) Wahrscheinlichkeitsamplitude
+\abs{\Phi(p,t)} Wahrscheinlichkeit
+
+\Phi(p,t) = 1/\sqrt{2\pi\hbar} \int_{-\infty}^\infty{\Psi(x,t) \exp{-i p x /\hbar} dx}
+
+\Psi(x,t) = 1/\sqrt{2\pi\hbar} \int_{-\infty}^\infty{\Phi(p,t)\exp{+i p t /\hbar} dp}
+
+Gitter \Phi(p_m) = \Phi_m = 1/\sqrt{N} \sum_{-N/2}^{N/2}{\Psi_n \exp{-i p_m x_n /\hbar}}
+\Psi(x_n) = \Psi_n = 1/\sqrt{N} \sum_{-N/2}^{N/2}{\Phi_m \exp{+i p_m x_n /\hbar}}
+
+FFTApp
+toNaturalOrder
+
+z.B. \Psi_n = \exp{i n \Delta x} => eine Fourierkomponente
+
+d.h. definierter Impuls
+Wellenl"ange \lambda = 2 \pi \hbar / p = h/p
+deBroglie
+
+p = \hbar k
+
+Gitter mit N St"utzstellen auf L"ange L
+=> min \lambda <-> max p
+max \lambda = L = N \Delta x <-> min. Impuls
+p_0 = h/L
+
+\Delta_p = p_0, max p = N \Delta_p
+
+Heisenberg'sche Unsch"arferelation
+\Delta_x \Delta_p \geq \hbar/2
+
+\^H = \^T + \^V
+
+\^U = \exp{-i \^H(t - t_0) /\hbar}
+
+\Psi(x,t) = \^U \Psi(x,t_0)
+
+Problem: \^U = \exp{-i \^T \Delta_t/\hbar} \exp{-i \^V \Delta_t /\hbar}
+nur f"ur \Delta_t << 1, weiol [\^T,\^V] \neq 0
+\^T\^V \new \^V\^T
+
+besser: \^U = \exp{-i\^V\Delta_t/{2\hbar}}\exp{-i\^T\Delta_t/\hbar}\exp{-i\V^\Delta_t/{2\hbar}} + \BigOh{\Delta_t^2}
+
+im Ortsraum \^V = V multiplikativ
+=> \exp{-iV\Delta_t/{2\hbar}} multiplikativ
+
+im Impulsraum \^T = T multiplikativ
+=> \exp{-iT\Delta_t/\hbar} multiplikativ
+
+T = p^2/2m
+\^p = p im Impulsraum
+
+Split-Operator-Algorithmus
+
+\Psi(x,t+\Delta_t) = \exp{-V\Delta_t/{2\hbar}} F^{-1}\left[\exp{-ip^2\Delta_t/{2m\hbar}} F\left[\exp{-iV(x)\Delta_t/{2\hbar}}\Psi(x,t)\right]\right]
+
+F - FFT
+F^{-1} - inverse FFT
+
+## 16.4. Variationsrechnung
+
+<\^H> = E\left[\Psi\right] = {\int_{-\infty}^\infty{\Psi\**(x)\^H\Psi(x)dx}} \over {\int_{-\infty}^\infty{\Psi\**(x)\Psi(x)dx}} \geq E_0
+
+E[] - Energiefunktional
+E_0 - Grundzustand
+
+f"ur gebundene Zust"ande gen"ugt \Psi(x) reell
+
+Variiere \Psi, so dass E[\Psi] -> E_0
+
+Naheliegend: Monte-Carlo mit Importance Sampling
+
+E[\Psi] = \int{\Psi^2 E_L(x) dx} / \int{\Psi^2 dx} mit E_L(x) = \^H\Psi/\Psi
+
+Importance Sampling:
+Wir w"ahlen die St"utzstellen geschickt, um Nullstellen zu vermeiden. Dazu nehmen wir folgenden Teil der Gleichung als Gewicht:
+
+\Psi^2/\int{\Psi^2 dx} - Wahrscheinlichkeitsdichte als Gewicht f"ur Importance Sampling
+
+E[\Psi] \approx 1/n \sum_{i=1}^n{E_L(x_i)}
+
+x_i - St"utzstellen
+
+Beispiel: harmonischer Oszillator
+
+V = x^2/2
+
+\Psi \sim \exp{-\lambda x^2}
+
+\lambda \approx 1/2
+=>
+Minimum der Energie bei \lambda = 1/2
+
+\Psi^2 \sim \exp{-2\lambda x^2}
+
+Metropolis
+
+w"ahle \delta_n \in [-\delta, \delta]
+x = x_n + \delta_n
+
+w = \exp{-2\lambda x^2} / \exp{-2\lambda x_n^2}
+
+\geq 1: x akzeptiert, d.h. x_{n+1} = x_n + \delta_n
+< 1: x akzeptiert mit Wahrscheinlichkeit w
+
+Auch hier: Einschwingverhalten abwarten (Gleichgewicht), bevor Messungen beginnen
+
+nach Einschwingen:
+E_L messen
+
+\sigma_L^2 = <E_L^2> - <E_L>^2
+
+exaktes Minimum: \sigma_L^2 = 0
+
+z.B. V = x^2/2 + x^4/8
+V = x^2/2 - x^4/8
+
+wir berechnen nicht den Grundzustand, sondern den niedrigsten Zustand im Potentialtopf
+
+V = -e^2/r  - Coulomb-Potential
+V = -e^2 \exp{-\alpha r}/r  - abgeschirmtes Coulomb
+
+Thu Jun 20 12:39:13 CEST 2013
+
