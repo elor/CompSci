@@ -1,0 +1,143 @@
+Tue Jun 25 11:18:19 CEST 2013
+
+## 16.5. L"osung der Schr"odingergleichung mit Zufallspfaden
+
+\tau = i t/\hbar
+\hbar, um Vorfaktor los zu werden
+
+\Psi = \Psi(x, \tau)
+
+\partial\Psi/{\partial\tau} = \hbar^2/{2m} \partial\Psi^2/{\partialx^2} - V\Psi
+-> Diffusionsgleichung mit D = \hbar^2/{2m}
+(L"osung mit Zufallspfad)
+
+_Ohne linken Summanden der rechten Seite_
+Beschreibt Differentialgleichung f"ur Zerfallsprozesse f"ur V > 0
+beziehungsweise Wachstumsprozess f"ur V < 0
+
+
+-> Anzahl Zerfallspfade nimmt ab/zu
+
+Anzahl n_i \^= \Psi(x, \tau) \Delta_x
+\Psi(x, \tau) = \sum_n{c_n\Phi_n(x)\exp{-E_n\tau}} {--->}^{\tau -> \infty} c_0\Phi(x)\exp{-E_0\tau}
+
+d.h. Grundzustand
+
+Problem: wenn E_0 > 0: Zerfall, d.h. n_i -> 0
+
+L"osung: Energieskala so w"ahlen, dass \sum_i{n_i} = const.
+
+d.h. verschieben um V_0
+hier am besten, V_0 = E_0 zu w"ahlen (Grundzustandsenergie)
+
+n_i an c_0\Phi_0\exp{-E_0\tau} anpassen -> E_0
+
+QMWalkApp f"ur harmonischen Oszillator am Anfang N_0 Zufallswanderer auf Pl"atze x_i setzen
+
+V_0 = 1/N_0 \sum_i{V_i}
+
+x -> x_1 \pm \Delta_s
+
+\Delta_s^2 = 2D\Delta_\tau
+
+D = 1/2 f"ur \hbar = m = 1
+
+=> \Delta_s^2 = \Delta_\tau
+
+W"ahle r \in [0, 1]
+V(x) - V_0 = \Delta_V > 0 und r < \Delta_V\Delta_\tau => Zufallswanderer f"allt weg
+V(x) - V_0 = \Delta_V < 0 und r < -\Delta_V\Delta_\tau => neuer Zufallswanderer bei x
+sonst keine "Anderung
+
+okay f"ur \Delta_\tau << 1
+sonst besser w = \exp{-\Delta_V\Delta_\tau} - 1 = n + f
+
+n - Anzahl neuer Zufallswanderer
+f - neuer Zufallswanderer mit Wahrscheinlichkeit f
+
+iterieren f"ur jedes i bzw. x_i
+E_0 = <V>
+V_0 = <V> - a/{N_0\Delta_\tau} (N - N_0)
+
+N - Zahl der Zufallswanderer
+
+Diffusions-Quanten-Monte-Carlo-Methode
+
+Verallgemeinerung: Schrittl"angen
+gau"sverteilt: \exp{-(x-x')^2/ 4D}
+
+und exponentielle Anpassung der Anzahl der Zufallswanderer: \exp{-V\Delta_\tau}
+
+\Psi(x, \tau) = \int{G(x, x\', \tau) \Psi(x, 0) dx\'}
+G - Propagator, Green\'sche Funktion
+
+\partial G /{\partial \tau} = -(\^H - V_0) G
+
+L"osung: G(\tau} = \exp{-(\^H - V_0)\tau}
+
+f"ur \Delta_\tau << 1 : G(\Delta_\tau} \approx G_Z G_D
+
+Zerfall/Wachstum: G_Z \equiv \exp{-(\^V - V_0) \Delta_\tau}
+Diffusion: G_D \equiv \exp{-\^T\Delta_\tau}
+
+\partial G_D/{\partial\tau} = -\^T G_D = \hbar^2/{2m} \partial^2 G_D \{\partial \tau^2}
+
+\partial G_Z /{\partial \tau} = V_0 - \^V) G_Z
+
+G_D(x, x\', \Delta_\tau) = 1/\sqrt{4\pi D\Delta_\tau} \exp{-(x - x\')^2 / {4D}}
+G_Z(x, x\', \Delta_\tau) = \exp{-\left({V(x) + V(x\')}/2 - V_0\right) \Delta_'tau}
+D = \hbar^2/{2m}
+
+_V_0 dient im Prinzip dazu, die Anzahl konstant zu halten_
+
+F"ur mehr Infos, siehe Buch
+
+## 16.6. Pfadintegrale mit Quanten-Monte-Carlo-Methode
+
+Prinzip der kleinsten Wirkung
+
+S = \int_{x_0,0}^{x,t}{\L dt} minimal f"ur klassischen Pfad
+
+\L (geschwungenes L) - Lagrangian, Lagrange-Operator
+
+klassisch: \L = E_{kin} - E_{pot}
+
+Feynman: \^L = \^T - \^V
+
+G(x, x_0, t) = A \sum_{Pfade}{\exp{i S/\hbar}} erf"ullt
+
+t - reelle Zeit
+A - unwichtige Normierung
+Summe - Summe "uber alle m"oglichen Wege von (x_0, 0) nach (x, t)
+Exponentialfaktor - f"uhrt zu Interferenzeffekten
+S - Gewicht, mit dem die einzelnen Pfade in die Summe eingehen
+
+G(x, x_0, t) = \sum_n{\Phi_n(x) \Phi_n(x_0) \exp{-i E_n t}}
+
+\tau = it => G(x, x_0, \tau) = \sum_n{\Phi_n(x) \Phi_n(x_0) \exp{-\tau E_n}}
+
+\tau -> \infty => Grundzustand
+G(x, x, \tau) - geschlossene Pfade
+-> \Phi_0^2(x) \exp{-\tau E_0}
+
+z.B. 1 Teilchen
+
+L(x_j, \tau_j) = -1/2 (x_{j+1} - x_j)^2 / {\Delta_\tau^2} - V(x_j)
+
+\tau_j = j \Delta_\tau
+x_j = x(\tau_j)
+
+S = -i \Delta_\tau \sum_{j = 0}^{N-1}{\left[1/2 (x_{j+1} - x_j) / \delta_\tau^2 + V(x_j) \right]}
+
+->
+
+\exp{iS} = \exp{\Delta_\tau \sum_{j = 0}^{N-1}{\left[1/2 (x_{j+1} - x_j) / \delta_\tau^2 + V(x_j) \right]}}
+
+G(x, x_0, N\Delta_\tau) = A \int{dx_1...dx_{N-1} \exp{\Delta_\tau \sum_{j = 0}^{N-1}{\left[1/2 (x_{j+1} - x_j) / \delta_\tau^2 + V(x_j) \right]}}}
+
+Integral "uber alle Pfade x_0, x_1, ... x_{N-1}, x_N
+
+f"ur Grundzustand: x = x_0 = x_N (pbc)
+
+Tue Jun 25 12:28:28 CEST 2013
+
