@@ -1,0 +1,161 @@
+Tue Jul  2 11:18:15 CEST 2013
+
+# 17. Bewegung starrer K"orper
+
+## 17.1. Koordinatentransformationen in 2 Dimensionen
+
+Rotation
+(x'  = ( \cos{\phi}  -\sin{\phi}   (x
+ y')     \sin{\phi}   \cos{\phi} )  y)
+
+Streckung
+(x'  = ( s_x       (x
+ y')     0   s_y )  y)
+
+Translation
+
+(x'  = (d_x   + (x
+ y')     d_y)    y)
+
+homogene Koordinaten:
+Punkt: (x, y, w), in der Regel w = 1; f"ur Perspektive w \neq 1
+Vektoren: (x, y, 0)
+
+(x'    ( m_{00}  m_{01}  m_{02}    (x
+ y'  =   m_{10}  m_{11}  m_{12}     y
+ 1 )     0       0       1      )   1)
+
+Translation:
+
+\mat{M} = ( 1 0 d_x
+            0 1 d_y
+            0 0 1   )
+
+\mat{M} = ( \mat{A}       \vec{d} 
+            \trans{\vec{0}} 1     )
+
+AffineTransform
+Affine2DApp
+
+## 17.2. Koordinatentransformation in 3 Dimensionen
+
+Rotation um z-Achse
+
+(x'              (x    ( \mat{R_\theta}  \vec{0}   (x
+ y'  = \mat{R_z}  y  =   \trans\vec{0}   1       )  y
+ z')              z)                                z)
+
+entsprechend \mat{R_x}, \mat{R_y}
+
+Rotation3D
+
+Rodrigues-Formel
+\mat{R_r} \vec{v} = (1 - \cos{\theta}) (\vec{v}\^{\vec{r}}) \^{\vec{r}} + \sin{\theta} (\^{\vec{r}} \cross \vec{v}) + \cos{\theta} (\vec{v})
+
+letzter Term: eigentlich \vec{v} - (\vec{v}\^{\vec{r}})\^{\vec{r}}, aber das ist schon im ersten Term drin (eigentlich 1, hier aber 1-\cos{\theta})
+
+Term 1: \vec{v_\parallel}
+Term 3: \vec{v_\ortho}
+Term 2: orthogonal zu beiden
+
+homogene Koordinaten
+(x'    ( m_{00}  m_{01}  m_{02}  m_{03}   (x                               (x 
+ y'  =   m_{10}  m_{11}  m_{12}  m_{13}    y  = ( \mat{R_r}      \vec{d}    y 
+ z'      m_{20}  m_{21}  m_{22}  m_{23}    z      \trans\vec{0}  1       )  z
+ 1 )     0       0       0       1      )  1)                               1)
+
+Projektion
+hier: orthographisch-parallele Projektion auf Ebene senkrecht zu Koordinatenachse
+
+  (x
+P  y  = (x
+   z)    y)
+
+(einfach und langweilig)
+
+OSP: Transformation interface
+Affine3DMatrix
+
+## 17.3. Java APIs f"ur Visualisierung in 3 Dimensionen
+
+Bibliotheken:
+* gl4java
+* jogl
+
+OSP:
+* display3D
+* simple3D
+
+Beispiele:
+* Box3DApp
+* Display3DFrame
+  getStyle
+  setDecorationType
+  addElement
+    ElementBox
+    ElementCylinder
+    ElementCircle
+* Interaction3DApp
+* Group
+* BarBell3D
+* BarBell3DApp
+* Methane
+
+## 17.4. Dynamik eines starren K"orpers im Laborsystem \L
+
+\L - Inertialsystem, Laborsystem, space frame
+
+d\vec{P} / dt = \vec{F}
+
+d\vec{L} / dt = \vec{N}
+
+\vec{N} - Drehmoment um 0 (meist Schwerpunkt / Auflagepunkt)
+
+\vec{p} = m \vec{v}
+\vec{L} = \mat{I} \vec{omega}
+
+\mat{I} - Tr"agheitsmoment, zu berechnen aus Masseverteilung (bequemer in \K)
+
+\K - k"orpereigenes System, body frame
+
+in \K: Haupttr"agheitsachsen so, dass
+          ( I_1  0    0
+\mat{I} =   0    I_2  0
+            0    0    I_3 )
+
+I_1 = \int_{V}{\rho(\vec{r})(y^2 + z^2)dV}
+I_2 = \int_{V}{\rho(\vec{r})(x^2 + z^2)dV}
+I_3 = \int_{V}{\rho(\vec{r})(x^2 + y^2)dV}
+
+d\vec{L} / dt \|_{\L} = d\vec{L} / dt \|_{\K} + \vec{\omega} \cross \vec{L}
+
+das hei"st in \K: d\vec{L} / dt + \vec{\omega} \cross {\mat{I} \vec{\omega}} = \vec{N}
+
+Euler'sche Gleichungen
+
+I_1 \dot{\omega_1} + (I_3 - I_2) \omega_3 \omega_2) = N_1
+I_2 \dot{\omega_2} + (I_1 - I_3) \omega_1 \omega_3) = N_2
+I_3 \dot{\omega_3} + (I_2 - I_1) \omega_2 \omega_1) = N_3
+
+TorqueApp
+  _Unwucht bei Autoreifen_
+  toBodyFrame
+  toSpaceFrame
+
+
+Eulerwinkel \Psi, \Theta, \Phi
+drei Rotationen um 3 vorgegebene Achsen in \K
+
+Ratengleichungen in \K
+(\omega_1    ( \sin{\Theta}\sin{\Psi}   \cos{\Psi}  0   (\dot{\Phi}
+ \omega_2  =   \sin{\Theta}\cos{\Psi}  -\sin{\Psi}  0    \dot{\Theta}
+ \omega_3)     \cos{Theta}             0            1 )  \dot{\Psi})
+
+Problem: Singul"ar f"ur \sin{\Theta} = 0
+=> instabil f"ur \Theta \approx 0 und \Theta \approx \pi
+
+\mat{R}(\Psi, \Theta, \Phi) = \mat{R_z}(\Psi) \mat{R_x}(\Theta} \mat{R_z}(\Phi}
+
+z, x, z ist kein Fehler, sondern gewollt
+
+Tue Jul  2 12:16:08 CEST 2013

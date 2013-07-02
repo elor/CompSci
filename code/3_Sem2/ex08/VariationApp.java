@@ -2,39 +2,69 @@ package ex08;
 
 import org.opensourcephysics.controls.AbstractSimulation;
 import org.opensourcephysics.controls.SimulationControl;
-import org.opensourcephysics.frames.HistogramFrame;
+import org.opensourcephysics.frames.PlotFrame;
 
 public class VariationApp extends AbstractSimulation {
 
-  Phi phi = new Phi(); // remember to set the lambda value
+  Phi phi; // remember to set the lambda value
   Potential pot; // remember to set the potential
-  HistogramFrame histogram = new HistogramFrame("x", "n",
-      "Metropolis Histogram");
-  Metropolis metropolis;
+  PlotFrame ePlot = new PlotFrame("lambda", "<E_L>",
+      "time development of <E_L>");
+  Lambdinator lambdi;
+  private int step;
 
   public VariationApp() {
-    histogram.setBinWidth(1);
   }
 
   @Override
-  protected void doStep() {
-    double x = metropolis.step();
-    histogram.append(x);
+  public void doStep() {
+    double lambdamin = control.getDouble("lambda min");
+    double lambdamax = control.getDouble("lambda max");
+    int lambdasteps = control.getInt("lambda steps");
+    double delta = control.getDouble("metropolis delta");
+    int equiSteps = control.getInt("equilibration Steps");
+    int steps = control.getInt("energy simulation steps");
+
+    phi.lambda = lambdamin + (lambdamax - lambdamin) * step / lambdasteps;
+    lambdi.reset(delta, equiSteps);
+
+    double eMean = lambdi.calculate(steps);
+    ePlot.append(0, phi.lambda, eMean);
+
+    ++step;
+    if (step == lambdasteps) {
+      control.calculationDone("lambdamax reached");
+    }
   }
 
-  @Override
   public void initialize() {
-    double x0 = control.getDouble("x0");
-    double delta = control.getDouble("delta");
-    metropolis = new Metropolis(phi, x0, delta);
+    phi = new Phi();
+
+    String potType = control.getString("potential type");
+    if (potType.compareTo("harmonic") == 0) {
+      pot = new HarmonicPotential();
+    } else if (potType.compareTo("hydrogen") == 0) {
+      pot = new HydrogenPotential(control.getDouble("hydrogen: e"));
+    } else if (potType.compareTo("anharmonic") == 0) {
+      pot = new AnharmonicPotential(control.getDouble("anharmonic: b"));
+    }
+    lambdi = new Lambdinator(phi, pot);
+
+    step = 0;
+    ePlot.clearData();
   }
 
   @Override
   public void reset() {
-    control.setValue("initial lambda", 0.5);
-    control.setValue("delta", 1);
-    control.setValue("x0", 0);
-    enableStepsPerDisplay(true);
+    control.setValue("lambda min", 0.1);
+    control.setValue("lambda max", 1.0);
+    control.setValue("lambda steps", 100);
+    control.setValue("metropolis delta", 0.1);
+    control.setValue("equilibration Steps", 50000);
+    control.setValue("potential type", "harmonic");
+    control.setValue("anharmonic: b", 1);
+    control.setValue("hydrogen: e", 1);
+    control.setValue("energy simulation steps", 100000);
   }
 
   public static void main(String[] args) {

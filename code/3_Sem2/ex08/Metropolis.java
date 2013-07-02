@@ -4,12 +4,20 @@ public class Metropolis {
   protected Phi phi;
   protected double x;
   public double delta;
+  int rejections;
+  int steps;
 
   public Metropolis(Phi phi, double x0, double delta0) {
     this.phi = phi;
     // 0
     this.x = x0;
     this.delta = delta0;
+    clear();
+  }
+
+  public void clear() {
+    rejections = 0;
+    steps = 0;
   }
 
   public double step() {
@@ -24,7 +32,11 @@ public class Metropolis {
       x = xnew;
     } else if (Math.random() <= w) {
       x = xnew;
+    } else {
+      ++rejections;
     }
+
+    ++steps;
 
     return x;
   }
