@@ -22,9 +22,7 @@ public class Lambdinator {
       ++eSteps;
     }
 
-    double eMean = eSum / eSteps;
-
-    return eMean;
+    return eSum / eSteps;
   }
 
   private double getEnergy(double x) {
