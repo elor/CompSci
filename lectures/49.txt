@@ -1,0 +1,162 @@
+Tue Jul  9 11:18:13 CEST 2013
+
+h"ohere Genauigkeit mit \ddot{q}
+
+d/dt q\**\dot{q} = \dot{q}\**\ dot{q} + q\** \ddot{q}
+
+
+\ddot{q} = q (d/dt q\** \dot{q} - \dot{q}\** \dot{q}) = ...
+
+                  -2\sum{\dot{q_m}^2}
+= 1/2 \trans{W} (  \dot\vec{\omega}   )
+
+Reihenfolge des Vektors und der Matrix ist vertauscht (Realteil und rein hyperkomplexer Anteil) (Siehe Anmerkung von Anna)
+
+Rigid Body l"ost Eulersche Gleichungen
+
+\dot{q} -> \vec\omega; \vec{N} -> \K : Euler -> \dot\vec\omega -> \ddot{q}
+
+RigidBodyUtil f"ur ||.|| (Norm), Transformationen
+* spaceToBody
+* bodyToSpace
+
+FreeBodyApp
+* Kein Auflagepunkt, System rotiert um Schwerpunkt
+FreeRotationView
+FreeRotationSpaceView
+
+## 17.7. Kreisel
+
+\vec{N_{ext}} bzgl. Auflagepunkt
+=> Kraft in (0, 0, 1)-Richtung
+
+SpinningTop
+* symmetrischer K"orper rotiert bzgl. Achse von I_3
+* Abstand Auflagepunkt-Schwerpunkt \equiv 1
+
+\vec{N_{ext}} = \vec{3} \cross \vec{F_\K}
+
+SpinningTopSpaceView
+
+Aliasing:
+Felgenmuster l"auft scheinbar r"uckw"arts
+
+f"ur gro"se \vec\omega, zwei Pr"azessionsraten
+\dot\Phi \approx I_3 / I_1 \omega_3/\cos{\theta_0}
+
+Anmerkung: I_1 = I_2
+
+\theta_0 - Winkel zwischen senkrechte Achse und \vec{3}
+
+\dot\Phi \approx mgl/{I_3 \omega_3}
+
+l - Abstand Auflagepunkt-Schwerpunkt
+
+# 18. Relativit"atstheorie
+
+## 18.1. spezielle Relativit"atstheorie
+
+S - Bezugssystem des Beobachters
+S' - Ruhesystem des Objektes
+
+Objekt bewegt sich mit \vec{v} = ( -v
+                                   0
+                                   0 ) bzgl. S
+
+x' = 1/\gamma (x-vt)
+y' = y
+z' = z
+t' = \gamma (t - vx/c^2)
+x = x' f"ur t' = t = 0
+
+\gamma = 1 / \sqrt{1-\beta^2}
+\beta = v / c
+
+d^2 = \Delta_x^2 + \Delta_y^2 + \Delta_z^2
+d'^2 = \Delta_{x'}^2 + \Delta_{y'}^2 + \Delta_{z'}^2
+
+\Delta_x = \gamma\Delta_{x'}
+
+ContractedRing
+* Ring wird aus Drahtst"ucken zusammen gesetzt
+* nur Knoten berechnen
+* affine Transformation bzgl. Lorentz-Trafo
+  -> Verzerrung
+  => Lorentz-Fitzgerald-Transformation
+
+ObservedRing (Zeitverz"ogerung in Beobachtung)
+* Retardierung r_{ret} = ( x - \delta
+                           y
+                           z          )
+
+\delta = v \tau
+\tau - Zeit f"ur r_{ret}(Weg)
+
+\abs{r_{ret}} = c \tau = \sqrt{(x-v\tau)^2 + y^2 + z^2}
+
+Wenn sie das umformen, dann bekommen sie \tau = -x \beta auf dem Bruchstrich + \sqrt{x^2 + (y^2 + z^2)/\gamma^2} das war alles auf der Wurzel und das Ganze die Wurzel wird dividiert durch c durch \gamma^2
+Im Buch sieht das noch komplizierter aus, ich hab das vereinfacht. Moment. Der Bruchstrich umfasst auch das x \beta. Man k"onnte versuchen, das \gamma da hoch zu bringen, aber das bringt keine wesentliche Vereinfachung.
+
+\tau = - {x\beta + \sqrt{x^2 + {y^2 + z^2} / \gamma^2}} / {c / \gamma^2}
+
+Wenn sie sich das anschauen, wenn herr Cain ihnen das vorf"uhrt, dann wird eben so ein Ring bewegt und wenn der Ring den Beobachter ber"uhren sollte, dann gibt's einen scharfen Konvexpunkt, also da wo der dann konvergiert.
+Wenn der Beobachter durch den Ring durch fliegt, dann wird das Ganze konkav. Wenn sie keinen Ring nehmen, sondern eine gerade Strecke, sprich ein Lineal, und das entlang der X-Achse bewegen, dann wird keine Kontraktion sichtbar.
+Beim Quadrat - beim Ring eigentlich auch, nur da ist das nicht so sch"on deutlich - wenn sie das beim Quadrat durchf"uhren ... dann k"onnen sie auch die R"uckseite sehen. Das liegt daran, dass das Objekt sich so weit fortbewegt hat, dass das Licht von der R"uckseite in das Auge des Beobachters fallen kann.
+
+Begriff: Terrell-Rotation (R"uckseite sichtbar)
+
+Die Ereignisse sind durch einen Abstand im vierdimensionalen Raum getrennt. Dieser Abstand ist \Delta_\sigma^2 = d^2 - c^2\Delta_t^2 = -\Delta_\tau^2
+
+Besteht also aus raumartigem und zeitartigem Abstand
+
+Auch bekannt als Minkowski-Metrik
+
+Weltlinien sind Trajektorien in der Raumzeit (besagtem vierdimensionalen Raum)
+
+Minkowski-Metrik ist f"ur spezielle Relativit"atstheorie relevant.
+
+Ergibt sich aus Annahme: Maxwell-Gleichungen m"ussen f"ur gleichf"ormig geradlinig bewegte Bezugssysteme nicht ge"andert werden (f"ur jeden Betrachter)
+
+## 18.2. Allgemeine Relativit"atstheorie
+
+gekr"ummter Raum: Eddington 1919
+Experimenteller Nachweis, dass es eine realistische Beschreibung der Natur ist (W"ahrend Sonnenfinsternis: Beobachtung von Sternen hinter der Sonne (schlechte Genauigkeit, musste 1922, 1953 und in den 1960ern wiederholt werden)
+
+Gravitation \^= Beschleunigung
+
+Relativit"atstheorie l"asst sich ganz einfach mit 10 gekoppelten nichtlinearen partiellen Differentialgleichungen beschreiben (Tensoranalysis und Riemannsche Geometrie notwendig. Fabian fragen.)
+
+Prinzip des maximalen Alterns
+(Uhr in \K) => Pfad (Weltlinie)
+
+Es gibt wenige exakte L"osungen, in der Regel f"ur kugelsymmetrische Massen
+ansonsten nur Numerik
+
+## 18.3. Dynamik in Polarkoordinaten
+
+x = r \cos{\phi} 
+y = r \sin{\phi}
+r = \sqrt{x^2 + y^2}
+\phi = \atan{y/x}
+
+\dot{r} = \vec{r} \vec{v} / r
+\dot{\phi} = L /{m r^2}
+\vec{L} = \vec{r} \cross \vec{p}
+
+d/dt => Bewegungsgleichungen
+
+Lagrangian \L = 1/2 (\dot{r}^2 + r^2 \dot{\phi}^2) + GM/r
+
+Lagrange'sche Bewegungsgleichungen
+d/dt \partial\L/\partial\dot{r} - \partial\L/{\partial r} = 0
+
+d/dt \partial\L/{\partial\dot{\phi}} - \partial\L/{\partial\phi} = 0
+
+\ddot{r} = r\dot\phi - GM/r^2
+\ddot\phi = -2/r \dot\phi\dot{r}
+
+Drehimpulserhaltung: r \ddot\phi + 2 \dot\phi\dot{r} = 0
+
+setPolar
+
+Tue Jul  9 12:17:33 CEST 2013

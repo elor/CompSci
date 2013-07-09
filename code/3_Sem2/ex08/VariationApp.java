@@ -57,14 +57,17 @@ public class VariationApp extends AbstractSimulation {
   @Override
   public void reset() {
     control.setValue("lambda min", 0.1);
-    control.setValue("lambda max", 1.0);
-    control.setValue("lambda steps", 100);
+    control.setValue("lambda max", 2.0);
+    control.setValue("lambda steps", 200);
     control.setValue("metropolis delta", 0.1);
     control.setValue("equilibration Steps", 50000);
-    control.setValue("potential type", "harmonic");
-    control.setValue("anharmonic: b", 1);
+    control.setValue("potential type", "anharmonic");
+    control.setValue("anharmonic: b", 0.125);
     control.setValue("hydrogen: e", 1);
     control.setValue("energy simulation steps", 100000);
+
+    enableStepsPerDisplay(true);
+    setStepsPerDisplay(10);
   }
 
   public static void main(String[] args) {
