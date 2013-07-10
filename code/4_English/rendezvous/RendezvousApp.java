@@ -27,6 +27,9 @@ public class RendezvousApp extends AbstractSimulation {
 
   @Override
   public void initialize() {
+    display.setSize(control.getInt("display width"),
+        control.getInt("display height"));
+
     earth = new Earth(control.getDouble("Earth radius"));
     iss = new ISS(control.getDouble("ISS altitude") + earth.radius);
     soyuz = new Soyuz();
@@ -146,6 +149,8 @@ public class RendezvousApp extends AbstractSimulation {
     control.setValue("Stage 3 target angle", Math.PI);
     setPhase(1);
     control.setValue("frames", 100);
+    control.setValue("display width", 600);
+    control.setValue("display height", 600);
     control.setAdjustableValue("pause after each phase", false);
   }
 
