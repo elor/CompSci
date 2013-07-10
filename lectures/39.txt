@@ -47,7 +47,7 @@ Bindungsperkolation p = 1 - \exp{2J/{k_B T}}
 definiert Cluster, der geflippt wird, auf vorgegebenem Ising-Tr"ager, auf dem
 verschiedene Cluster vorhanden sind
 
-p_c entspricht T_c
+p_c \^= T_c
 
 Wolff-Dynamik erh"alt detailliertes Gleichgewicht
 richtig f"ur statische Eigenschaften
