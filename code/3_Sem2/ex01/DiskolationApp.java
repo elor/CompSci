@@ -206,6 +206,7 @@ public class DiskolationApp extends AbstractCalculation implements
 
         if (disk.overlap(d)) {
           if (root != disk) {
+            // compare sizes
             if (root.size() < d.getRoot().size()) {
               root.setRoot(d.getRoot());
             } else {
