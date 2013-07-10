@@ -23,11 +23,18 @@ public class RendezvousApp extends AbstractSimulation {
   private double s2TargetAngle;
   private double s3TargetAngle;
 
+  MultiDrawer drawer = new MultiDrawer();
+
   @Override
   public void initialize() {
     earth = new Earth(control.getDouble("Earth radius"));
     iss = new ISS(control.getDouble("ISS altitude") + earth.radius);
     soyuz = new Soyuz();
+
+    drawer.clear();
+    drawer.add(earth);
+    drawer.add(iss);
+    drawer.add(soyuz);
 
     frame = 0;
     maxframe = control.getInt("frames");
@@ -115,10 +122,7 @@ public class RendezvousApp extends AbstractSimulation {
 
   private void repaint() {
     display.clearDrawables();
-
-    display.addDrawable(earth);
-    display.addDrawable(iss);
-    display.addDrawable(soyuz);
+    display.addDrawable(drawer);
 
     display.repaint();
   }
