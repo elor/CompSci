@@ -10,7 +10,6 @@ package ex09;
 import java.awt.Color;
 
 import org.opensourcephysics.controls.*;
-import org.opensourcephysics.frames.Display3DFrame;
 import org.opensourcephysics.frames.PlotFrame;
 
 /**
@@ -22,19 +21,63 @@ import org.opensourcephysics.frames.PlotFrame;
 public class FeynmanPlateApp extends AbstractSimulation {
   FeynmanPlate plate = new FeynmanPlate();
   PlotFrame anglePlot = new PlotFrame("t", "phi (around z-axis)",
-      "angles of omega and stuff");
+      "angles of omega (broken, ignore me)");
+
+  PlotFrame energyPlot = new PlotFrame("t", "E", "Energy");
+  PlotFrame angMomPlot = new PlotFrame("t", "L", "Angular Momentum");
+  PlotFrame omegaPlot = new PlotFrame("t", "omega", "angular velocity");
 
   /**
    * Initializes the simulation by reading parameters and passing them to the
    * rigid body model.
    */
   public void initialize() {
+    energyPlot.clearData();
+    angMomPlot.clearData();
+    omegaPlot.clearData();
+
+    boolean isBox = control.getBoolean("box");
+
+    plate.setBox(isBox);
+
+    plate.time = 0;
     plate.dt = control.getDouble("dt");
     plate.spaceL[0] = control.getDouble("Lx");
     plate.spaceL[1] = control.getDouble("Ly");
     plate.spaceL[2] = control.getDouble("Lz");
-    plate.setInertia(1, 1, 2); // sets angular momentum of the place
 
+    double inertiaFactor = isBox ? 2 / 3. : 1.0;
+
+    plate.setInertia(inertiaFactor, 2* inertiaFactor, 3 * inertiaFactor);
+
+    // double[] boxSize = getBoxSizeFromInertia(new double[] { plate.I1,
+    // plate.I2,
+    // plate.I3 });
+    // control.println("box size: [" + boxSize[0] + ", " + boxSize[1] + ", "
+    // + boxSize[2] + "]");
+
+    // initAnglePlot();
+  }
+
+  /**
+   * just playing around
+   * 
+   * @param inertia
+   * @return
+   */
+  double[] getBoxSizeFromInertia(double[] inertia) {
+    double[] size = new double[] { 1, 0, 0 };
+
+    size[1] = Math.sqrt(12 * inertia[2] - size[0] * size[0]);
+    size[2] = Math.sqrt(12 * inertia[1] - size[0] * size[0]);
+
+    return size;
+  }
+
+  /**
+   * 
+   */
+  void initAnglePlot() {
     anglePlot.clearData();
     anglePlot.setConnected(true);
     anglePlot.setMarkerColor(0, Color.YELLOW);
@@ -49,12 +92,24 @@ public class FeynmanPlateApp extends AbstractSimulation {
   protected void doStep() {
     plate.advanceTime();
 
-    double[] spaceOmega = plate.toBody.inverse(new double[] { plate.wx,
+    // updateAnglePlot();
+
+    energyPlot.append(0, plate.time, plate.getEnergy());
+    angMomPlot.append(0, plate.time, plate.getAngularMomentum());
+    omegaPlot.append(0, plate.time, plate.getAbsoluteOmega());
+  }
+
+  /**
+   * 
+   */
+  void updateAnglePlot() {
+    // FIXME fix angles
+    double[] spaceOmega = plate.toBody.direct(new double[] { plate.wx,
         plate.wy, plate.wz });
     double angle = Math.atan2(spaceOmega[0], spaceOmega[1]);
     anglePlot.append(0, plate.time, angle);
 
-    double[] spaceRight = plate.toBody.inverse(new double[] { 1, 0, 0 });
+    double[] spaceRight = plate.toBody.direct(new double[] { 1, 0, 0 });
     angle = Math.atan2(spaceRight[0], spaceRight[1]);
     anglePlot.append(1, plate.time, angle);
   }
@@ -67,6 +122,7 @@ public class FeynmanPlateApp extends AbstractSimulation {
     control.setValue("Ly", 0.0);
     control.setValue("Lz", 1.0);
     control.setValue("dt", 0.1);
+    control.setValue("box", false);
     enableStepsPerDisplay(true);
     initialize();
   }

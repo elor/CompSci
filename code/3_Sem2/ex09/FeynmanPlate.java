@@ -20,9 +20,14 @@ public class FeynmanPlate {
   Quaternion toBody = new Quaternion(1, 0, 0, 0);
   // spaceview displays the plate as seen from the laboratory
 
-  FeynmanPlateView spaceView = new FeynmanPlateView(this);
+  FeynmanPlateView spaceView;
+
+  public FeynmanPlate() {
+    spaceView = new FeynmanPlateView(this);
+  }
+
   double[] spaceL = new double[3]; // space frame angular momentum
-  double I1 = 1, I2 = 1, I3 = 1; // default moments of inertia
+  double I1, I2, I3; // default moments of inertia
   double wx = 0, wy = 0, wz = 0; // angular velocity in the body frame
   double q0, q1, q2, q3; // quaternion components
   double dt = 0.1;
@@ -44,6 +49,15 @@ public class FeynmanPlate {
     q3 = q[3] / norm;
     toBody.setCoordinates(q0, q1, q2, q3);
     spaceView.initialize();
+  }
+
+  public double getEnergy() {
+    return 0.5 * (I1 * wx * wx + I2 * wy * wy + I3 * wz * wz);
+  }
+
+  public double getAngularMomentum() {
+    return Math.sqrt(spaceL[0] * spaceL[0] + spaceL[1] * spaceL[1] + spaceL[2]
+        * spaceL[2]);
   }
 
   /**
@@ -109,9 +123,18 @@ public class FeynmanPlate {
     q2 *= norm;
     q3 *= norm;
     toBody.setCoordinates(q0, q1, q2, q3);
+    computeOmegaBody();
     spaceView.update();
 
     time += dt;
+  }
+
+  public void setBox(boolean isBox) {
+    spaceView.resetPlate(isBox);
+  }
+
+  public double getAbsoluteOmega() {
+    return Math.sqrt(wx * wx + wy * wy + wz * wz);
   }
 }
 
