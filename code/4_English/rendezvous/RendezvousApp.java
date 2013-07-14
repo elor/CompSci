@@ -121,6 +121,12 @@ public class RendezvousApp extends AbstractSimulation {
         initialize();
       }
     }
+
+    try {
+      Thread.sleep(1000, 0);
+    } catch (InterruptedException e) {
+      control.println("sleep failed");
+    }
   }
 
   private void repaint() {
@@ -148,10 +154,10 @@ public class RendezvousApp extends AbstractSimulation {
     control.setValue("Stage 2 target angle", Math.PI * 4 - 3.0);
     control.setValue("Stage 3 target angle", Math.PI);
     setPhase(1);
-    control.setValue("frames", 100);
+    control.setValue("frames", 300);
     control.setValue("display width", 600);
     control.setValue("display height", 600);
-    control.setAdjustableValue("pause after each phase", false);
+    control.setAdjustableValue("pause after each phase", true);
   }
 
   /**
