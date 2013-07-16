@@ -1,0 +1,143 @@
+Tue Jul 16 11:18:37 CEST 2013
+
+## 18.4. Schwarzschild-Koordinaten
+
+schwere, kugelsymmetrische Masse M
+
+g wie "ublich
+
+r = Kreisumfang / 2\pi
+
+t gemessen aus gro"ser entfernung \neq Zeit auf Kreisbahn r
+
+\alpha = 1 - 2M/r
+^ Festlegung von Schreiber
+
+_Schwarzschildmetrik_
+
+\Delta_\sigma^2 = 1/\alpha \Delta_r^2 + r^2 \Delta_\phi^2 - \alpha\Delta_t^2 = -\Delta_\tau^2
+
+erste beiden Terme: Eigenabstand (f"ur \Delta_t = 0) (die additiven Anteile)
+dritter Term: (subtraktiver Anteil)
+
+t[m] = ct[s]
+M[m] = G/c^2 M[kg]
+
+\Delta_t = 0 und gro"se r => Euklidische Metrik
+=> Korrespondenzprinzip ist gewahrt
+
+\Delta_\sigma^2 = \Delta_r^2 + r^2 \Delta_phi^2
+
+r_h = 2M : Ereignishorizont
+(\Delta_sigma divergiert)
+
+Ist schlicht ein Artefakt der Metrik
+Keine Divergenz f"ur L"angen um/im Objekt
+
+r_h ergibt schwarzes Loch, wenn M innerhalb von r_h 2M
+
+r_h(M_{Erde}) = 9 mm
+r_h(M_{Sonne}) = 2.952 km
+r_h(M_{zentrales schwarzes Loch}) = 7,600,000 km
+
+Eigenzeit (\Delta_r = \Delta_\phi = 0) : \Delta_\tau^2 = \alpha \Delta_t^2
+
+z.B. Abstand von Lichtblitzen, Rotverschiebung
+
+## 18.5. Trajektorien von Teilchen und Licht
+
+Prinzip des maximalen Alterns (Eigenzeit, also Armbanduhr)
+
+\L = \sqrt{\alpha - \dot{r}^2 / \alpha - r^2\dot\phi^2}
+
+Dieser Lagrangian erf"ullt die Lagrange'schen Bewegungsgleichungen
+
+\tau = \int_{initial event}^{final event}{d\tau} = \int_{initial event}^{final event}{\Ldt}
+
+Bewegungsgleichungen 
+\ddot{r} = \alpha r \dot\phi^2 + M/r^2 (3 \dot{r}^2/\alpha - \alpha)
+\ddot\phi = 2 {M - \alpha} / {\alpha r^2} \dot{r} \dot\phi
+
+d\tau/dt = \L
+
+Metrik => d\tau/dt = \sqrt{\alpha - \dot{r}^2 / \alpha - r^2\dot\phi^2}
+
+um Entwicklung von \tau
+
+Kreisbahnen mit v = \sqrt{M/r} f"ur r \geq 6M = 3 r_h
+
+Keine stabilen Kreisbahnen f"ur r < 6M
+=> keine station"aren Beobachtungssatelliten
+
+Licht: \Delta_\tau = 0 entlang Weltlinie
+
+0 = - \alpha \Delta_t^2 + 1/\alpha \Delta_r^2 + r^2 \Delta_\phi^2
+
+\Delta_t -> dt
+=> Bewegungsgleichungen
+
+\ddot{r} = 2M\alpha / r^2 + \dot\phi^2(\alpha r - 3M)
+\ddot\phi = 2 {M - \alpha} / {\alpha r^2} \dot{r} \dot\phi
+
+Damit Ablenkung von Licht durch schwere Masse beschreibbar
+-> sinnvoll f"ur Gravitationslinsen
+Buch: Problem 18.12
+
+r=3, M=1: Kreisbahn
+
+Andere Frage: Wohin muss man Kommunikationssignale schicken?
+"Ahnliches Problem: Drei Beobachter wollen telefonieren -> in Ebene, Winkel addieren sich aber nicht zu 180\deg
+
+## 18.6. Sehen \neq Trajektorien in der Schwarzschildabbildung
+
+Warum?
+-> Kontraktion in r-Richtung um \sqrt{\alpha} (weil 1/\alpha im zweiten Term_)
+
+z.B.  Beobachter auf Kugelschale
+Abschu"swinkel \tan\theta_{Schale} = \sqrt{\alpha} \tan\theta_{Schwarzschild}
+
+Parameter b = r/\sqrt{\alpha} \sin{\theta_{Schale}}
+
+Licht mit b = \sqrt{27}M : "Bahn auf Messers Schneide"
+
+instabil zwischen Divergenz und Sturz ins schwarze Loch
+
+## 18.7. Dynamik
+
+L/m = r^2 d\phi/d\tau
+E/m = \alpha dt/d\tau
+
+einsetzen in \Delta_\tau^2
+=> (dr/d\tau)^2 = (E/m)^2 - \alpha \left[ 1 + (L/{mr})^2 \right]
+
+Zweiter Term: effektives Potential (V(r)/m)^2
+
+Lustiges Diagramm mit x^3-x-Aussehen, aber asymptotisch gegen x=0, lokalem Maximum bei 6 und steigend gegen \infty
+
+## 18.8. Kerr-Metrik
+
+rotierendes schwarzes Loch
+Drehimpulsparameter a
+
+in "Aquatorebene
+
+\Delta_\tau^2 = \alpha \Delta_t^2 + {4 M a^2}/r \Delta_t\Delta_\phi - 1/{\alpha + a^2/r^2} \Delta_r^2} - (r^2 + a^2\alpha) \Delta_\phi^2
+
+Ereignishorizonte r_h = M \pm \sqrt{M^2 - a^2}
+maximaler Effekt, maximaler Drehimpuls a = M
+
+=> extremes Kerr-Loch
+
+\Delta_\tau^2 = \alpha \Delta_t^2 + 4M^3/r \Delta_t\Delta_\phi - (1-M/r)^{-2} - (r^2 M^2 + 2M^3/r)\Delta_\phi^2
+
+=> Bewegungsgleichungen
+
+Frame Dragging:
+
+zwischen r_h = M und r_s = 2M wird raum durch Rotation mit gezerrt. (Wie Honig)
+
+Man (Raumschiff) w"urde tangential beschleunigt
+
+F"ur mehr siehe Buch
+
+Tue Jul 16 12:18:03 CEST 2013

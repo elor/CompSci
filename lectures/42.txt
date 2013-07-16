@@ -1,0 +1,33 @@
+Tue Jul 16 12:41:47 CEST 2013 (Abgetippt von Anna)
+
+Widom insertion method
+
+\mu = \partial F/{\partial N} \|_{V,T} = -k_BT\log{Z_{N+1}/Z_N}
+
+Z_{N+1}/Z_N = <\exp{-\beta\Delta E}>
+-> Mittelung "uber alle Zust"ande eines zus"atzlichen Teilchens w"ahrend Metropolis-Algorithmus
+nicht tats"achlich hinzugef"ugt
+=> _excess chemical potential_
+
+z.B. Edelgas-Cluster
+* w"ahle Verschiebung des i-ten Teilchens f"ur Metropolis-Algorithmus
+* _magische_ Zahlen N
+* _simuliertes Tempern_
+* Schmelzen
+
+## 15.8. Datenanalyse am Phasen"ubergang
+## 15.8.1. Histogramm-Methode
+
+E in Abh"angigkeit von p_{00} = 1/{k_BT_0}
+
+=> Histogramm H_0(E) <- Anzahl der Konfigurationen  = n(E) \exp{-\betaE}
+=> P(E, \beta_0) = H_0(E) / \sum_E{H_0(E)}
+
+Zustandsdichte n(E) \sim H_0(E) \exp{\beta_0E}
+^ Anzahl der Mikrozust"ande h"angt nicht von T ab
+
+allgemein: P(E, \beta) = n(E) \exp{-\beta E}/\sum_E{n(E)\exp{-beta E}}
+
+Ende erstes Blatt
+
+

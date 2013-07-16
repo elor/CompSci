@@ -47,8 +47,9 @@ public class FeynmanPlateApp extends AbstractSimulation {
     plate.spaceL[2] = control.getDouble("Lz");
 
     double inertiaFactor = isBox ? 2 / 3. : 1.0;
+    double yfactor = isBox ? 2. : 1.;
 
-    plate.setInertia(inertiaFactor, 2* inertiaFactor, 3 * inertiaFactor);
+    plate.setInertia(inertiaFactor, yfactor * inertiaFactor, 3 * inertiaFactor);
 
     // double[] boxSize = getBoxSizeFromInertia(new double[] { plate.I1,
     // plate.I2,
@@ -121,9 +122,10 @@ public class FeynmanPlateApp extends AbstractSimulation {
     control.setValue("Lx", 0.1);
     control.setValue("Ly", 0.0);
     control.setValue("Lz", 1.0);
-    control.setValue("dt", 0.1);
+    control.setValue("dt", 0.001);
     control.setValue("box", false);
     enableStepsPerDisplay(true);
+    setStepsPerDisplay(500);
     initialize();
   }
 
