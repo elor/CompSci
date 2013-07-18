@@ -1,7 +1,6 @@
 Tue Oct 23 10:49:39 CEST 2012
 
-3.4. Zerfallsprozesse
----------------------
+## 3.4. Zerfallsprozesse
 
 \dot N = -\lambda N
 

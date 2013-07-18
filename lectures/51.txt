@@ -1,0 +1,118 @@
+Thu Jul 18 11:17:23 CEST 2013
+
+
+# 19. Erg"anzungen
+## 19.1. Kollektives Verhalten
+
+GalaxyApp
+
+statistische Mechanik (Perkolation)
+Schulman & Seiden
+
+Self-Propagating Star Formation
+
+p - Wahrscheinlichkeit, dass in Nachbarzelle ein Stern geboren wird
+
+polares Gitter:
+
+in erstem Ring (um Mittelkreis-Zelle): k Zellen
+F"ur Ring r: k Zellen mehr als bei Ring (r-1) = r*k Zellen
+Nachbarschaft muss noch definiert werden, i.A. 6 N"achstnachbarn
+
+Zellen sind verzerrt
+
+Bei Rotation der Galaxis ist nicht Winkelgeschwindigkeit konstant, sondern v_\phi = const
+
+\omega = v/r \approx 1/r, d.h. Ring um 1 Platz bewegen
+
+aktive Zelle aktivieren n"achste Nachbarn, werden selbst inaktiv
+
+## 19.2. Eingeschr"ankte Dynamik
+
+ConstraintApp
+
+z.B. Fadenpendel statt in x-z-Ebene mit \theta beschreiben
+z.B. Zwei Teilchen auf einer Stange (statt Feder)
+
+Holonome Beschr"ankung
+
+Reduktion auf eine Dimension (entlang der Kurve)
+
+Verallgemeinerte Koordinaten
+
+Erf"ullen implizit die holonome Beschr"ankung
+
+Idee: \vec{q} statt \vec{r}, so dass \vec{r}(\vec{q}) immer erlaubt
+
+dim(\vec{r}) = n
+dim(\vec{q}) = f
+
+n - Raumdimensionen
+f - Freiheitsgrade
+n-f - Anzahl der holonomen Beschr"ankungen
+
+Lagrangian (irgendwie anders als bei Relativit"atstheorie)
+\L = E_{kin} - E_{pot}
+
+Details siehe Mechanikvorlesung
+
+m_i\ddot{r_i} = F_i + Z
+
+Z - Zwangskraft, durch die keine Arbeit geleistet wird (Senkrecht zu Weg)
+
+\Sum_i{Z_i \dot{r_i}} = 0, wenn \dot{r_i} erlaubt ist
+
+Jacobi-Matrix J_{ij} = \partial r_i / {\partial q_i}
+
+Kettenregel: \dot{r_i} = \sum_j{J_{ij} \dot{q_i}}
+
+=> \sum_{i,j}{Z_i J_{ij} \dot{q_j}} = 0
+
+deshalb \sum_i{Z_i J_{ij}} = 0
+
+\sum_i{J_{ij} m_i \ddot{r_i}} = \sum_i{J_{ij} F_i} + 0
+
+Aus _Kettenregel_-Gleichung folgt:
+\ddot{r_i} = \sum_k{\dot{J_{ik}}\dot{q_k} + J_{ik} \ddot{q_k}}
+
+das ersetzt \ddot{r_i} in der Formel davor
+=>
+
+J^T M J \ddot{q} = J^T F - J^T M \dot{J} \dot{q}
+
+z.B. zwei Teilchen mit unterschiedlichen Massen m_1 und m_2
+
+Feder, Bahnkurve y = x^4 - 2 x^2
+
+q_1 = x_1
+q_2 = x_2
+
+r_1 = x_1
+r_2 = y_1
+r_3 = x_2
+r_4 = y_2
+
+J = [ 1     0
+      y_1'  0
+      0     1
+      0     y_2' ]
+
+y_1' = 4 x_1^3 - 4x_1
+y_2' = 4 x_2^3 - 4x_2
+
+M = diag(m_1, m_1, m_2, m_2)
+
+J^T M J = [ m_1 (1 + y_1')^2    0
+            0                   m_2 (1 + y_2')^2 ]
+
+sehr einfach invertierbar => einfach nach \ddot{q} aufl"osbar
+
+F_g = ( 0 -m_1g 0 -m_2g )^T
+F_{Feder} = ( x_2-x_1  y_2-y_1  x_1-x_2  y_1-y_2 )^T k (1 - L_0/L)
+
+L^2 = (x_2 - x_1)^2 + (y_2 - y_1)^2
+
+Das war's.
+
+Thu Jul 18 11:59:20 CEST 2013
+
