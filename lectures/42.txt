@@ -28,6 +28,72 @@ Zustandsdichte n(E) \sim H_0(E) \exp{\beta_0E}
 
 allgemein: P(E, \beta) = n(E) \exp{-\beta E}/\sum_E{n(E)\exp{-beta E}}
 
-Ende erstes Blatt
+P(E, \beta) = {H_0(E) \exp{-(\beta-\beta_0)E}} / {\sum_E{H_0(E)\exp{-(\beta-\beta_0)E}}}
 
+<A(\beta)> = \sum_{E,M}{A(E,M)P(E,M,\beta)}
+
+mit H_0(E,M) in Abh"angigkeit von \beta_0
+gut f"ur \beta \approx \beta_0
+
+### 15.8.2. Lee & Kasterlitz-Methode
+
+F(E) \equiv -k_B T \log{\log{E}\exp{-\beta E}}}
+(Fehler in der Gleichung?)
+
+Phasen"ubergang 1. Ordnung hat zwei Minima von F bei E_+ und E_-
+E_- - absolutes Minimum
+
+T niedrig: E niedrig wichtig f"ur Z => F(E_-) < F(E_+)
+T hoch: hohe E wichtig f"ur Z => F(E_-) > F(E_+)
+am Phasen"ubergang: F(E_-) \approx F(E_+)
+
+_Lee & Kasterlitz:_
+
+Peak in c_v => \beta_0 => H_0(E)
+F(E) \sim -\log{H_0(E)} + (\beta - \beta_0)E
+suche die 2 Minima, s.d. F(E_-) = F(E_+) => \beta_c
+
+allgemein: F(M) \sim -\log{\sum_E{H_0(E,M)\exp{-(\beta-\beta_0)E}}}
+magnetfeldgetriebener Phasen"ubergang
+
+### 15.8.3. Binder-Kumulante
+
+U_L = 1 - <E^4> / {3<E^2>^2}
+
+U_{L,min} = 2/3 - 1/3 ({E_+^2 - E_-^2} / {2E_+E_-})^2 + \BigOh{L^{-d}}
+
+Annahme: P(E) Gau"sverteilung um E_- und E_+ wird mit wachsendem L sch"arfer
+
+f"ur stetigen Phasen"ubergang U_{L,min} = 2/3
+
+zum Beispiel Ising-Modell
+
+V_L \equiv 1 - {<M^4>}/{3<M^2>^2}
+Annahme: P(E) Gau"sverteilung um E = 0
+
+## 15.9. Kombinatorische Optimierung
+
+Handlungsreisender (Trafeling Salesman)
+N St"adte, geschlossener Weg, jede Stadt einmal besucht
+exakte L"osung: NP-vollst"andig
+
+nichtdeterministisch => polynomial (auf Quantencomputern)
+
+Energie \^= Kastenfunktion \^= Wegl"ange
+Anmerkung Anna: \Delta E
+
+- abz"ahlen
+- heuristisch ins lokale Minimum
+- simuliertes Tempern:
+
+neuen Weg mit Wahrscheinlichkeit W = min(1, \exp{-\beta\Delta E}) akzeptiert
+fiktive T = 1/{k_B\beta} absenken
+
+zum Beispiel:
+* zwei St"adte vertauschen
+* zwei Wegstreckenteile vertauschen
+
+Anmerkung Anna: more class
+
+Mon Jul 29 09:41:23 CEST 2013
 

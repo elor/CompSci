@@ -1,0 +1,121 @@
+Mon Jul 29 10:01:02 CEST 2013
+
+## 17.5. Quaternionen
+
+komplexe Zahlen \vec{a} = a_x \vec{x} + a_y \vec{y}
+a = a_x + i a_y
+
+Rotation um \theta: a' = a \exp{i\theta} = \exp{i\theta/2} a \exp{i\theta/2}
+
+\exp{i\theta} = \cos{\theta} + i \sin{\theta}
+
+hyperkomplexe Einheiten i, j, k
+
+q = q_0 + i q_1 + j q_2 + k q_3 = (q_0, q_1, q_2, q_3) = (q_0, \vec{q})
+Anmerkung Anna: auch als Spaltenvektor
+
+q\** = (q_0, \vec{q}) Q-konjugiert
+q_0 = 0 => _reine Quaternionen_
+
+Hamiltonsche Regeln: i^2 = j^2 = k^2 = ijk = -1
+Anmerkung Anna: analog zyklische Vertauschung
+
+ij = k
+ji = -k
+jk = i
+kj = -
+ki = j
+ik = -j
+
+(*)
+pq = q_0p_0 = \vec{q} \vec{p} + q_0 \vec{p} + p_0 \vec{q} + \vec{p} \cross \vec{q}
+\|\|q\|\| = qq\** = q_0^2 + q_1^2 + q_2^2 + q_3^2
+
+Euler: Rotation um \theta bez"uglich Achse (u1, u2, u3) (Richtungskosinus)
+
+dargestellt durch q = \cos{\theta/2} + (iu_1 + ju_2 + ku_3) \sin{\theta/2}
+
+= \exp{\vec_u \theta_2}
+
+\mat{R} - Rotationsmatrix
+
+\vec{a'} = \mat{R} \vec{a}
+a = (0, \vec{a}
+a' = (0, \vec{a'}) = q a q\**
+\|\|a\|\| = \|\|a'\|\|
+
+QuaternionApp
+BoxWithArr??as
+
+Anhang A17.B: Transformationen
+Q <-> \mat{R}
+q <-> \Psi, \Theta, \Phi
+
+Beispiel:
+q_0 = \cos{\theta/2} \cos{{\Phi + \Psi}/2}
+q_1 = \sin{\theta_2} \cos{{\Phi - \Psi}/2}
+q_2 = \sin{\theta/2} \sin{{\Phi - \Psi}/2}
+q_3 = \sin{\theta/2} \sin{{\Phi + \Psi}/2}
+
+q_0 = \sqrt{1 + r_{00} + r_{11} + r_{22}} / 2
+q_1 = (r_{12} - r_{21}) / {4q_0}
+q_2 = (r_{20} - r_{02}) / {4q_0}
+q_3 = (r_{01} - r_{10}) / {4q_0}
+
+## 17.6. Bewegungsgleichungen
+
+Rotation durch q mit qq\** = 1 dargestellt
+
+Winkelgeschwindigkeit in \K: \dot{q} = 1/2 \omega(t)q(t)
+
+mit \omega = (0, \vec{\omega})
+
+r(t) = q(t) r_0 q\**(t) mit r = (0, \vec{r})
+<=> q\** r q = r_0 = q\**qr_0q\**q
+\dot{r} = \dot{q} r_0 q\** + q r_0 \dot{q\**}
+= \dot{q}q\**r + rq\dot{q\**}
+= \dot{q}q\**r - r \dot{q}q\** mit qq\** = 1 und d/dt qq\** = 0
+
+\dot{q}q\** := (u_0, \vec{u}) = u
+u - Hilfsvariable
+
+in u r kommitieren alle Anteile au"ser \vec{u} \cross \vec{r}
+Anmerkung Anna: Vergleich mit (*)
+
+\dot{\vec{r}} = \vec{u} \cross \vec{r} - \vec{r} \cross \vec{u} = 2 (\vec{u} \cross \vec{r})
+
+\dot{\vec{r}} = \vec{\omega} \cross \vec{r} => \vec{\omega} = 2\vec{u}
+
+(0, \omega)^T = w W \dot{q}
+
+mit W = (    q_0       -----\vec{q}----
+              |         q_0   q_3  -q_2
+          -\vec{q}^T   -q_3   q_0   q_1
+					    |         q_2  -q_1   q_0  )
+
+orthogonal, d.s. W^{-1} = W^T
+
+Achtung: (\vec{\omega}, 0) im Buch!
+
+\dot{q} = 1/2 W^T (0, \vec{\omega}})
+
+_Halbschrittalgorithmus_
+
+* in \L: \vec{L}(t + 1/2 \Delta_t) = \L(t - 1/2 \Delta_t) + \vec{N}(t) \Delta_t
+* Trafo nach \K, in \K: \vec{\omega} = \mat{J}^{-1} \vec{L}
+
+N - Drehmoment
+L - Drehimpuls
+J - Tr"agheitsmoment
+
+=> q(t + \Delta_t) = q(t) + \dot{q}(t + 1/2 \Delta_t)\Delta_t
+
+FeynmanPlate
+FeynmanPlateView in \L
+ElementCylinder
+ElementArrow
+ElementTrail
+
+Anmerkung Anna: \omega doppelt so schnell wie Trail
+
+Mon Jul 29 10:27:28 CEST 2013
