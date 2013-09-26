@@ -13,7 +13,7 @@ Physikalisches System
 
 (Geschichten zu Programmiersprachen und FORTRAN/Java im Allgemeinen)
 
-Java Stichwoerter
+Java Stichw"orter
 * Encapsulation
 * Inheritance
 * Polymorphismus/Interfaces
@@ -24,14 +24,14 @@ Hinweis:
 ## Inhalte aus erstem Buchkapitel
 * Physikalischer Hintergrund
 * Modell und Algorithmus
-* Probleme (aus Buch), Loesungen, Vergleich mit bekannten Loesungen/Ergebnissen
-  Kontrolle von Erhaltungsgroessen
+* Probleme (aus Buch), L"osungen, Vergleich mit bekannten L"osungen/Ergebnissen
+  Kontrolle von Erhaltungsgr"o"sen
   Symmetrieerhaltung
   Ist Ergebnis sinnvoll?
   statistische Fehler (Konvergenz gegeben und sinnvoll?)
 * abgeschlossenes Bild
   insgesamt Kohaerent
-  schoenes Gesamtbild aus Einzelergebnissen bilden
+  sch"ones Gesamtbild aus Einzelergebnissen bilden
 * Varianten durchspielen
 
 # 2. Einfache Beispiele
@@ -123,12 +123,12 @@ v(t + \Delta_t) = v(t) - k/m y(t) \Delta_t
 y(t + \Delta_t) = y(t) + v(t + \Delta_t) \Delta_t
 ``
 
-# 3. Allgemeine numerische Loesungen der Newtonschen Bewegungsgleichungen
+# 3. Allgemeine numerische L"osungen der Newtonschen Bewegungsgleichungen
 
 \dot y = v(t)
 \dot v = a(t) = F(t) / m
 
-## 3.1. Loesungsverfahren
+## 3.1. L"osungsverfahren
 
 ### Euler-Algorithmus
 
@@ -156,7 +156,7 @@ Nur f"ur konservative (oftmals auch reversible) Systeme
 t_n := n \Delta_t
 
 v_{n+1} = v_n + a_n \Delta_t + \BigO{\Delta_t^2}                       (i)
-x_{n+1} = x_n + v_n \Delta_t + 1/2 a_n \Delta_t^2 + \BigO(\Delta_t^3}  (ii)
+x_{n+1} = x_n + v_n \Delta_t + 1/2 a_n \Delta_t^2 + \BigO{\Delta_t^3}  (ii)
 ``
 
 Euler: ausschlie"slich \BigO{n}-Terme ber"ucksichtigt
@@ -225,7 +225,7 @@ x_{n-1} = x_n - v_n \Delta_t + 1/2 a_n \Delta_t^2 + \BigO(\Delta_t^3) (iii)
 x_{n+1} = 2x_n - x_{n-1} + a_n \Delta_t^2 + \BigO(\Delta_t^4)
 Wir verlieren die Terme dritter Ordnung und behalten Terme vierter Ordnung.
 
-Wir koennen auch beide subtrahieren:
+Wir k"onnen auch beide subtrahieren:
 v_n = (x_{n+1} - x_{n-1})/(2 \Delta_t) + \BigO{\Delta_t^3}
 
 Somit erhalten wir ein Verfahren, das dritter Ordnung im Ort und zweiter
@@ -282,7 +282,7 @@ rekursiv berechnen kann.
 
 ### Pr"adiktor-Korrektor-Verfahren
 
-Idee: Eine erste Loesung wird vorausberechnet f"ur x_{n+1}, "uberpr"uft und
+Idee: Eine erste L"osung wird vorausberechnet f"ur x_{n+1}, "uberpr"uft und
 ggf. korrigiert.
 Heutzutage der anspruchsvollste Standard-Algorithmus bei Simulationspaketen.
 
